@@ -4,4 +4,222 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" />
+    tools:context=".MainActivity">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:background="@color/lightGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"/>
+
+    <ScrollView
+        android:id="@+id/listOfBlocks"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/lightGrey"
+        android:contentDescription="listOfBlock"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+
+            android:id="@+id/linLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/block1"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/orange"></View>
+
+            <View
+                android:id="@+id/block2"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/greenB"></View>
+
+            <View
+                android:id="@+id/block3"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/purple"></View>
+
+            <View
+                android:id="@+id/block4"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/orange"></View>
+
+            <View
+                android:id="@+id/block5"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/greenB"></View>
+
+            <View
+                android:id="@+id/block6"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/purple"></View>
+
+            <View
+                android:id="@+id/block7"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/orange"></View>
+
+            <View
+                android:id="@+id/block8"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/greenB"></View>
+
+            <View
+                android:id="@+id/block9"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/purple"></View>
+
+            <View
+                android:id="@+id/block10"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/orange"></View>
+            <View
+                android:id="@+id/block11"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@color/greenB"
+                android:layout_marginBottom="10dp">
+            </View>
+
+            <View
+                android:id="@+id/block12"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@color/purple"
+                android:layout_marginBottom="10dp">
+            </View>
+            <View
+                android:id="@+id/block13"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@color/purple"
+                android:layout_marginBottom="10dp">
+            </View>
+
+            <View
+                android:id="@+id/block14"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@color/orange"
+                android:layout_marginBottom="10dp">
+            </View>
+
+            <View
+                android:id="@+id/block15"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@color/greenB"
+                android:layout_marginBottom="10dp">
+            </View>
+
+            <View
+                android:id="@+id/block16"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@color/purple"
+                android:layout_marginBottom="10dp">
+            </View>
+            <View
+                android:id="@+id/block17"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@color/purple"
+                android:layout_marginBottom="10dp">
+            </View>
+
+            <View
+                android:id="@+id/block18"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@color/orange"
+                android:layout_marginBottom="10dp">
+            </View>
+
+            <View
+                android:id="@+id/block19"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@color/greenB"
+                android:layout_marginBottom="10dp">
+            </View>
+
+            <View
+                android:id="@+id/block20"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:background="@color/purple"
+                android:layout_marginBottom="10dp">
+            </View>
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_weight=".5"
+        android:layout_height="match_parent"
+        android:background="@color/darkGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" >
+    </View>
+    <ScrollView
+        android:id="@+id/plt"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/view3"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:id="@+id/linLayoutPlt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:background="@color/lightGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,12 @@ android {
     namespace 'com.example.mobilemodule'
     compileSdk 33
 
+    buildFeatures {
+        viewBinding true
+    }
+    dataBinding {
+        enabled true
+    }
     defaultConfig {
         applicationId "com.example.mobilemodule"
         minSdk 24
