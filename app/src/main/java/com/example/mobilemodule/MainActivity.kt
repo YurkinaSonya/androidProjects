@@ -14,6 +14,7 @@ import com.example.mobilemodule.databinding.ActivityMainBinding
 
 //i change it and you can see it
 //and i change it again
+//and noooow
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
