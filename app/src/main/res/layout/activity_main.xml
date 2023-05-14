@@ -30,7 +30,7 @@
 
         <LinearLayout
 
-            android:id="@+id/linLayout"
+            android:id="@+id/linLayoutList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -40,70 +40,90 @@
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/orange"></View>
+                android:background="@color/orange">
+
+            </View>
 
             <View
                 android:id="@+id/block2"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/greenB"></View>
+                android:background="@color/greenB">
+
+            </View>
 
             <View
                 android:id="@+id/block3"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/purple"></View>
+                android:background="@color/purple">
+
+            </View>
 
             <View
                 android:id="@+id/block4"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/orange"></View>
+                android:background="@color/orange">
+
+            </View>
 
             <View
                 android:id="@+id/block5"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/greenB"></View>
+                android:background="@color/greenB">
+
+            </View>
 
             <View
                 android:id="@+id/block6"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/purple"></View>
+                android:background="@color/purple">
+
+            </View>
 
             <View
                 android:id="@+id/block7"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/orange"></View>
+                android:background="@color/orange">
+
+            </View>
 
             <View
                 android:id="@+id/block8"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/greenB"></View>
+                android:background="@color/greenB">
+
+            </View>
 
             <View
                 android:id="@+id/block9"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/purple"></View>
+                android:background="@color/purple">
+
+            </View>
 
             <View
                 android:id="@+id/block10"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/orange"></View>
+                android:background="@color/orange">
+
+            </View>
             <View
                 android:id="@+id/block11"
                 android:layout_width="150dp"
@@ -189,7 +209,7 @@
         android:layout_height="match_parent"
         android:background="@color/darkGrey"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/view3"
+        app:layout_constraintEnd_toStartOf="@+id/buf"
         app:layout_constraintStart_toEndOf="@+id/viewForBlocks"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" >
@@ -199,19 +219,31 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/view3"
+        app:layout_constraintEnd_toStartOf="@+id/buf"
         app:layout_constraintStart_toStartOf="@+id/view2"
         app:layout_constraintTop_toTopOf="parent">
         <LinearLayout
             android:id="@+id/linLayoutPlt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <View
+                android:id="@+id/blockPlt"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/greenY">
+
+            </View>
         </LinearLayout>
     </ScrollView>
 
     <View
-        android:id="@+id/view3"
+        android:id="@+id/buf"
         android:layout_width="150dp"
         android:layout_height="match_parent"
         android:background="@color/lightGrey"
@@ -219,5 +251,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+    <ScrollView
+        android:id="@+id/listForBuf"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/buf"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:id="@+id/linLayoutBuf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View
+                android:id="@+id/blockBuf"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/blue"></View>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

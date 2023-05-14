@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.DragEvent
+import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.updateLayoutParams
@@ -40,29 +43,12 @@ class MyDialogFragment : DialogFragment() {
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        /*
-        val block = binding.block1
-        block.setOnLongClickListener {
-            val checkText = "Yep"
-            val item = ClipData.Item(checkText)
-            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
-            val data = ClipData(checkText, mimeTypes, item)
-
-            val dragShadowBuilder = View.DragShadowBuilder(it)
-            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
-
-            true
-        }
-        binding.linLayout.setOnDragListener(dragListener)
-        binding.linLayoutPlt.setOnDragListener(dragListener)
-        */
         var listIsOpen = false
         val viewBlocks = binding.viewForBlocks
         val listBlocks = binding.listOfBlocks
-        viewBlocks.setOnClickListener{
+        viewBlocks.setOnClickListener(){
             /*
             val myDialogFragment = MyDialogFragment()
             val manager = supportFragmentManager
@@ -83,21 +69,16 @@ class MainActivity : AppCompatActivity() {
                 println("nope")
             }
             viewBlocks.setLayoutParams(params);
+            listBlocks.setLayoutParams(paramsList);
             listIsOpen =!listIsOpen
         }
         var bufIsOpen = false
-        val bufBlocks = binding.listOfBlocks
-        listBlocks.setOnClickListener{
-            /*
-            val myDialogFragment = MyDialogFragment()
-            val manager = supportFragmentManager
-            //myDialogFragment.show(manager, "wtf")
-            val transaction: FragmentTransaction = manager.beginTransaction()
-            myDialogFragment.show(transaction, "dialog")
-             */
-            val params = viewBlocks.layoutParams
-            val paramsList = listBlocks.layoutParams
-            if(!listIsOpen) {
+        val bufBlocks = binding.buf
+        val listBuf = binding.listForBuf
+        bufBlocks.setOnClickListener(){
+            val params = bufBlocks.layoutParams
+            val paramsList = listBuf.layoutParams
+            if(!bufIsOpen) {
                 params.width = 1000
                 paramsList.width = ViewGroup.LayoutParams.WRAP_CONTENT
                 println("yep")
@@ -107,53 +88,202 @@ class MainActivity : AppCompatActivity() {
                 paramsList.width = 0
                 println("nope")
             }
-            viewBlocks.setLayoutParams(params);
-            listIsOpen =!listIsOpen
+            bufBlocks.setLayoutParams(params);
+            listBuf.setLayoutParams(paramsList);
+            bufIsOpen =!bufIsOpen
         }
+
+
+        val plt = binding.linLayoutPlt
+        val list = binding.linLayoutList
+        /*
+        for (i in 1..20) {
+            var idB = "block" + i.toString()
+            val block = binding.(idB)
+        }
+
+         */
+
+        val block1 = binding.block1
+        block1.setOnLongClickListener() {
+            println("YEEEE")
+            val checkText = "Yepppp"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val block2 = binding.block2
+        block2.setOnLongClickListener() {
+            println("YEEEE")
+            val checkText = "Yepppp"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val block3 = binding.block3
+        block3.setOnLongClickListener() {
+            println("YEEEE")
+            val checkText = "Yepppp"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+
+        list.setOnDragListener(dragListener)
+        plt.setOnDragListener(dragListener)
+
     }
-/*
-    val dragListener = View.OnDragListener { view, event ->
+    /*
+    fun setChildOnClickListener(parent : View, cid : Int, listener : OnClickListener) {
+        var idV = "block"+ cid.toString()
+        val v = parent.findViewById(idV)
+        v.setOnClickListener(blockDnD)
+        return v
+    }
+
+     */
+
+    val blockDnD = View.OnLongClickListener() {
+        println("YEEEE")
+        val checkText = "Yepppp"
+        val item = ClipData.Item(checkText)
+        val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+        val data = ClipData(checkText, mimeTypes, item)
+        val dragShadowBuilder = View.DragShadowBuilder(it)
+        it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+        true
+    }
+
+    val dragListener = View.OnDragListener() {view, event ->
         when (event.action) {
             DragEvent.ACTION_DRAG_STARTED -> {
+                println("Up")
                 event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
-
             }
             DragEvent.ACTION_DRAG_ENTERED -> {
-                view.invalidate()
+                println("In")
                 true
             }
             DragEvent.ACTION_DRAG_LOCATION -> {
+                println("Loc")
                 true
             }
             DragEvent.ACTION_DRAG_EXITED -> {
-                view.invalidate()
+                println("Exit")
                 true
             }
             DragEvent.ACTION_DROP -> {
-                val item = event.clipData.getItemAt(0)
+                println("Drop")
+                val item: ClipData.Item = event.clipData.getItemAt(0)
                 val dragData = item.text
-                Toast.makeText(this, dragData, Toast.LENGTH_SHORT).show()
-
-                view.invalidate()
+                Toast.makeText(this, "Dragged data is $dragData", Toast.LENGTH_LONG).show()
 
                 val v = event.localState as View
                 val owner = v.parent as ViewGroup
                 owner.removeView(v)
-                val destination = view as LinearLayout
-                destination.addView(v)
-                v.visibility = View.VISIBLE
+                //val vNew = LayoutInflater.from(this).inflate(v, null) as View
+                //View vNew = new View(context)
+                //ask about copy View
+                val dest = view as LinearLayout
+                dest.addView(v)
                 true
             }
             DragEvent.ACTION_DRAG_ENDED -> {
-                view.invalidate()
+                println("End")
+                //println(event.getLocalState())
+                when(event.result) {
+                    true ->
+                        Toast.makeText(this, "The drop was handled.", Toast.LENGTH_LONG)
+                    else ->
+                        Toast.makeText(this, "The drop didn't work.", Toast.LENGTH_LONG)
+                }.show()
                 true
             }
             else -> {
+                println("Noooo(")
                 false
             }
         }
     }
- */
+
+
+
+
+}
+/*
+fun main() {
+    val priority = mapOf(
+        '(' to 0,
+        ')' to 1,
+        '+' to 2,
+        '-' to 2,
+        '*' to 3,
+        '/' to 3
+    )
+    val stack = Stack(100)
+    val start : String = "(8+2*5)/(1+3*2-4)"
+    var end : String = ""
+
+    for (i in start) {
+        if (i == '(') stack.push(i)
+        else if (i in "1234567890") end = end + i
+        else if (i == ')') {
+            while (stack.peek() != '(') {
+                end = end + stack.pop()
+            }
+            stack.pop()
+        }
+        else if (i in "+-/*") {
+            if (stack.isEmpty()) end = end + i
+            else if (priority[i] > priority[stack.peek()]) {
+                stack.push(i)
+            }
+            else {
+                for (j in stack.stackArray) {
+                    if (priority[j] >= priority[i]) {
+                        end = end + j
+                    }
+                }
+                stack.push(i)
+            }
+
+        }
+    }
+    println(end)
 }
 
-//app:layout_constraintEnd_toEndOf="@+id/viewForBlocks"  --- listOfBlocks
+class Stack(val size: Int) {
+    public val stackArray = CharArray(size)
+    private var top = -1
+
+    fun push(number: Char) {
+        stackArray[++top] = number
+    }
+
+    fun pop(): Char {
+        return stackArray[top--]
+    }
+
+    fun peek(): Char {
+        return stackArray[top]
+    }
+
+    fun isEmpty(): Boolean {
+        return top == -1
+    }
+
+    fun isFull(): Boolean {
+        return top == size - 1
+    }
+}
+
+ */
