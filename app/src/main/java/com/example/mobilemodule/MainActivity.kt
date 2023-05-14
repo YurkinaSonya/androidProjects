@@ -25,6 +25,8 @@ import com.example.mobilemodule.databinding.ActivityMainBinding
 //and i change it again
 //and noooow
 //test
+
+//i write sth on virtual machine
 /*
 class MyDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
