@@ -143,17 +143,16 @@ class MainActivity : AppCompatActivity() {
         list.setOnDragListener(dragListener)
         plt.setOnDragListener(dragListener)
 
-    }
-    /*
-    fun setChildOnClickListener(parent : View, cid : Int, listener : OnClickListener) {
-        var idV = "block"+ cid.toString()
-        val v = parent.findViewById(idV)
-        v.setOnClickListener(blockDnD)
-        return v
-    }
+        val mainBody = Body()
+        mainBody.bodyInsides.add(SpareOutputBlock("output", "first"))
+        mainBody.bodyInsides.add(SpareOutputBlock("output", "second"))
+        mainBody.bodyInsides.add(IfBlock("if", true))
+        //mainBody.bodyInsides[2].bodyIf
+        val ifBlockTest = IfBlock("if", true)
+        ifBlockTest.bodyIf.add(SpareOutputBlock("output", "first"))
 
-     */
 
+    }
     val blockDnD = View.OnLongClickListener() {
         println("YEEEE")
         val checkText = "Yepppp"
@@ -221,71 +220,34 @@ class MainActivity : AppCompatActivity() {
 
 
 }
-/*
-fun main() {
-    val priority = mapOf(
-        '(' to 0,
-        ')' to 1,
-        '+' to 2,
-        '-' to 2,
-        '*' to 3,
-        '/' to 3
-    )
-    val stack = Stack(100)
-    val start : String = "(8+2*5)/(1+3*2-4)"
-    var end : String = ""
 
-    for (i in start) {
-        if (i == '(') stack.push(i)
-        else if (i in "1234567890") end = end + i
-        else if (i == ')') {
-            while (stack.peek() != '(') {
-                end = end + stack.pop()
-            }
-            stack.pop()
-        }
-        else if (i in "+-/*") {
-            if (stack.isEmpty()) end = end + i
-            else if (priority[i] > priority[stack.peek()]) {
-                stack.push(i)
-            }
-            else {
-                for (j in stack.stackArray) {
-                    if (priority[j] >= priority[i]) {
-                        end = end + j
-                    }
-                }
-                stack.push(i)
-            }
+abstract class FunBlock (val type : String) {
 
-        }
-    }
-    println(end)
 }
 
-class Stack(val size: Int) {
-    public val stackArray = CharArray(size)
-    private var top = -1
-
-    fun push(number: Char) {
-        stackArray[++top] = number
-    }
-
-    fun pop(): Char {
-        return stackArray[top--]
-    }
-
-    fun peek(): Char {
-        return stackArray[top]
-    }
-
-    fun isEmpty(): Boolean {
-        return top == -1
-    }
-
-    fun isFull(): Boolean {
-        return top == size - 1
+class SpareOutputBlock (type : String, private val included : String) : FunBlock(type) {
+    fun doOutput () {
+        println(included)
     }
 }
 
- */
+class IfBlock (type : String, var cond : Boolean) : FunBlock(type) {
+    val bodyIf :
+
+    fun checkCond() {
+
+    }
+}
+
+class Body() {
+    val bodyInsides = mutableListOf<FunBlock>()
+
+    fun doBody() {
+        for (i in bodyInsides) {
+            when (i.type) {
+                "if" -> i.checkCond()
+                "ass" -> doAss()
+            }
+        }
+    }
+}
