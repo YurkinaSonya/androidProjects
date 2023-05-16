@@ -222,6 +222,7 @@ class MainActivity : AppCompatActivity() {
 }
 
 abstract class FunBlock (val type : String) {
+    open fun checkCond() {}
 
 }
 
@@ -232,11 +233,31 @@ class SpareOutputBlock (type : String, private val included : String) : FunBlock
 }
 
 class IfBlock (type : String, var cond : Boolean) : FunBlock(type) {
-    val bodyIf :
-
-    fun checkCond() {
-
+    val bodyIf : Body = TODO()
+    override fun checkCond() {
+        /*
+        if (cond.type == Boolean) {
+            tryCond()
+        } else {
+            SpareOutputBlock ("Error", "Logic operanda Error")
+        }
+        */
     }
+    /*
+    fun tryCond() {
+        /*
+        if (cond.type == Boolean) {
+
+        } else {
+            max = b
+        }
+        */
+    }
+
+
+
+    */
+
 }
 
 class Body() {
@@ -246,7 +267,7 @@ class Body() {
         for (i in bodyInsides) {
             when (i.type) {
                 "if" -> i.checkCond()
-                "ass" -> doAss()
+                "ass" -> i.doAss()
             }
         }
     }
