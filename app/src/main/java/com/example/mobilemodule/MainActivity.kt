@@ -220,7 +220,7 @@ class MainActivity : AppCompatActivity() {
 
 
 }
-
+//i write smth
 abstract class FunBlock (val type : String) {
     open fun checkCond() {}
 
