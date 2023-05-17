@@ -142,11 +142,21 @@ class MainActivity : AppCompatActivity() {
         plt.setOnDragListener(dragListener)
 
         val mainBody = Body()
+
+        /*
+        println("I create main body")
         val numOne = NumberValue("Int", "NumberValue", 0,"1")
         val numTwo = NumberValue("Int", "NumberValue", 1,"2")
-        val numFive = NumberValue("Int", "NumberValue", 2,"3")
-        val mathOper = MathOperator("Int", "MathOperator", 3, )
-
+        val numFive = NumberValue("Int", "NumberValue", 2,"5")
+        println("I create all numbers")
+        val mathOperLittle = MathOperator("Int", "MathOperator", 3, "0", numOne, numTwo, "+")
+        val mathOperMain = MathOperator("Int", "MathOperator", 4, "0", mathOperLittle, numFive, "*")
+        println("I create all operations")
+        mainBody.bodyInsides.add(SpareOutputBlock("output", mathOperMain))
+        println("I add output operations")
+        mainBody.doBody()
+        println("I finish program!!!")
+         */
 
         //val bodyInsidesTs = mutableListOf<FunBlock>()
         //val ifBlockTest = IfBlock("if", true)
@@ -251,7 +261,7 @@ class MainActivity : AppCompatActivity() {
 
 
 fun printToConsole (included: String) {
-    println(included)
+    println("Console: " + included)
 }
 
     abstract class MainOperator (val type : String, val typeOfBlock : String, val id: Int) {
@@ -279,7 +289,7 @@ fun printToConsole (included: String) {
     abstract class Block (type : String, typeOfBlock : String, id: Int, var value : String) : MainOperator (type, typeOfBlock, id) {
     }
 
-    class MathOperator (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block, val typeOfOper: String) : Block (type, typeOfBlock, id) {
+    class MathOperator (type : String, typeOfBlock : String, id: Int, value : String,  val first: Block, val second: Block, val typeOfOper: String) : Block (type, typeOfBlock, id, value) {
         override fun calculate(): Int {
             var value1 = 0
             var value2 = 0
@@ -299,9 +309,10 @@ fun printToConsole (included: String) {
                 }
 
                 else -> {
-                    printToConsole("Math operand Error")
+                    printToConsole("value2 " + "Math operand Error")
                 }
             }
+            //printToConsole(value2.toString())
             when (second.typeOfBlock) {
                 "MathOperator" -> {
                     value3 = second.calculate()
@@ -319,7 +330,7 @@ fun printToConsole (included: String) {
                     printToConsole("Math operand Error")
                 }
             }
-
+            //printToConsole("value3 " + value3.toString())
             when (typeOfOper) {
                 "+" -> {
                     value1 = value2 + value3
@@ -545,7 +556,7 @@ abstract class FunBlock (val type : String) {
 
 class SpareOutputBlock (type : String, private val included : MainOperator) : FunBlock(type) {
     override fun doOutput () {
-        printToConsole(included.takeValue())
+        printToConsole(included.valueToString())
     }
 }
 
