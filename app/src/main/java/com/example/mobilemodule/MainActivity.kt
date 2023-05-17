@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 
         val mainBody = Body()
         println("I create main body")
-        /*
+
         val numOne = NumberValue("Int", "NumberValue", 0,"1")
         val numTwo = NumberValue("Int", "NumberValue", 1,"2")
         val numFive = NumberValue("Int", "NumberValue", 2,"5")
@@ -159,12 +159,12 @@ class MainActivity : AppCompatActivity() {
         val eqTest = LogicOperator("Boolean", "LogicOperator", 8, mathOperLittle, numThree, "==")
         val condTest = Logic("Boolean", "Logic", 9, ineqTest, eqTest, "and")
         mainBody.bodyInsides.add(IfBlock("if", condTest))
-        val message = StringValue("String", "StringValue", 10, "I check this condition!!!!", 10)
+        val message = StringValue("String", "StringValue", 10, "I check this condition!!!!")
         mainBody.bodyInsides[1].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", message))
         mainBody.doBody()
         println("I finish program!!!")
 
-         */
+
 
         /*
         println("I create main body")
@@ -305,6 +305,10 @@ class MathOperator (type : String, typeOfBlock : String, id: Int, val first: Blo
                 value2 = first.calculate()
             }
 
+            "Negativity" -> {
+                value2 = first.calculate()
+            }
+
             "NumberValue" -> {
                 value2 = first.takeValue().toInt()
             }
@@ -320,6 +324,10 @@ class MathOperator (type : String, typeOfBlock : String, id: Int, val first: Blo
         //printToConsole(value2.toString())
         when (second.typeOfBlock) {
             "MathOperator" -> {
+                value3 = second.calculate()
+            }
+
+            "Negativity" -> {
                 value3 = second.calculate()
             }
 
@@ -377,9 +385,47 @@ class MathOperator (type : String, typeOfBlock : String, id: Int, val first: Blo
     }
 }
 
-class negation(){}
+class Negativity(type : String, typeOfBlock : String, id: Int, val first: Block) : Block (type, typeOfBlock, id){
+    override fun calculate(): Int {
+        var value = 0
+        when (first.typeOfBlock) {
+            "MathOperator" -> {
+                value = first.calculate()
+            }
 
-class negativity(){}
+            "Negativity" -> {
+                value = first.calculate()
+            }
+
+            "NumberValue" -> {
+                value = first.takeValue().toInt()
+            }
+
+            "NumberVariable" -> {
+                value = first.takeValue().toInt()
+            }
+
+            else -> {
+                printToConsole("value " + "Math neg operand Error")
+            }
+        }
+        return value * -1
+    }
+    override fun define(): Boolean {
+        val value = calculate().toString()
+        when (value) {
+            "0" -> return false
+            else -> return true
+        }
+    }
+}
+
+class Negation(type : String, typeOfBlock : String, id: Int,  val first: MainOperator) : MainOperator (type, typeOfBlock, id){
+    override fun define(): Boolean {
+        val value = first.define()
+        return !value
+    }
+}
 
 class Logic (type : String, typeOfBlock : String, id: Int,  val first: MainOperator, val second: MainOperator, val typeOfLogic: String ) : MainOperator (type, typeOfBlock, id){
     override fun define(): Boolean {
@@ -412,6 +458,10 @@ class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: B
                 value1 = first.calculate()
             }
 
+            "Negativity" -> {
+                value1 = first.calculate()
+            }
+
             "NumberValue" -> {
                 value1 = first.takeValue().toInt()
             }
@@ -426,6 +476,10 @@ class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: B
         }
         when (second.typeOfBlock) {
             "MathOperator" -> {
+                value2 = second.calculate()
+            }
+
+            "Negativity" -> {
                 value2 = second.calculate()
             }
 
@@ -480,6 +534,52 @@ class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: B
     }
 }
 
+class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block) : MainOperator (type, typeOfBlock, id){
+    override fun takeValue(): String {
+        var str1 = ""
+        var str2 = ""
+        when (first.typeOfBlock) {
+            "Concat" -> {
+                str1 = first.takeValue()
+            }
+
+            "StringValue" -> {
+                str1 = first.takeValue()
+            }
+
+            "StringVariable" -> {
+                str1 = first.takeValue()
+            }
+            else -> {
+                printToConsole("value1 " + "Cancat operand Error")
+            }
+        }
+        when (second.typeOfBlock) {
+            "Concat" -> {
+                str2 = second.takeValue()
+            }
+
+            "StringValue" -> {
+                str2 = second.takeValue()
+            }
+
+            "StringVariable" -> {
+                str2 = second.takeValue()
+            }
+            else -> {
+                printToConsole("value2 " + "Cancat operand Error")
+            }
+        }
+        return str1 + str2
+    }
+    override fun define(): Boolean {
+        when (takeValue().count()) {
+            0 -> return false
+            else -> return true
+        }
+    }
+}
+
 abstract class Value (type : String, typeOfBlock : String, id: Int, val value : String) : Block (type, typeOfBlock, id) {
 
 }
@@ -505,9 +605,9 @@ class NumberValue (type : String, typeOfBlock : String, id: Int, value : String)
     }
 }
 
-class StringValue (type : String, typeOfBlock : String, id: Int, value : String, val size: Int) : Value (type, typeOfBlock, id, value) {
+class StringValue (type : String, typeOfBlock : String, id: Int, value : String) : Value (type, typeOfBlock, id, value) {
     override fun define(): Boolean {
-        when (size) {
+        when (value.count()) {
             0 -> return false
             else -> return true
         }
@@ -542,9 +642,9 @@ class NumberVariable (type : String, typeOfBlock : String, id: Int, name: String
     }
 }
 
-class StringVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String, val size: Int) : Variable (type, typeOfBlock, id, value, name) {
+class StringVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String) : Variable (type, typeOfBlock, id, value, name) {
     override fun define(): Boolean {
-        when (size) {
+        when (value.count()) {
             0 -> return false
             else -> return true
         }
@@ -553,6 +653,7 @@ class StringVariable (type : String, typeOfBlock : String, id: Int, name: String
         return value
     }
 }
+
 
 
 
