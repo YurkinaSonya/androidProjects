@@ -142,9 +142,16 @@ class MainActivity : AppCompatActivity() {
         plt.setOnDragListener(dragListener)
 
         val mainBody = Body()
+        val numOne = NumberValue("Int", "NumberValue", 0,"1")
+        val numTwo = NumberValue("Int", "NumberValue", 1,"2")
+        val numFive = NumberValue("Int", "NumberValue", 2,"3")
+        val mathOper = MathOperator("Int", "MathOperator", 3, )
+
+
         //val bodyInsidesTs = mutableListOf<FunBlock>()
         //val ifBlockTest = IfBlock("if", true)
         //bodyInsidesTs.add(SpareOutputBlock("output", "first"))
+        /*
         println("I create main body")
         mainBody.bodyInsides.add(SpareOutputBlock("output", "first"))
         mainBody.bodyInsides.add(SpareOutputBlock("output", "second"))
@@ -167,6 +174,7 @@ class MainActivity : AppCompatActivity() {
         println("i add it and gonna to start program")
         mainBody.doBody()
         println("i finish program again!!!")
+        */
 
     }
 
@@ -242,18 +250,36 @@ class MainActivity : AppCompatActivity() {
 }
 
 
-
+fun printToConsole (included: String) {
+    println(included)
+}
 
     abstract class MainOperator (val type : String, val typeOfBlock : String, val id: Int) {
         open fun define(): Boolean {return false}
+        open fun calculate(): Int {return 0}
+        open fun valueToString(): String {
+            when (this.typeOfBlock) {
+                "Logic" -> {
+                    return(define().toString())
+                }
+                "LogicOperator" -> {
+                    return(define().toString())
+                }
+                "MathOperator" -> {
+                    return (this.calculate().toString())
+                }
+                else -> {
+                    return (this.takeValue())
+                }
+            }
+        }
+        open fun takeValue() : String {return ""}
     }
 
     abstract class Block (type : String, typeOfBlock : String, id: Int, var value : String) : MainOperator (type, typeOfBlock, id) {
-
-        open fun calculate(): Int {}
     }
 
-    class MathOperator (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block, val typeOfOper: String ) : Block (type, typeOfBlock, id) {
+    class MathOperator (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block, val typeOfOper: String) : Block (type, typeOfBlock, id) {
         override fun calculate(): Int {
             var value1 = 0
             var value2 = 0
@@ -273,7 +299,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    SpareOutputBlock("Error", "Math operand Error")
+                    printToConsole("Math operand Error")
                 }
             }
             when (second.typeOfBlock) {
@@ -290,7 +316,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    SpareOutputBlock("Error", "Math operand Error")
+                    printToConsole("Math operand Error")
                 }
             }
 
@@ -320,7 +346,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    SpareOutputBlock("Error", "Math move Error")
+                    printToConsole("Math move Error")
                 }
             }
             return value1
@@ -348,7 +374,7 @@ class MainActivity : AppCompatActivity() {
                     value = value1 || value2
                 }
                 else -> {
-                    SpareOutputBlock("Error", "Logistic move Error")
+                    printToConsole("Logistic move Error")
                 }
             }
             return value
@@ -375,7 +401,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    SpareOutputBlock("Error", "logic Math operand Error")
+                    printToConsole( "logic Math operand Error")
                 }
             }
             when (second.typeOfBlock) {
@@ -392,7 +418,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    SpareOutputBlock("Error", "logic Math operand Error")
+                    printToConsole("logic Math operand Error")
                 }
             }
             when (typeOfLogic) {
@@ -427,7 +453,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 else -> {
-                    SpareOutputBlock("Error", "Logistic move Error")
+                    printToConsole("Logistic move Error")
                 }
             }
             return value
@@ -440,6 +466,9 @@ class MainActivity : AppCompatActivity() {
 
     class BooleanValue (type : String, typeOfBlock : String, id: Int, value : String) : Value (type, typeOfBlock, id, value) {
         override fun define(): Boolean {
+            return value.toBoolean()
+        }
+        override fun takeValue(): String {
             return value
         }
     }
@@ -447,9 +476,12 @@ class MainActivity : AppCompatActivity() {
     class NumberValue (type : String, typeOfBlock : String, id: Int, value : String) : Value (type, typeOfBlock, id, value) {
         override fun define(): Boolean {
             when (value) {
-                0 -> return false
+                "0" -> return false
                 else -> return true
             }
+        }
+        override fun takeValue(): String {
+            return value
         }
     }
 
@@ -460,6 +492,9 @@ class MainActivity : AppCompatActivity() {
                 else -> return true
             }
         }
+        override fun takeValue(): String {
+            return value
+        }
     }
 
     abstract class Variable (type : String, typeOfBlock : String, id: Int, value : String, val name: String) : Block (type, typeOfBlock, id, value) {
@@ -468,6 +503,9 @@ class MainActivity : AppCompatActivity() {
 
     class BooleanVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String) : Variable (type, typeOfBlock, id, value, name) {
         override fun define(): Boolean {
+            return value.toBoolean()
+        }
+        override fun takeValue(): String {
             return value
         }
     }
@@ -475,9 +513,12 @@ class MainActivity : AppCompatActivity() {
     class NumberVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String) : Variable (type, typeOfBlock, id, value, name) {
         override fun define(): Boolean {
             when (value) {
-                0 -> return false
+                "0" -> return false
                 else -> return true
             }
+        }
+        override fun takeValue(): String {
+            return value
         }
     }
 
@@ -487,6 +528,9 @@ class MainActivity : AppCompatActivity() {
                 0 -> return false
                 else -> return true
             }
+        }
+        override fun takeValue(): String {
+            return value
         }
     }
 
@@ -499,9 +543,9 @@ abstract class FunBlock (val type : String) {
     open fun doOutput() {}
 }
 
-class SpareOutputBlock (type : String, private val included : String) : FunBlock(type) {
+class SpareOutputBlock (type : String, private val included : MainOperator) : FunBlock(type) {
     override fun doOutput () {
-        println(included)
+        printToConsole(included.takeValue())
     }
 }
 
