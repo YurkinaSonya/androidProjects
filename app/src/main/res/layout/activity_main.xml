@@ -23,7 +23,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/lightGrey"
-        android:contentDescription="listOfBlock"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -35,13 +34,86 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/coutBlock"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_fun_block">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="cout"
+                    android:textSize="30dp" />
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/plusBlock"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_fun_block">
+                >
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textSize="30dp" />
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
+
+            </LinearLayout>
+
+            <!--
+
             <View
                 android:id="@+id/block1"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/orange">
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_fun_block">
 
+                <View
+                    android:id="@+id/blockInBlock"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/shape_for_main_operator">
+                </View>
             </View>
 
             <View
@@ -49,8 +121,7 @@
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/greenB">
-
+                android:background="@drawable/shape_for_main_operator">
             </View>
 
             <View
@@ -201,6 +272,7 @@
                 android:background="@color/purple"
                 android:layout_marginBottom="10dp">
             </View>
+            -->
         </LinearLayout>
     </ScrollView>
     <View
@@ -222,6 +294,7 @@
         app:layout_constraintEnd_toStartOf="@+id/buf"
         app:layout_constraintStart_toStartOf="@+id/view2"
         app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:id="@+id/linLayoutPlt"
             android:layout_width="match_parent"
@@ -237,8 +310,8 @@
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/greenY">
-
             </View>
+
         </LinearLayout>
     </ScrollView>
 
@@ -268,7 +341,9 @@
                 android:layout_width="150dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/blue"></View>
+                android:background="@color/blue">
+
+            </View>
         </LinearLayout>
     </ScrollView>
 

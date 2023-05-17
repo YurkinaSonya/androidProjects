@@ -1,23 +1,14 @@
 package com.example.mobilemodule
 
-import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipDescription
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.DragEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentTransaction
 import com.example.mobilemodule.databinding.ActivityMainBinding
 
 
@@ -47,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
         var listIsOpen = false
         val viewBlocks = binding.viewForBlocks
         val listBlocks = binding.listOfBlocks
@@ -96,6 +89,23 @@ class MainActivity : AppCompatActivity() {
 
         val plt = binding.linLayoutPlt
         val list = binding.linLayoutList
+
+        val block = binding.coutBlock
+        block.setOnLongClickListener() {
+            println("YEEEE")
+            val checkText = "Yepppp"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        //val bindingNew = FunBlockOutputBinding.inflate(layoutInflater)
+
+        //val view = getLayoutInflater().inflate(bindingNew.root, null)
+
+
         /*
         for (i in 1..20) {
             var idB = "block" + i.toString()
@@ -103,6 +113,8 @@ class MainActivity : AppCompatActivity() {
         }
 
          */
+
+        /*
 
         val block1 = binding.block1
         block1.setOnLongClickListener() {
@@ -141,6 +153,9 @@ class MainActivity : AppCompatActivity() {
         list.setOnDragListener(dragListener)
         plt.setOnDragListener(dragListener)
 
+         */
+        /*
+
         val mainBody = Body()
         println("I create main body")
 
@@ -163,6 +178,8 @@ class MainActivity : AppCompatActivity() {
         mainBody.bodyInsides[1].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", message))
         mainBody.doBody()
         println("I finish program!!!")
+
+         */
 
 
 
@@ -192,6 +209,7 @@ class MainActivity : AppCompatActivity() {
         */
 
     }
+    /*
 
     val blockDnD = View.OnLongClickListener() {
         println("YEEEE")
@@ -203,6 +221,8 @@ class MainActivity : AppCompatActivity() {
         it.startDragAndDrop(data, dragShadowBuilder, it, 0)
         true
     }
+
+     */
 
     val dragListener = View.OnDragListener() { view, event ->
         when (event.action) {
