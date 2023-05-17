@@ -144,13 +144,26 @@ class MainActivity : AppCompatActivity() {
         plt.setOnDragListener(dragListener)
 
         val mainBody = Body()
+        //val bodyInsidesTs = mutableListOf<FunBlock>()
+        //val ifBlockTest = IfBlock("if", true)
+        //bodyInsidesTs.add(SpareOutputBlock("output", "first"))
+        println("I create main body")
         mainBody.bodyInsides.add(SpareOutputBlock("output", "first"))
         mainBody.bodyInsides.add(SpareOutputBlock("output", "second"))
         mainBody.bodyInsides.add(IfBlock("if", true))
-        //mainBody.bodyInsides[2].bodyIf
-        val ifBlockTest = IfBlock("if", true)
-        ifBlockTest.bodyIf.add(SpareOutputBlock("output", "first"))
-
+        println("I add first part to main body")
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", "firstInIf"))
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", "firstInSecond"))
+        println("i add all to if body")
+        mainBody.bodyInsides.add(SpareOutputBlock("output", "thirst"))
+        println("i add all to main body and gonna to start program")
+        mainBody.doBody()
+        println("i finish program!!!")
+        println("now im gonna to add new thing")
+        mainBody.bodyInsides.add(1, SpareOutputBlock("output", "firstButAddedOn2String"))
+        println("i add it and gonna to start program")
+        mainBody.doBody()
+        println("i finish program again!!!")
 
     }
     val blockDnD = View.OnLongClickListener() {
@@ -221,42 +234,26 @@ class MainActivity : AppCompatActivity() {
 
 }
 //i write smth
-abstract class FunBlock (val type : String) {
-    open fun checkCond() {}
 
+
+abstract class FunBlock (val type : String) {
+    val bodyOfBlock = Body()
+    open fun checkCond() {}
+    open fun doOutput() {}
 }
 
 class SpareOutputBlock (type : String, private val included : String) : FunBlock(type) {
-    fun doOutput () {
+    override fun doOutput () {
         println(included)
     }
 }
 
 class IfBlock (type : String, var cond : Boolean) : FunBlock(type) {
-    val bodyIf : Body = TODO()
     override fun checkCond() {
-        /*
-        if (cond.type == Boolean) {
-            tryCond()
-        } else {
-            SpareOutputBlock ("Error", "Logic operanda Error")
+        if (cond) {
+            bodyOfBlock.doBody()
         }
-        */
     }
-    /*
-    fun tryCond() {
-        /*
-        if (cond.type == Boolean) {
-
-        } else {
-            max = b
-        }
-        */
-    }
-
-
-
-    */
 
 }
 
@@ -267,7 +264,7 @@ class Body() {
         for (i in bodyInsides) {
             when (i.type) {
                 "if" -> i.checkCond()
-                "ass" -> i.doAss()
+                "output" -> i.doOutput()
             }
         }
     }
