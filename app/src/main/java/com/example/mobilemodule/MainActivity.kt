@@ -142,25 +142,30 @@ class MainActivity : AppCompatActivity() {
         plt.setOnDragListener(dragListener)
 
         val mainBody = Body()
-
-        /*
         println("I create main body")
+        /*
         val numOne = NumberValue("Int", "NumberValue", 0,"1")
         val numTwo = NumberValue("Int", "NumberValue", 1,"2")
         val numFive = NumberValue("Int", "NumberValue", 2,"5")
+        val numThree = NumberValue("Int", "NumberValue", 5,"3")
+        val numTen = NumberValue("Int", "NumberValue", 6,"10")
         println("I create all numbers")
-        val mathOperLittle = MathOperator("Int", "MathOperator", 3, "0", numOne, numTwo, "+")
-        val mathOperMain = MathOperator("Int", "MathOperator", 4, "0", mathOperLittle, numFive, "*")
+        val mathOperLittle = MathOperator("Int", "MathOperator", 3, numOne, numTwo, "+")
+        val mathOperMain = MathOperator("Int", "MathOperator", 4, mathOperLittle, numFive, "*")
         println("I create all operations")
         mainBody.bodyInsides.add(SpareOutputBlock("output", mathOperMain))
         println("I add output operations")
+        val ineqTest = LogicOperator("Boolean", "LogicOperator", 7, mathOperMain, numTen, ">")
+        val eqTest = LogicOperator("Boolean", "LogicOperator", 8, mathOperLittle, numThree, "==")
+        val condTest = Logic("Boolean", "Logic", 9, ineqTest, eqTest, "and")
+        mainBody.bodyInsides.add(IfBlock("if", condTest))
+        val message = StringValue("String", "StringValue", 10, "I check this condition!!!!", 10)
+        mainBody.bodyInsides[1].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", message))
         mainBody.doBody()
         println("I finish program!!!")
+
          */
 
-        //val bodyInsidesTs = mutableListOf<FunBlock>()
-        //val ifBlockTest = IfBlock("if", true)
-        //bodyInsidesTs.add(SpareOutputBlock("output", "first"))
         /*
         println("I create main body")
         mainBody.bodyInsides.add(SpareOutputBlock("output", "first"))
@@ -264,287 +269,290 @@ fun printToConsole (included: String) {
     println("Console: " + included)
 }
 
-    abstract class MainOperator (val type : String, val typeOfBlock : String, val id: Int) {
-        open fun define(): Boolean {return false}
-        open fun calculate(): Int {return 0}
-        open fun valueToString(): String {
-            when (this.typeOfBlock) {
-                "Logic" -> {
-                    return(define().toString())
-                }
-                "LogicOperator" -> {
-                    return(define().toString())
-                }
-                "MathOperator" -> {
-                    return (this.calculate().toString())
-                }
-                else -> {
-                    return (this.takeValue())
-                }
+abstract class MainOperator (val type : String, val typeOfBlock : String, val id: Int) {
+    open fun define(): Boolean {return false}
+    open fun calculate(): Int {return 0}
+    open fun valueToString(): String {
+        when (this.typeOfBlock) {
+            "Logic" -> {
+                return (define().toString())
             }
-        }
-        open fun takeValue() : String {return ""}
-    }
-
-    abstract class Block (type : String, typeOfBlock : String, id: Int, var value : String) : MainOperator (type, typeOfBlock, id) {
-    }
-
-    class MathOperator (type : String, typeOfBlock : String, id: Int, value : String,  val first: Block, val second: Block, val typeOfOper: String) : Block (type, typeOfBlock, id, value) {
-        override fun calculate(): Int {
-            var value1 = 0
-            var value2 = 0
-            var value3 = 0
-
-            when (first.typeOfBlock) {
-                "MathOperator" -> {
-                    value2 = first.calculate()
-                }
-
-                "NumberValue" -> {
-                    value2 = first.value.toInt()
-                }
-
-                "NumberVariable" -> {
-                    value2 = first.value.toInt()
-                }
-
-                else -> {
-                    printToConsole("value2 " + "Math operand Error")
-                }
+            "LogicOperator" -> {
+                return (define().toString())
             }
-            //printToConsole(value2.toString())
-            when (second.typeOfBlock) {
-                "MathOperator" -> {
-                    value3 = second.calculate()
-                }
-
-                "NumberValue" -> {
-                    value3 = second.value.toInt()
-                }
-
-                "NumberVariable" -> {
-                    value3 = second.value.toInt()
-                }
-
-                else -> {
-                    printToConsole("Math operand Error")
-                }
+            "MathOperator" -> {
+                return (this.calculate().toString())
             }
-            //printToConsole("value3 " + value3.toString())
-            when (typeOfOper) {
-                "+" -> {
-                    value1 = value2 + value3
-                }
-
-                "-" -> {
-                    value1 = value2 - value3
-                }
-
-                "/" -> {
-                    value1 = value2 / value3
-                }
-
-                "*" -> {
-                    value1 = value2 * value3
-                }
-
-                "%" -> {
-                    value1 = value2 % value3
-                }
-
-                "!" -> {
-                    value1 = value2 * -1
-                }
-
-                else -> {
-                    printToConsole("Math move Error")
-                }
-            }
-            return value1
-        }
-
-        override fun define(): Boolean {
-            value = calculate().toString()
-            when (value) {
-                "0" -> return false
-                else -> return true
+            else -> {
+                return (this.takeValue())
             }
         }
     }
+    open fun takeValue() : String {return ""}
+}
 
-    class Logic (type : String, typeOfBlock : String, id: Int,  val first: MainOperator, val second: MainOperator, val typeOfLogic: String ) : MainOperator (type, typeOfBlock, id){
-        override fun define(): Boolean {
-            var value = false
-            val value1 = first.define()
-            val value2 = second.define()
-            when (typeOfLogic) {
-                "and" -> {
-                    value = value1 && value2
-                }
-                "or" -> {
-                    value = value1 || value2
-                }
-                else -> {
-                    printToConsole("Logistic move Error")
-                }
+abstract class Block (type : String, typeOfBlock : String, id: Int) : MainOperator (type, typeOfBlock, id) {
+}
+
+class MathOperator (type : String, typeOfBlock : String, id: Int, val first: Block, val second: Block, val typeOfOper: String) : Block (type, typeOfBlock, id) {
+    override fun calculate(): Int {
+        var value1 = 0
+        var value2 = 0
+        var value3 = 0
+
+        when (first.typeOfBlock) {
+            "MathOperator" -> {
+                value2 = first.calculate()
             }
-            return value
-        }
-    }
 
-    class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block, val typeOfLogic: String ) : MainOperator (type, typeOfBlock, id){
-        override fun define(): Boolean {
-            var value = false
-            var value1 = 0
-            var value2 = 0
-
-            when (first.typeOfBlock) {
-                "MathOperator" -> {
-                    value1 = first.calculate()
-                }
-
-                "NumberValue" -> {
-                    value1 = first.value.toInt()
-                }
-
-                "NumberVariable" -> {
-                    value1 = first.value.toInt()
-                }
-
-                else -> {
-                    printToConsole( "logic Math operand Error")
-                }
+            "NumberValue" -> {
+                value2 = first.takeValue().toInt()
             }
-            when (second.typeOfBlock) {
-                "MathOperator" -> {
-                    value2 = second.calculate()
-                }
 
-                "NumberValue" -> {
-                    value2 = second.value.toInt()
-                }
-
-                "NumberVariable" -> {
-                    value2 = second.value.toInt()
-                }
-
-                else -> {
-                    printToConsole("logic Math operand Error")
-                }
+            "NumberVariable" -> {
+                value2 = first.takeValue().toInt()
             }
-            when (typeOfLogic) {
-                ">" -> {
-                    if(value1 > value2){
-                        value = true
-                    }
-                }
-                "<" -> {
-                    if(value1 < value2){
-                        value = true
-                    }
-                }
-                ">=" -> {
-                    if(value1 >= value2){
-                        value = true
-                    }
-                }
-                "<=" -> {
-                    if(value1 <= value2){
-                        value = true
-                    }
-                }
-                "==" -> {
-                    if(value1 == value2){
-                        value = true
-                    }
-                }
-                "!=" -> {
-                    if (value1 != value2) {
-                        value = true
-                    }
-                }
-                else -> {
-                    printToConsole("Logistic move Error")
-                }
-            }
-            return value
-        }
-    }
 
-    abstract class Value (type : String, typeOfBlock : String, id: Int, value : String) : Block (type, typeOfBlock, id, value) {
-
-    }
-
-    class BooleanValue (type : String, typeOfBlock : String, id: Int, value : String) : Value (type, typeOfBlock, id, value) {
-        override fun define(): Boolean {
-            return value.toBoolean()
-        }
-        override fun takeValue(): String {
-            return value
-        }
-    }
-
-    class NumberValue (type : String, typeOfBlock : String, id: Int, value : String) : Value (type, typeOfBlock, id, value) {
-        override fun define(): Boolean {
-            when (value) {
-                "0" -> return false
-                else -> return true
+            else -> {
+                printToConsole("value2 " + "Math operand Error")
             }
         }
-        override fun takeValue(): String {
-            return value
-        }
-    }
+        //printToConsole(value2.toString())
+        when (second.typeOfBlock) {
+            "MathOperator" -> {
+                value3 = second.calculate()
+            }
 
-    class StringValue (type : String, typeOfBlock : String, id: Int, value : String, val size: Int) : Value (type, typeOfBlock, id, value) {
-        override fun define(): Boolean {
-            when (size) {
-                0 -> return false
-                else -> return true
+            "NumberValue" -> {
+                value3 = second.takeValue().toInt()
+            }
+
+            "NumberVariable" -> {
+                value3 = second.takeValue().toInt()
+            }
+
+            else -> {
+                printToConsole("Math operand Error")
             }
         }
-        override fun takeValue(): String {
-            return value
-        }
-    }
+        //printToConsole("value3 " + value3.toString())
+        when (typeOfOper) {
+            "+" -> {
+                value1 = value2 + value3
+            }
 
-    abstract class Variable (type : String, typeOfBlock : String, id: Int, value : String, val name: String) : Block (type, typeOfBlock, id, value) {
+            "-" -> {
+                value1 = value2 - value3
+            }
 
-    }
+            "/" -> {
+                value1 = value2 / value3
+            }
 
-    class BooleanVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String) : Variable (type, typeOfBlock, id, value, name) {
-        override fun define(): Boolean {
-            return value.toBoolean()
-        }
-        override fun takeValue(): String {
-            return value
-        }
-    }
+            "*" -> {
+                value1 = value2 * value3
+            }
 
-    class NumberVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String) : Variable (type, typeOfBlock, id, value, name) {
-        override fun define(): Boolean {
-            when (value) {
-                "0" -> return false
-                else -> return true
+            "%" -> {
+                value1 = value2 % value3
+            }
+
+            "!" -> {
+                value1 = value2 * -1
+            }
+
+            else -> {
+                printToConsole("Math move Error")
             }
         }
-        override fun takeValue(): String {
-            return value
-        }
+        return value1
     }
 
-    class StringVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String, val size: Int) : Variable (type, typeOfBlock, id, value, name) {
-        override fun define(): Boolean {
-            when (size) {
-                0 -> return false
-                else -> return true
+    override fun define(): Boolean {
+        val value = calculate().toString()
+        when (value) {
+            "0" -> return false
+            else -> return true
+        }
+    }
+}
+
+class negation(){}
+
+class negativity(){}
+
+class Logic (type : String, typeOfBlock : String, id: Int,  val first: MainOperator, val second: MainOperator, val typeOfLogic: String ) : MainOperator (type, typeOfBlock, id){
+    override fun define(): Boolean {
+        var value = false
+        val value1 = first.define()
+        val value2 = second.define()
+        when (typeOfLogic) {
+            "and" -> {
+                value = value1 && value2
+            }
+            "or" -> {
+                value = value1 || value2
+            }
+            else -> {
+                printToConsole("Logistic move Error")
             }
         }
-        override fun takeValue(): String {
-            return value
+        return value
+    }
+}
+
+class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block, val typeOfLogic: String ) : MainOperator (type, typeOfBlock, id){
+    override fun define(): Boolean {
+        var value = false
+        var value1 = 0
+        var value2 = 0
+
+        when (first.typeOfBlock) {
+            "MathOperator" -> {
+                value1 = first.calculate()
+            }
+
+            "NumberValue" -> {
+                value1 = first.takeValue().toInt()
+            }
+
+            "NumberVariable" -> {
+                value1 = first.takeValue().toInt()
+            }
+
+            else -> {
+                printToConsole( "logic Math operand Error")
+            }
+        }
+        when (second.typeOfBlock) {
+            "MathOperator" -> {
+                value2 = second.calculate()
+            }
+
+            "NumberValue" -> {
+                value2 = second.takeValue().toInt()
+            }
+
+            "NumberVariable" -> {
+                value2 = second.takeValue().toInt()
+            }
+
+            else -> {
+                printToConsole("logic Math operand Error")
+            }
+        }
+        when (typeOfLogic) {
+            ">" -> {
+                if(value1 > value2){
+                    value = true
+                }
+            }
+            "<" -> {
+                if(value1 < value2){
+                    value = true
+                }
+            }
+            ">=" -> {
+                if(value1 >= value2){
+                    value = true
+                }
+            }
+            "<=" -> {
+                if(value1 <= value2){
+                    value = true
+                }
+            }
+            "==" -> {
+                if(value1 == value2){
+                    value = true
+                }
+            }
+            "!=" -> {
+                if (value1 != value2) {
+                    value = true
+                }
+            }
+            else -> {
+                printToConsole("Logistic move Error")
+            }
+        }
+        return value
+    }
+}
+
+abstract class Value (type : String, typeOfBlock : String, id: Int, val value : String) : Block (type, typeOfBlock, id) {
+
+}
+
+class BooleanValue (type : String, typeOfBlock : String, id: Int, value : String) : Value (type, typeOfBlock, id, value) {
+    override fun define(): Boolean {
+        return value.toBoolean()
+    }
+    override fun takeValue(): String {
+        return value
+    }
+}
+
+class NumberValue (type : String, typeOfBlock : String, id: Int, value : String) : Value (type, typeOfBlock, id, value) {
+    override fun define(): Boolean {
+        when (value) {
+            "0" -> return false
+            else -> return true
         }
     }
+    override fun takeValue(): String {
+        return value
+    }
+}
 
+class StringValue (type : String, typeOfBlock : String, id: Int, value : String, val size: Int) : Value (type, typeOfBlock, id, value) {
+    override fun define(): Boolean {
+        when (size) {
+            0 -> return false
+            else -> return true
+        }
+    }
+    override fun takeValue(): String {
+        return value
+    }
+}
+
+abstract class Variable (type : String, typeOfBlock : String, id: Int, val value : String, val name: String) : Block (type, typeOfBlock, id) {
+
+}
+
+class BooleanVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String) : Variable (type, typeOfBlock, id, value, name) {
+    override fun define(): Boolean {
+        return value.toBoolean()
+    }
+    override fun takeValue(): String {
+        return value
+    }
+}
+
+class NumberVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String) : Variable (type, typeOfBlock, id, value, name) {
+    override fun define(): Boolean {
+        when (value) {
+            "0" -> return false
+            else -> return true
+        }
+    }
+    override fun takeValue(): String {
+        return value
+    }
+}
+
+class StringVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String, val size: Int) : Variable (type, typeOfBlock, id, value, name) {
+    override fun define(): Boolean {
+        when (size) {
+            0 -> return false
+            else -> return true
+        }
+    }
+    override fun takeValue(): String {
+        return value
+    }
+}
 
 
 
@@ -560,9 +568,9 @@ class SpareOutputBlock (type : String, private val included : MainOperator) : Fu
     }
 }
 
-class IfBlock (type : String, var cond : Boolean) : FunBlock(type) {
+class IfBlock (type : String, var cond : MainOperator) : FunBlock(type) {
     override fun checkCond() {
-        if (cond) {
+        if (cond.define()) {
             bodyOfBlock.doBody()
         }
     }
