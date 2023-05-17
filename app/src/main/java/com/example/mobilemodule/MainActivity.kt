@@ -5,9 +5,11 @@ import android.content.ClipDescription
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.DragEvent
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.Toast
 import com.example.mobilemodule.databinding.ActivityMainBinding
 
@@ -33,7 +35,12 @@ class MyDialogFragment : DialogFragment() {
     }
 }
  */
+
+var hashMapOfVariableValues : HashMap<String, String> = HashMap<String, String>()
+var hashMapOfVariableTypes : HashMap<String, String> = HashMap<String, String>()
 class MainActivity : AppCompatActivity() {
+    val mainBody = Body()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -87,8 +94,8 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val plt = binding.linLayoutPlt
-        val list = binding.linLayoutList
+        val plt = binding.plt
+        val list = binding.listOfBlocks
 
         val block = binding.coutBlock
         block.setOnLongClickListener() {
@@ -101,6 +108,20 @@ class MainActivity : AppCompatActivity() {
             it.startDragAndDrop(data, dragShadowBuilder, it, 0)
             true
         }
+        val block2 = binding.plusBlock
+        block2.setOnLongClickListener() {
+            println("YEEEE")
+            val checkText = "Yepppp"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        list.setOnDragListener(dragListener)
+        plt.setOnDragListener(dragListener)
+
         //val bindingNew = FunBlockOutputBinding.inflate(layoutInflater)
 
         //val view = getLayoutInflater().inflate(bindingNew.root, null)
@@ -154,11 +175,32 @@ class MainActivity : AppCompatActivity() {
         plt.setOnDragListener(dragListener)
 
          */
-        /*
+
+        //interpretator test math, logic and loop
 
         val mainBody = Body()
         println("I create main body")
-
+        mainBody.bodyInsides.add(SpareOutputBlock("output", StringValue("String", "StringValue", 1, "initialisation started")))
+        mainBody.bodyInsides.add(Init("initialization", "testVariable", "Int"))
+        val testVar = NumberVariable("Int", "NumberVariable", 2, "testVariable", hashMapOfVariableValues["testVariable"].toString())
+        val numFive = NumberValue("Int", "NumberValue", 2,"5")
+        mainBody.bodyInsides.add(Assignment("assignment", testVar, numFive))
+        mainBody.bodyInsides.add(SpareOutputBlock("output", testVar))
+        val numThree = NumberValue("Int", "NumberValue", 5,"3")
+        val mathOperMain = MathOperator("Int", "MathOperator", 4, numThree, testVar, "*")
+        mainBody.bodyInsides.add(SpareOutputBlock("output",  mathOperMain))
+        val numOne = NumberValue("Int", "NumberValue", 0,"1")
+        val mathOperLittle = MathOperator("Int", "MathOperator", 3, testVar, numOne, "+")
+        val numTen = NumberValue("Int", "NumberValue", 5,"10")
+        val condTest = LogicOperator("Boolean", "LogicOperator", 8, testVar, numTen, "!=")
+        mainBody.bodyInsides.add(WhileBlock("while", condTest))
+        val message = StringValue("String", "StringValue", 10, "it is in loop ")
+        mainBody.bodyInsides[5].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", Concat("String", "Concat", 11, message, ToStringOper("String", "toString", 1, testVar))))
+        mainBody.bodyInsides[5].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
+        mainBody.doBody()
+        println("I finish program!!!")
+        //interpretator test math and logic
+        /*
         val numOne = NumberValue("Int", "NumberValue", 0,"1")
         val numTwo = NumberValue("Int", "NumberValue", 1,"2")
         val numFive = NumberValue("Int", "NumberValue", 2,"5")
@@ -182,7 +224,7 @@ class MainActivity : AppCompatActivity() {
          */
 
 
-
+        //interpretator test base
         /*
         println("I create main body")
         mainBody.bodyInsides.add(SpareOutputBlock("output", "first"))
@@ -252,14 +294,14 @@ class MainActivity : AppCompatActivity() {
                 val dragData = item.text
                 Toast.makeText(this, "Dragged data is $dragData", Toast.LENGTH_LONG).show()
 
-                val v = event.localState as View
-                val owner = v.parent as ViewGroup
-                owner.removeView(v)
+                val v = event.localState as LinearLayout
+                val owner = v.parent as LinearLayout
+                //owner.removeView(v)
                 //val vNew = LayoutInflater.from(this).inflate(v, null) as View
-                //View vNew = new View(context)
                 //ask about copy View
-                val dest = view as LinearLayout
-                dest.addView(v)
+                //val dest = view as ScrollView
+                //dest.addView(v)
+
                 true
             }
 
@@ -402,6 +444,11 @@ class MathOperator (type : String, typeOfBlock : String, id: Int, val first: Blo
             "0" -> return false
             else -> return true
         }
+    }
+
+    override fun takeValue(): String {
+        val value = calculate().toString()
+        return value
     }
 }
 
@@ -554,6 +601,31 @@ class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: B
     }
 }
 
+class ToStringOper(type : String, typeOfBlock : String, id: Int, val first: Block) : Block (type, typeOfBlock, id) {
+    override fun takeValue(): String {
+        var str = ""
+        when (first.typeOfBlock) {
+            "NumberVariable" -> {
+                str = first.takeValue()
+            }
+            "NumberValue" -> {
+                str = first.takeValue()
+            }
+            "BooleanVariable" -> {
+                str = first.takeValue()
+            }
+            "BooleanValue" -> {
+                str = first.takeValue()
+            }
+            else -> {
+                printToConsole("to string operand Error")
+            }
+
+        }
+        return str
+    }
+}
+
 class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block) : MainOperator (type, typeOfBlock, id){
     override fun takeValue(): String {
         var str1 = ""
@@ -570,6 +642,9 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
             "StringVariable" -> {
                 str1 = first.takeValue()
             }
+            "toString" -> {
+                str1 = first.takeValue()
+            }
             else -> {
                 printToConsole("value1 " + "Cancat operand Error")
             }
@@ -584,6 +659,9 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
             }
 
             "StringVariable" -> {
+                str2 = second.takeValue()
+            }
+            "toString" -> {
                 str2 = second.takeValue()
             }
             else -> {
@@ -646,7 +724,7 @@ class BooleanVariable (type : String, typeOfBlock : String, id: Int, name: Strin
         return value.toBoolean()
     }
     override fun takeValue(): String {
-        return value
+        return hashMapOfVariableValues[name].toString()
     }
 }
 
@@ -658,7 +736,7 @@ class NumberVariable (type : String, typeOfBlock : String, id: Int, name: String
         }
     }
     override fun takeValue(): String {
-        return value
+        return hashMapOfVariableValues[name].toString()
     }
 }
 
@@ -670,7 +748,7 @@ class StringVariable (type : String, typeOfBlock : String, id: Int, name: String
         }
     }
     override fun takeValue(): String {
-        return value
+        return hashMapOfVariableValues[name].toString()
     }
 }
 
@@ -681,6 +759,8 @@ abstract class FunBlock (val type : String) {
     val bodyOfBlock = Body()
     open fun checkCond() {}
     open fun doOutput() {}
+    open fun createVariable() {}
+    open fun checkTypes() {}
 }
 
 class SpareOutputBlock (type : String, private val included : MainOperator) : FunBlock(type) {
@@ -698,6 +778,51 @@ class IfBlock (type : String, var cond : MainOperator) : FunBlock(type) {
 
 }
 
+class WhileBlock (type : String, var cond : MainOperator) : FunBlock(type) {
+    override fun checkCond() {
+        while (cond.define()) {
+            bodyOfBlock.doBody()
+        }
+    }
+}
+
+class Init (type : String, var name: String, var typeOfVariable: String) : FunBlock(type) {
+    override fun createVariable() {
+        //println(hashMapOfVariableValues)
+        when (typeOfVariable) {
+            "Int" -> {
+                hashMapOfVariableValues.put(name, "0")
+                hashMapOfVariableTypes.put(name, "Int")
+            }
+            "String" -> {
+                hashMapOfVariableValues.put(name,"")
+                hashMapOfVariableTypes.put(name, "String")
+            }
+            "Boolean" -> {
+                hashMapOfVariableValues.put(name, "False")
+                hashMapOfVariableTypes.put(name, "Boolean")
+            }
+            else -> {
+                printToConsole("Type Error")
+            }
+        }
+        //println(hashMapOfVariableValues)
+    }
+}
+
+class Assignment (type : String, var variable: Variable, var second: MainOperator) : FunBlock(type) {
+    override fun checkTypes() {
+        if (second.type == hashMapOfVariableTypes[variable.name]) {
+            //printToConsole("Types are matched " + second.takeValue())
+            hashMapOfVariableValues[variable.name] = second.takeValue()
+            //println(hashMapOfVariableValues)
+        }
+        else {
+            //printToConsole("Types are not matched")
+        }
+    }
+}
+
 class Body() {
     val bodyInsides = mutableListOf<FunBlock>()
 
@@ -706,6 +831,9 @@ class Body() {
             when (i.type) {
                 "if" -> i.checkCond()
                 "output" -> i.doOutput()
+                "initialization" -> i.createVariable()
+                "assignment" -> i.checkTypes()
+                "while" -> i.checkCond()
             }
         }
     }
