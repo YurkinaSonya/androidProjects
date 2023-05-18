@@ -176,8 +176,39 @@ class MainActivity : AppCompatActivity() {
 
          */
 
-        //interpretator test math, logic and loop
+        //interpretator test math, logic, loop and if-else
+        /*
+        mainBody.bodyInsides.add(Init("initialization", "testVariable", "Int"))
+        val testVar = NumberVariable("Int", "NumberVariable", 2, "testVariable", hashMapOfVariableValues["testVariable"].toString())
+        val numZero = NumberValue("Int", "NumberValue", 6,"0")
+        val numOne = NumberValue("Int", "NumberValue", 0,"1")
+        val numTwo = NumberValue("Int", "NumberValue", 1,"2")
+        val numTen = NumberValue("Int", "NumberValue", 6,"10")
 
+        mainBody.bodyInsides.add(Assignment("assignment", testVar, numOne))
+        val condTest = LogicOperator("Boolean", "LogicOperator", 8, testVar, numTen, "!=")
+
+        //!!!!!
+        mainBody.bodyInsides.add(WhileBlock("while", condTest))
+        val mathOperLittle = MathOperator("Int", "MathOperator", 3, testVar, numOne, "+")
+        val mathOperCondition = MathOperator("Int", "MathOperator", 3, testVar, numTwo, "%")
+
+        val condIf = LogicOperator("Boolean", "LogicOperator", 8, mathOperCondition, numZero, "==")
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(IfBlock("if", condIf, true))
+        val messageIf = StringValue("String", "StringValue", 10, "it is in loop and in true if")
+        val messageElse = StringValue("String", "StringValue", 10, "it is in loop and in false if")
+
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", Concat("String", "Concat", 11, messageIf, ToStringOper("String", "toString", 1, testVar))))
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", Concat("String", "Concat", 11, messageElse, ToStringOper("String", "toString", 1, testVar))))
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
+        mainBody.doBody()
+        println("I finish program!!!")
+
+ */
+
+        //interpretator test math, logic and loop
+        /*
         val mainBody = Body()
         println("I create main body")
         mainBody.bodyInsides.add(SpareOutputBlock("output", StringValue("String", "StringValue", 1, "initialisation started")))
@@ -199,6 +230,10 @@ class MainActivity : AppCompatActivity() {
         mainBody.bodyInsides[5].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
         mainBody.doBody()
         println("I finish program!!!")
+
+         */
+
+
         //interpretator test math and logic
         /*
         val numOne = NumberValue("Int", "NumberValue", 0,"1")
@@ -215,7 +250,7 @@ class MainActivity : AppCompatActivity() {
         val ineqTest = LogicOperator("Boolean", "LogicOperator", 7, mathOperMain, numTen, ">")
         val eqTest = LogicOperator("Boolean", "LogicOperator", 8, mathOperLittle, numThree, "==")
         val condTest = Logic("Boolean", "Logic", 9, ineqTest, eqTest, "and")
-        mainBody.bodyInsides.add(IfBlock("if", condTest))
+        mainBody.bodyInsides.add(IfBlock("if", condTest, false))
         val message = StringValue("String", "StringValue", 10, "I check this condition!!!!")
         mainBody.bodyInsides[1].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", message))
         mainBody.doBody()
@@ -223,32 +258,6 @@ class MainActivity : AppCompatActivity() {
 
          */
 
-
-        //interpretator test base
-        /*
-        println("I create main body")
-        mainBody.bodyInsides.add(SpareOutputBlock("output", "first"))
-        mainBody.bodyInsides.add(SpareOutputBlock("output", "second"))
-        mainBody.bodyInsides.add(IfBlock("if", true))
-        println("I add first part to main body")
-        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", "firstInIf"))
-        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(
-            SpareOutputBlock(
-                "output",
-                "firstInSecond"
-            )
-        )
-        println("i add all to if body")
-        mainBody.bodyInsides.add(SpareOutputBlock("output", "thirst"))
-        println("i add all to main body and gonna to start program")
-        mainBody.doBody()
-        println("i finish program!!!")
-        println("now im gonna to add new thing")
-        mainBody.bodyInsides.add(1, SpareOutputBlock("output", "firstButAddedOn2String"))
-        println("i add it and gonna to start program")
-        mainBody.doBody()
-        println("i finish program again!!!")
-        */
 
     }
     /*
@@ -678,7 +687,7 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
     }
 }
 
-abstract class Value (type : String, typeOfBlock : String, id: Int, val value : String) : Block (type, typeOfBlock, id) {
+abstract class Value (type : String, typeOfBlock : String, id: Int, var value : String) : Block (type, typeOfBlock, id) {
 
 }
 
@@ -715,9 +724,7 @@ class StringValue (type : String, typeOfBlock : String, id: Int, value : String)
     }
 }
 
-abstract class Variable (type : String, typeOfBlock : String, id: Int, val value : String, val name: String) : Block (type, typeOfBlock, id) {
-
-}
+abstract class Variable (type : String, typeOfBlock : String, id: Int, var value : String, val name: String) : Block (type, typeOfBlock, id) {}
 
 class BooleanVariable (type : String, typeOfBlock : String, id: Int, name: String, value : String) : Variable (type, typeOfBlock, id, value, name) {
     override fun define(): Boolean {
@@ -757,6 +764,7 @@ class StringVariable (type : String, typeOfBlock : String, id: Int, name: String
 
 abstract class FunBlock (val type : String) {
     val bodyOfBlock = Body()
+    val secondBodyOfBlock = Body()
     open fun checkCond() {}
     open fun doOutput() {}
     open fun createVariable() {}
@@ -769,10 +777,15 @@ class SpareOutputBlock (type : String, private val included : MainOperator) : Fu
     }
 }
 
-class IfBlock (type : String, var cond : MainOperator) : FunBlock(type) {
+class IfBlock (type : String, var cond : MainOperator, var haveElse : Boolean) : FunBlock(type) {
     override fun checkCond() {
         if (cond.define()) {
             bodyOfBlock.doBody()
+        }
+        else {
+            if (haveElse) {
+                secondBodyOfBlock.doBody()
+            }
         }
     }
 
@@ -815,6 +828,7 @@ class Assignment (type : String, var variable: Variable, var second: MainOperato
         if (second.type == hashMapOfVariableTypes[variable.name]) {
             //printToConsole("Types are matched " + second.takeValue())
             hashMapOfVariableValues[variable.name] = second.takeValue()
+            variable.value = second.takeValue()
             //println(hashMapOfVariableValues)
         }
         else {
