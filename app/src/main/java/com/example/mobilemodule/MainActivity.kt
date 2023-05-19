@@ -37,17 +37,20 @@ class MyDialogFragment : DialogFragment() {
 }
  */
 
-
+var hashMapOfVariableValues : HashMap<String, String> = HashMap<String, String>()
+var hashMapOfVariableTypes : HashMap<String, String> = HashMap<String, String>()
 var hashMapOfVariable : HashMap<String, VariableData> = HashMap<String, VariableData>()
 
 fun HashMap<String, VariableData>.getValue (key : String) : VariableData {
-    return this[key]?:VariableData("", "")
+    return this[key]?:throw IllegalArgumentException()
 }
 
 class MainActivity : AppCompatActivity() {
     val mainBody = Body()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //hashMapOfVariable["a"] = VariableData("Int", "0")
+        //var testStr = hashMapOfVariable["a"]?.value?:return
 
 
         super.onCreate(savedInstanceState)
@@ -189,7 +192,7 @@ class MainActivity : AppCompatActivity() {
         //interpretator test math, logic, loop and if-else
 
         mainBody.bodyInsides.add(Init("initialization", "testVariable", "Int"))
-        val testVar = NumberVariable("Int", "NumberVariable", 2, "testVariable", hashMapOfVariable.getValue("testVariable").value)
+        val testVar = NumberVariable("Int", "NumberVariable", 2, "testVariable", hashMapOfVariableValues["testVariable"].toString())
         val numZero = NumberValue("Int", "NumberValue", 6,"0")
         val numOne = NumberValue("Int", "NumberValue", 0,"1")
         val numTwo = NumberValue("Int", "NumberValue", 1,"2")
@@ -346,7 +349,7 @@ fun printToConsole (included: String) {
     println("Console: " + included)
 }
 
-data class VariableData (var type: String, var value: String) {}
+data class VariableData (val type: String, val value: String) {}
 
 abstract class MainOperator (val type : String, val typeOfBlock : String, val id: Int) {
     open fun define(): Boolean {return false}
@@ -739,7 +742,7 @@ class BooleanVariable (type : String, typeOfBlock : String, id: Int, name: Strin
         return value.toBoolean()
     }
     override fun takeValue(): String {
-        return hashMapOfVariable.getValue(name).value
+        return hashMapOfVariableValues[name].toString()
     }
 }
 
@@ -751,7 +754,7 @@ class NumberVariable (type : String, typeOfBlock : String, id: Int, name: String
         }
     }
     override fun takeValue(): String {
-        return hashMapOfVariable.getValue(name).value
+        return hashMapOfVariableValues[name].toString()
     }
 }
 
@@ -763,7 +766,7 @@ class StringVariable (type : String, typeOfBlock : String, id: Int, name: String
         }
     }
     override fun takeValue(): String {
-        return hashMapOfVariable.getValue(name).value
+        return hashMapOfVariableValues[name].toString()
     }
 }
 
@@ -812,13 +815,16 @@ class Init (type : String, var name: String, var typeOfVariable: String) : FunBl
         //println(hashMapOfVariableValues)
         when (typeOfVariable) {
             "Int" -> {
-                hashMapOfVariable[name] = VariableData("0","Int")
+                hashMapOfVariableValues.put(name, "0")
+                hashMapOfVariableTypes.put(name, "Int")
             }
             "String" -> {
-                hashMapOfVariable[name] = VariableData("","String")
+                hashMapOfVariableValues.put(name,"")
+                hashMapOfVariableTypes.put(name, "String")
             }
             "Boolean" -> {
-                hashMapOfVariable[name] = VariableData("False","Boolean")
+                hashMapOfVariableValues.put(name, "False")
+                hashMapOfVariableTypes.put(name, "Boolean")
             }
             else -> {
                 printToConsole("Type Error")
@@ -830,20 +836,18 @@ class Init (type : String, var name: String, var typeOfVariable: String) : FunBl
 
 class Assignment (type : String, var variable: Variable, var second: MainOperator) : FunBlock(type) {
     override fun checkTypes() {
-        if (second.type == hashMapOfVariable.getValue(variable.name).type) {
+        if (second.type == hashMapOfVariableTypes[variable.name]) {
             //printToConsole("Types are matched " + second.takeValue())
-            hashMapOfVariable[variable.name] = VariableData(second.type, second.takeValue())
+            hashMapOfVariableValues[variable.name] = second.takeValue()
             variable.value = second.takeValue()
             //println(hashMapOfVariableValues)
         }
         else {
-            printToConsole("Types are not matched")
+            //printToConsole("Types are not matched")
         }
     }
 }
 
-//hashMapOfVariable["a"] = VariableData("Int", "0")
-//var testStr = hashMapOfVariable["a"]?.value?:return
 class Body() {
     val bodyInsides = mutableListOf<FunBlock>()
 
