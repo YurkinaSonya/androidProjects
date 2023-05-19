@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.Toast
 import com.example.mobilemodule.databinding.ActivityMainBinding
+import java.lang.IllegalArgumentException
 
 
 //i change it and you can see it
@@ -36,12 +37,19 @@ class MyDialogFragment : DialogFragment() {
 }
  */
 
-var hashMapOfVariableValues : HashMap<String, String> = HashMap<String, String>()
-var hashMapOfVariableTypes : HashMap<String, String> = HashMap<String, String>()
+
+var hashMapOfVariable : HashMap<String, VariableData> = HashMap<String, VariableData>()
+
+fun HashMap<String, VariableData>.getValue (key : String) : VariableData {
+    return this[key]?:VariableData("", "")
+}
+
 class MainActivity : AppCompatActivity() {
     val mainBody = Body()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -176,36 +184,34 @@ class MainActivity : AppCompatActivity() {
 
          */
 
+
+
         //interpretator test math, logic, loop and if-else
-        /*
+
         mainBody.bodyInsides.add(Init("initialization", "testVariable", "Int"))
-        val testVar = NumberVariable("Int", "NumberVariable", 2, "testVariable", hashMapOfVariableValues["testVariable"].toString())
+        val testVar = NumberVariable("Int", "NumberVariable", 2, "testVariable", hashMapOfVariable.getValue("testVariable").value)
         val numZero = NumberValue("Int", "NumberValue", 6,"0")
         val numOne = NumberValue("Int", "NumberValue", 0,"1")
         val numTwo = NumberValue("Int", "NumberValue", 1,"2")
         val numTen = NumberValue("Int", "NumberValue", 6,"10")
-
         mainBody.bodyInsides.add(Assignment("assignment", testVar, numOne))
         val condTest = LogicOperator("Boolean", "LogicOperator", 8, testVar, numTen, "!=")
-
-        //!!!!!
         mainBody.bodyInsides.add(WhileBlock("while", condTest))
         val mathOperLittle = MathOperator("Int", "MathOperator", 3, testVar, numOne, "+")
         val mathOperCondition = MathOperator("Int", "MathOperator", 3, testVar, numTwo, "%")
-
         val condIf = LogicOperator("Boolean", "LogicOperator", 8, mathOperCondition, numZero, "==")
         mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(IfBlock("if", condIf, true))
-        val messageIf = StringValue("String", "StringValue", 10, "it is in loop and in true if")
-        val messageElse = StringValue("String", "StringValue", 10, "it is in loop and in false if")
-
+        val messageIf = StringValue("String", "StringValue", 10, "it is in loop and in true if: ")
+        val messageElse = StringValue("String", "StringValue", 10, "it is in loop and in false if: ")
         mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", Concat("String", "Concat", 11, messageIf, ToStringOper("String", "toString", 1, testVar))))
-        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
-        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", Concat("String", "Concat", 11, messageElse, ToStringOper("String", "toString", 1, testVar))))
-        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].secondBodyOfBlock.bodyInsides.add(SpareOutputBlock("output", Concat("String", "Concat", 11, messageElse, ToStringOper("String", "toString", 1, testVar))))
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
         mainBody.doBody()
         println("I finish program!!!")
 
- */
+
+
+
 
         //interpretator test math, logic and loop
         /*
@@ -230,8 +236,8 @@ class MainActivity : AppCompatActivity() {
         mainBody.bodyInsides[5].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
         mainBody.doBody()
         println("I finish program!!!")
+        */
 
-         */
 
 
         //interpretator test math and logic
@@ -339,6 +345,8 @@ class MainActivity : AppCompatActivity() {
 fun printToConsole (included: String) {
     println("Console: " + included)
 }
+
+data class VariableData (var type: String, var value: String) {}
 
 abstract class MainOperator (val type : String, val typeOfBlock : String, val id: Int) {
     open fun define(): Boolean {return false}
@@ -731,7 +739,7 @@ class BooleanVariable (type : String, typeOfBlock : String, id: Int, name: Strin
         return value.toBoolean()
     }
     override fun takeValue(): String {
-        return hashMapOfVariableValues[name].toString()
+        return hashMapOfVariable.getValue(name).value
     }
 }
 
@@ -743,7 +751,7 @@ class NumberVariable (type : String, typeOfBlock : String, id: Int, name: String
         }
     }
     override fun takeValue(): String {
-        return hashMapOfVariableValues[name].toString()
+        return hashMapOfVariable.getValue(name).value
     }
 }
 
@@ -755,7 +763,7 @@ class StringVariable (type : String, typeOfBlock : String, id: Int, name: String
         }
     }
     override fun takeValue(): String {
-        return hashMapOfVariableValues[name].toString()
+        return hashMapOfVariable.getValue(name).value
     }
 }
 
@@ -804,16 +812,13 @@ class Init (type : String, var name: String, var typeOfVariable: String) : FunBl
         //println(hashMapOfVariableValues)
         when (typeOfVariable) {
             "Int" -> {
-                hashMapOfVariableValues.put(name, "0")
-                hashMapOfVariableTypes.put(name, "Int")
+                hashMapOfVariable[name] = VariableData("0","Int")
             }
             "String" -> {
-                hashMapOfVariableValues.put(name,"")
-                hashMapOfVariableTypes.put(name, "String")
+                hashMapOfVariable[name] = VariableData("","String")
             }
             "Boolean" -> {
-                hashMapOfVariableValues.put(name, "False")
-                hashMapOfVariableTypes.put(name, "Boolean")
+                hashMapOfVariable[name] = VariableData("False","Boolean")
             }
             else -> {
                 printToConsole("Type Error")
@@ -825,18 +830,20 @@ class Init (type : String, var name: String, var typeOfVariable: String) : FunBl
 
 class Assignment (type : String, var variable: Variable, var second: MainOperator) : FunBlock(type) {
     override fun checkTypes() {
-        if (second.type == hashMapOfVariableTypes[variable.name]) {
+        if (second.type == hashMapOfVariable.getValue(variable.name).type) {
             //printToConsole("Types are matched " + second.takeValue())
-            hashMapOfVariableValues[variable.name] = second.takeValue()
+            hashMapOfVariable[variable.name] = VariableData(second.type, second.takeValue())
             variable.value = second.takeValue()
             //println(hashMapOfVariableValues)
         }
         else {
-            //printToConsole("Types are not matched")
+            printToConsole("Types are not matched")
         }
     }
 }
 
+//hashMapOfVariable["a"] = VariableData("Int", "0")
+//var testStr = hashMapOfVariable["a"]?.value?:return
 class Body() {
     val bodyInsides = mutableListOf<FunBlock>()
 
