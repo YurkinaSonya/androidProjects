@@ -39,16 +39,17 @@ class MyDialogFragment : DialogFragment() {
 
 var hashMapOfVariableValues : HashMap<String, String> = HashMap<String, String>()
 var hashMapOfVariableTypes : HashMap<String, String> = HashMap<String, String>()
-var hashMapOfVariable : HashMap<String, VariableData> = HashMap<String, VariableData>()
-
+//var hashMapOfVariable : HashMap<String, VariableData> = HashMap<String, VariableData>()
+val mainBody = Body()
 fun HashMap<String, VariableData>.getValue (key : String) : VariableData {
     return this[key]?:throw IllegalArgumentException()
 }
 
-class MainActivity : AppCompatActivity() {
-    val mainBody = Body()
 
+class MainActivity : AppCompatActivity() {
+    var indCount = 0
     override fun onCreate(savedInstanceState: Bundle?) {
+
         //hashMapOfVariable["a"] = VariableData("Int", "0")
         //var testStr = hashMapOfVariable["a"]?.value?:return
 
@@ -105,13 +106,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val plt = binding.plt
-        val list = binding.listOfBlocks
+        val plt = binding.linLayoutPlt
+        val list = binding.linLayoutList
 
-        val block = binding.coutBlock
-        block.setOnLongClickListener() {
-            println("YEEEE")
-            val checkText = "Yepppp"
+        val blockCout = binding.coutBlock
+        blockCout.setOnLongClickListener() {
+            val checkText = "Cout"
             val item = ClipData.Item(checkText)
             val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
             val data = ClipData(checkText, mimeTypes, item)
@@ -119,10 +119,10 @@ class MainActivity : AppCompatActivity() {
             it.startDragAndDrop(data, dragShadowBuilder, it, 0)
             true
         }
-        val block2 = binding.plusBlock
-        block2.setOnLongClickListener() {
-            println("YEEEE")
-            val checkText = "Yepppp"
+        /*
+        val blockMath = binding.mathOper
+        blockMath.setOnLongClickListener() {
+            val checkText = "Plus"
             val item = ClipData.Item(checkText)
             val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
             val data = ClipData(checkText, mimeTypes, item)
@@ -130,8 +130,53 @@ class MainActivity : AppCompatActivity() {
             it.startDragAndDrop(data, dragShadowBuilder, it, 0)
             true
         }
-        list.setOnDragListener(dragListener)
-        plt.setOnDragListener(dragListener)
+         */
+        val blockIf = binding.ifBlock
+        blockIf.setOnLongClickListener() {
+            val checkText = "If"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val blockWhile = binding.whileBlock
+        blockWhile.setOnLongClickListener() {
+            val checkText = "While"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val blockInit = binding.initBlock
+        blockInit.setOnLongClickListener() {
+            val checkText = "Init"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val blockAss = binding.assBlock
+        blockAss.setOnLongClickListener() {
+            val checkText = "Ass"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+
+        list.setOnDragListener(dragListenerDelete)
+        plt.setOnDragListener(dragListenerPlt)
+
+        val btn = binding.buttonInter
+        btn.setOnClickListener(interpreter)
 
         //val bindingNew = FunBlockOutputBinding.inflate(layoutInflater)
 
@@ -190,30 +235,6 @@ class MainActivity : AppCompatActivity() {
 
 
         //interpretator test math, logic, loop and if-else
-
-        mainBody.bodyInsides.add(Init("initialization", "testVariable", "Int"))
-        val testVar = NumberVariable("Int", "NumberVariable", 2, "testVariable", hashMapOfVariableValues["testVariable"].toString())
-        val numZero = NumberValue("Int", "NumberValue", 6,"0")
-        val numOne = NumberValue("Int", "NumberValue", 0,"1")
-        val numTwo = NumberValue("Int", "NumberValue", 1,"2")
-        val numTen = NumberValue("Int", "NumberValue", 6,"10")
-        mainBody.bodyInsides.add(Assignment("assignment", testVar, numOne))
-        val condTest = LogicOperator("Boolean", "LogicOperator", 8, testVar, numTen, "!=")
-        mainBody.bodyInsides.add(WhileBlock("while", condTest))
-        val mathOperLittle = MathOperator("Int", "MathOperator", 3, testVar, numOne, "+")
-        val mathOperCondition = MathOperator("Int", "MathOperator", 3, testVar, numTwo, "%")
-        val condIf = LogicOperator("Boolean", "LogicOperator", 8, mathOperCondition, numZero, "==")
-        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(IfBlock("if", condIf, true))
-        val messageIf = StringValue("String", "StringValue", 10, "it is in loop and in true if: ")
-        val messageElse = StringValue("String", "StringValue", 10, "it is in loop and in false if: ")
-        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", Concat("String", "Concat", 11, messageIf, ToStringOper("String", "toString", 1, testVar))))
-        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].secondBodyOfBlock.bodyInsides.add(SpareOutputBlock("output", Concat("String", "Concat", 11, messageElse, ToStringOper("String", "toString", 1, testVar))))
-        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
-        mainBody.doBody()
-        println("I finish program!!!")
-
-
-
 
 
         //interpretator test math, logic and loop
@@ -283,8 +304,17 @@ class MainActivity : AppCompatActivity() {
     }
 
      */
+    fun addBlockToList(blockName : String) {
+        println("Im gonna to add block " + blockName)
+        when (blockName) {
+            "Cout" -> {
+                mainBody.bodyInsides.add(SpareOutputBlock("output", StringValue("String", "StringValue", indCount, "testOutput")))
 
-    val dragListener = View.OnDragListener() { view, event ->
+            }
+        }
+        indCount += 1
+    }
+    val dragListenerPlt = View.OnDragListener() { view, event ->
         when (event.action) {
             DragEvent.ACTION_DRAG_STARTED -> {
                 println("Up")
@@ -312,13 +342,20 @@ class MainActivity : AppCompatActivity() {
                 val dragData = item.text
                 Toast.makeText(this, "Dragged data is $dragData", Toast.LENGTH_LONG).show()
 
-                val v = event.localState as LinearLayout
-                val owner = v.parent as LinearLayout
+                //val v = event.localState as View
+                //val owner = v.parent as ViewGroup
                 //owner.removeView(v)
                 //val vNew = LayoutInflater.from(this).inflate(v, null) as View
                 //ask about copy View
-                //val dest = view as ScrollView
+                //val dest = view as ViewGroup
                 //dest.addView(v)
+                if (dragData.toString() != "move") {
+                    println(dragData.toString())
+                    build(dragData.toString())
+                    //addBlockToList(dragData.toString())
+                }
+
+
 
                 true
             }
@@ -342,7 +379,115 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    val dragListenerDelete = View.OnDragListener() { view, event ->
+        when (event.action) {
+            DragEvent.ACTION_DRAG_STARTED -> {
+                println("Up")
+                event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            }
+
+            DragEvent.ACTION_DRAG_ENTERED -> {
+                println("In")
+                true
+            }
+
+            DragEvent.ACTION_DRAG_LOCATION -> {
+                println("Loc")
+                true
+            }
+
+            DragEvent.ACTION_DRAG_EXITED -> {
+                println("Exit")
+                true
+            }
+
+            DragEvent.ACTION_DROP -> {
+                println("Drop")
+                val item: ClipData.Item = event.clipData.getItemAt(0)
+                val dragData = item.text
+                Toast.makeText(this, "Dragged data is $dragData", Toast.LENGTH_LONG).show()
+                if (dragData.toString() == "move") {
+                    val v = event.localState as View
+                    val owner = v.parent as ViewGroup
+                    owner.removeView(v)
+                    //addBlockToList(dragData.toString())
+                }
+
+
+                true
+            }
+
+            DragEvent.ACTION_DRAG_ENDED -> {
+                println("End")
+                //println(event.getLocalState())
+                when (event.result) {
+                    true ->
+                        Toast.makeText(this, "The drop was handled.", Toast.LENGTH_LONG)
+
+                    else ->
+                        Toast.makeText(this, "The drop didn't work.", Toast.LENGTH_LONG)
+                }.show()
+                true
+            }
+
+            else -> {
+                println("Noooo(")
+                false
+            }
+        }
+    }
+
+    val interpreter = View.OnClickListener () {
+
+        mainBody.bodyInsides.clear()
+        mainBody.bodyInsides.add(Init("initialization", "testVariable", "Int"))
+        val testVar = NumberVariable("Int", "NumberVariable", 2, "testVariable", hashMapOfVariableValues["testVariable"].toString())
+        val numZero = NumberValue("Int", "NumberValue", 6,"0")
+        val numOne = NumberValue("Int", "NumberValue", 0,"1")
+        val numTwo = NumberValue("Int", "NumberValue", 1,"2")
+        val numTen = NumberValue("Int", "NumberValue", 6,"10")
+        mainBody.bodyInsides.add(Assignment("assignment", testVar, numOne))
+        val condTest = LogicOperator("Boolean", "LogicOperator", 8, testVar, numTen, "!=")
+        mainBody.bodyInsides.add(WhileBlock("while", condTest))
+        val mathOperLittle = MathOperator("Int", "MathOperator", 3, testVar, numOne, "+")
+        val mathOperCondition = MathOperator("Int", "MathOperator", 3, testVar, numTwo, "%")
+        val condIf = LogicOperator("Boolean", "LogicOperator", 8, mathOperCondition, numZero, "==")
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(IfBlock("if", condIf, true))
+        val messageIf = StringValue("String", "StringValue", 10, "it is in loop and in true if: ")
+        val messageElse = StringValue("String", "StringValue", 10, "it is in loop and in false if: ")
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(SpareOutputBlock("output", Concat("String", "Concat", 11, messageIf, ToStringOper("String", "toString", 1, testVar))))
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].secondBodyOfBlock.bodyInsides.add(SpareOutputBlock("output", Concat("String", "Concat", 11, messageElse, ToStringOper("String", "toString", 1, testVar))))
+        mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
+        mainBody.doBody()
+        println("I finish program!!!")
+    }
+
+    fun build(name : String) {
+        var view = layoutInflater.inflate(R.layout.cout_block, null) as View
+        when (name) {
+            "Cout" -> {
+                view = layoutInflater.inflate(R.layout.cout_block, null) as View
+            }
+            "Init" -> {
+                view = layoutInflater.inflate(R.layout.initialization_block, null) as View
+            }
+        }
+        val blockCout = view.findViewById<LinearLayout>(R.id.coutBlockInPlt)
+        val layout = findViewById<LinearLayout>(R.id.linLayoutPlt)
+        view.setOnLongClickListener() {
+            val checkText = "move"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        layout.addView(view)
+    }
 }
+
+
 
 
 fun printToConsole (included: String) {
@@ -782,7 +927,7 @@ abstract class FunBlock (val type : String) {
     open fun checkTypes() {}
 }
 
-class SpareOutputBlock (type : String, private val included : MainOperator) : FunBlock(type) {
+class SpareOutputBlock (type : String, private var included : MainOperator) : FunBlock(type) {
     override fun doOutput () {
         printToConsole(included.valueToString())
     }

@@ -63,7 +63,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/plusBlock"
+                android:id="@+id/ifBlock"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,6 +72,134 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/shape_for_fun_block">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="if"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/whileBlock"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_fun_block">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="while"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/initBlock"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_fun_block">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="type"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="name"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/assBlock"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_fun_block">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="name ="
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mathOper"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
                 >
                 <View
                     android:layout_width="50dp"
@@ -86,6 +214,107 @@
                     android:layout_height="wrap_content"
                     android:text="+"
                     android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/concatOper"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
+                >
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="''"
+                    android:textSize="30dp"
+                    android:background="@drawable/shape_for_main_operator">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="''"
+                        android:textSize="30dp"
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+                <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="''"
+                        android:textSize="30dp"
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/logicOper"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
+                >
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="and"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:textColor="@color/white"/>
                 <View
                     android:layout_width="50dp"
@@ -98,183 +327,315 @@
 
             </LinearLayout>
 
-            <!--
-
-            <View
-                android:id="@+id/block1"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
+            <LinearLayout
+                android:id="@+id/ireqOper"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/shape_for_fun_block">
-
+                android:background="@drawable/shape_for_main_operator">
+                >
                 <View
-                    android:id="@+id/blockInBlock"
-                    android:layout_width="80dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:background="@drawable/shape_for_main_operator">
-                </View>
-            </View>
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/less"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
 
-            <View
-                android:id="@+id/block2"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/negNum"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/shape_for_main_operator">
-            </View>
+                >
 
-            <View
-                android:id="@+id/block3"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/purple">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
 
-            </View>
+            </LinearLayout>
 
-            <View
-                android:id="@+id/block4"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/orange">
+            <LinearLayout
+                android:id="@+id/negBool"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
+                >
 
-            </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="not"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
 
-            <View
-                android:id="@+id/block5"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/greenB">
+            </LinearLayout>
 
-            </View>
+            <LinearLayout
+                android:id="@+id/toStr"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
+                >
 
-            <View
-                android:id="@+id/block6"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/purple">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="to string"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/shape_for_main_operator"/>
 
-            </View>
+            </LinearLayout>
 
-            <View
-                android:id="@+id/block7"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/orange">
+            <LinearLayout
+                android:id="@+id/stringValueOper"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
 
-            </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="''"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
 
-            <View
-                android:id="@+id/block8"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/greenB">
+            <LinearLayout
+                android:id="@+id/numValueOper"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
 
-            </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
 
-            <View
-                android:id="@+id/block9"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/purple">
+            <LinearLayout
+                android:id="@+id/boolValueOper"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
 
-            </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="False"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
 
-            <View
-                android:id="@+id/block10"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/orange">
+            <LinearLayout
+                android:id="@+id/stringVariableOper"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
 
-            </View>
-            <View
-                android:id="@+id/block11"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:background="@color/greenB"
-                android:layout_marginBottom="10dp">
-            </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="str"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
 
-            <View
-                android:id="@+id/block12"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:background="@color/purple"
-                android:layout_marginBottom="10dp">
-            </View>
-            <View
-                android:id="@+id/block13"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:background="@color/purple"
-                android:layout_marginBottom="10dp">
-            </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="name"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
 
-            <View
-                android:id="@+id/block14"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:background="@color/orange"
-                android:layout_marginBottom="10dp">
-            </View>
+            <LinearLayout
+                android:id="@+id/numVariableOper"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
 
-            <View
-                android:id="@+id/block15"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:background="@color/greenB"
-                android:layout_marginBottom="10dp">
-            </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="int"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
 
-            <View
-                android:id="@+id/block16"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:background="@color/purple"
-                android:layout_marginBottom="10dp">
-            </View>
-            <View
-                android:id="@+id/block17"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:background="@color/purple"
-                android:layout_marginBottom="10dp">
-            </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="name"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
 
-            <View
-                android:id="@+id/block18"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:background="@color/orange"
-                android:layout_marginBottom="10dp">
-            </View>
+            <LinearLayout
+                android:id="@+id/boolVariableOper"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/shape_for_main_operator">
 
-            <View
-                android:id="@+id/block19"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:background="@color/greenB"
-                android:layout_marginBottom="10dp">
-            </View>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="bool"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
 
-            <View
-                android:id="@+id/block20"
-                android:layout_width="150dp"
-                android:layout_height="80dp"
-                android:background="@color/purple"
-                android:layout_marginBottom="10dp">
-            </View>
-            -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="name"
+                    android:textSize="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/white"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <View
@@ -326,6 +687,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+    <Button
+        android:id="@+id/buttonInter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/buf"
+        android:text="Interpretate"
+        android:textColor="@color/white"
+        />
     <ScrollView
         android:id="@+id/listForBuf"
         android:layout_width="0dp"
