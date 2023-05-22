@@ -1,12 +1,54 @@
 <resources>
     <string name="app_name">MobileModule</string>
     <string name="less">&#60;</string>
-    <string name="greater">&#62;</string>
-    <string name="lessOrEq">&#60;=</string>
-    <string name="greaterOrEq">&#62;=</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="not">not</string>
+    <string name="and">and</string>
+    <string name="toStr">to string</string>
+    <string name="doubleQuotes">&#34;</string>
+    <string name="twoDoubleQuotes">&#34;&#34;</string>
+    <string name="cout">output</string>
+    <string name="ifBlock">if</string>
+    <string name="elseBlock">else</string>
+    <string name="whileBlock">while</string>
+    <string name="eq">=</string>
+    <string name="name">name</string>
+    <string name="type">type</string>
+    <string name="defVNum">0</string>
+    <string name="defVStr">&#34; &#34;</string>
+    <string name="defVBool">False</string>
+    <string name="typeVNum">int</string>
+    <string name="typeVStr">str</string>
+    <string name="typeVBool">bool</string>
+    <string name="openFigure">{</string>
+    <string name="closeFigure">}</string>
+
+
+
     <string-array name="types">
         <item>Int</item>
         <item>String</item>
         <item>Boolean</item>
     </string-array>
+    <string-array name="mathOperations">
+        <item>+</item>
+        <item>-</item>
+        <item>*</item>
+        <item>/</item>
+        <item>%</item>
+    </string-array>
+    <string-array name="logicOperations">
+        <item>and</item>
+        <item>or</item>
+    </string-array>
+    <string-array name="ireqOperations">
+        <item>&#60;</item>
+        <item>&#62;</item>
+        <item>&#60;=</item>
+        <item>&#62;=</item>
+        <item>==</item>
+        <item>!=</item>
+    </string-array>
+
 </resources>

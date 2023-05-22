@@ -4,24 +4,41 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/coutBlockInPlt"
+        android:id="@+id/concatOperInPlt"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:gravity="center"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/shape_for_fun_block">
+        android:layout_marginBottom="5dp">
+
+        <LinearLayout
+            android:id="@+id/concatOperFirst"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/shape_for_main_operator"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cout"
+            android:text="@string/plus"
             android:textSize="30sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:textColor="@color/white"/>
+
         <LinearLayout
-            android:id="@+id/coutBlockOper"
+            android:id="@+id/concatOperSecond"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
