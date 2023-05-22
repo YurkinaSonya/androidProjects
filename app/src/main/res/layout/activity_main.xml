@@ -224,6 +224,7 @@
 
             <LinearLayout
                 android:id="@+id/mathOper"
+                android:transitionName="Int"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -270,6 +271,7 @@
 
             <LinearLayout
                 android:id="@+id/concatOper"
+                android:transitionName="String"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -325,6 +327,7 @@
 
             <LinearLayout
                 android:id="@+id/toStr"
+                android:transitionName="String"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -365,6 +368,7 @@
 
             <LinearLayout
                 android:id="@+id/logicOper"
+                android:transitionName="Bool"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -405,6 +409,7 @@
 
             <LinearLayout
                 android:id="@+id/ireqOper"
+                android:transitionName="Bool"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -452,6 +457,7 @@
 
             <LinearLayout
                 android:id="@+id/negNum"
+                android:transitionName="Int"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -484,6 +490,7 @@
 
             <LinearLayout
                 android:id="@+id/negBool"
+                android:transitionName="Bool"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -525,6 +532,7 @@
 
             <LinearLayout
                 android:id="@+id/stringValueOper"
+                android:transitionName="String"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -548,6 +556,7 @@
 
             <LinearLayout
                 android:id="@+id/numValueOper"
+                android:transitionName="Int"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -602,6 +611,7 @@
 
             <LinearLayout
                 android:id="@+id/stringVariableOper"
+                android:transitionName="String"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -636,6 +646,7 @@
 
             <LinearLayout
                 android:id="@+id/numVariableOper"
+                android:transitionName="Int"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -670,6 +681,7 @@
 
             <LinearLayout
                 android:id="@+id/boolVariableOper"
+                android:transitionName="Bool"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

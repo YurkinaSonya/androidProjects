@@ -37,6 +37,8 @@
 
             <LinearLayout
                 android:id="@+id/whileCondOper"
+                android:orientation="horizontal"
+                android:transitionName="All"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

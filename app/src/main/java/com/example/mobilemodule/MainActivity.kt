@@ -502,33 +502,52 @@ class MainActivity : AppCompatActivity() {
                 if (list[0] != "move") {
                     if (list[0] == "oper") {
                         val vCheck = event.localState as View
-                        println(vCheck.transitionName + " " + dest.transitionName)
-                        if (vCheck.transitionName == dest.transitionName) {
+                        //println(vCheck.transitionName + " " + dest.transitionName)
+                        if (vCheck.transitionName == dest.transitionName && dest.transitionName != "All") {
                             if (dest.childCount != 0) {
                                 //dest.removeAllViews()
                                 val v = dest.getChildAt(0) as View
                                 val owner = v.parent as ViewGroup
                                 owner.removeView(v)
-                                println("i cant do it")
+                                //println("i cant do it")
                             }
-                            printToConsole("all is okay")
+                            //printToConsole("all is okay")
                             build(blockName, dest)
                         }
                         else {
-                            printToConsole("type mistake")
+                            if (dest.transitionName == "All") {
+                                if (dest.childCount != 0) {
+                                    //dest.removeAllViews()
+                                    val v = dest.getChildAt(0) as View
+                                    val owner = v.parent as ViewGroup
+                                    owner.removeView(v)
+                                    //println("i cant do it")
+                                }
+                                //printToConsole("all is okay")
+                                build(blockName, dest)
+                            }
                         }
 
                     }
                 }
                 else {
                     if (list[1] == "oper") {
-                        if(dest.childCount == 0) {
-                            println("i can do it move")
-                            val v = event.localState as View
-                            val owner = v.parent as ViewGroup
-                            owner.removeView(v)
-                            println(view)
-                            dest.addView(v)
+                        val v = event.localState as View
+                        if (v.transitionName == dest.transitionName && dest.transitionName != "All") {
+                            if(dest.childCount == 0) {
+                                val owner = v.parent as ViewGroup
+                                owner.removeView(v)
+                                dest.addView(v)
+                            }
+                        }
+                        else {
+                            if (dest.transitionName == "All") {
+                                if(dest.childCount == 0) {
+                                    val owner = v.parent as ViewGroup
+                                    owner.removeView(v)
+                                    dest.addView(v)
+                                }
+                            }
                         }
                     }
                 }
@@ -763,11 +782,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
         dest.addView(view)
-        //println("this is block that i add")
-        //println(view)
-        //println("and dest:")
-        //println(dest)
-        //addBlockToList(name)
     }
 
 }
@@ -1091,7 +1105,7 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
                 str1 = first.takeValue()
             }
             else -> {
-                printToConsole("value1 " + "Cancat operand Error")
+                printToConsole("value1 " + "Concat operand Error")
             }
         }
         when (second.typeOfBlock) {
@@ -1110,7 +1124,7 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
                 str2 = second.takeValue()
             }
             else -> {
-                printToConsole("value2 " + "Cancat operand Error")
+                printToConsole("value2 " + "Concat operand Error")
             }
         }
         return str1 + str2

@@ -28,6 +28,7 @@
             android:textColor="@color/white"/>
         <LinearLayout
             android:orientation="horizontal"
+            android:transitionName="All"
             android:id="@+id/assigOper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

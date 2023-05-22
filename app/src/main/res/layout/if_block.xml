@@ -40,7 +40,7 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:transitionName="Bool"
+                android:transitionName="All"
                 android:id="@+id/ifCondOper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textColor="@color/white"/>
-
+<!--
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:backgroundTint="@color/orange"/>
+                android:backgroundTint="@color/orange"/> -->
         </LinearLayout>
 
         <LinearLayout
@@ -139,7 +139,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:textColor="@color/white"/>
-
+<!--
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:backgroundTint="@color/orange"/>
+                android:backgroundTint="@color/orange"/> -->
         </LinearLayout>
 
         <LinearLayout
