@@ -91,7 +91,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/darkGrey"
                     android:background="@drawable/shape_for_spinner"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -571,6 +571,7 @@
 
             <LinearLayout
                 android:id="@+id/boolValueOper"
+                android:transitionName="Bool"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -763,11 +764,12 @@
         android:text="Interpretate"
         android:textColor="@color/white"
         />
+
     <ScrollView
         android:id="@+id/listForBuf"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/buttonInter"
         app:layout_constraintStart_toStartOf="@+id/buf"
         app:layout_constraintTop_toTopOf="parent">
         <LinearLayout
@@ -777,7 +779,7 @@
             android:orientation="vertical">
             <View
                 android:id="@+id/blockBuf"
-                android:layout_width="150dp"
+                android:layout_width="300dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/blue">

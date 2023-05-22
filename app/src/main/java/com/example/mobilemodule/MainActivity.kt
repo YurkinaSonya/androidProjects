@@ -45,7 +45,7 @@ var hashMapOfVariableValues : HashMap<String, String> = HashMap<String, String>(
 var hashMapOfVariableTypes : HashMap<String, String> = HashMap<String, String>()
 //var hashMapOfVariable : HashMap<String, VariableData> = HashMap<String, VariableData>()
 val mainBody = Body()
-val varNames = arrayListOf<String>()
+val varNames = arrayListOf<String>("-")
 var varNameRightNow = ""
 var pltInd = 0
 
@@ -116,6 +116,11 @@ class MainActivity : AppCompatActivity() {
 
         val plt = binding.linLayoutPlt
         val list = binding.linLayoutList
+        val buf = binding.linLayoutBuf
+
+        list.setOnDragListener(dragListenerDelete)
+        plt.setOnDragListener(dragListenerPlt)
+        buf.setOnDragListener(dragListenerBuf)
 
         val blockCout = binding.coutBlock
         blockCout.setOnLongClickListener() {
@@ -227,15 +232,44 @@ class MainActivity : AppCompatActivity() {
             it.startDragAndDrop(data, dragShadowBuilder, it, 0)
             true
         }
+        val strValueOperator = binding.stringValueOper
+        strValueOperator.setOnLongClickListener() {
+            val checkText = "oper.strValue"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val numValueOperator = binding.numValueOper
+        numValueOperator.setOnLongClickListener() {
+            val checkText = "oper.numValue"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val boolValueOperator = binding.boolValueOper
+        boolValueOperator.setOnLongClickListener() {
+            val checkText = "oper.boolValue"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
 
 
-        list.setOnDragListener(dragListenerDelete)
-        plt.setOnDragListener(dragListenerPlt)
+
 
         val btn = binding.buttonInter
         btn.setOnClickListener () {
             println(plt.getChildCount())
-            println(plt)
+            //println(plt)
             for (i in 1 until plt.getChildCount()) {
                 println(plt.getChildAt(i))
                 val block = plt.getChildAt(i) as RelativeLayout
@@ -362,7 +396,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    val dragListenerOperator = View.OnDragListener() { view, event ->
+    val dragListenerBuf = View.OnDragListener() { view, event ->
         when (event.action) {
             DragEvent.ACTION_DRAG_STARTED -> {
                 //println("Up")
@@ -393,21 +427,109 @@ class MainActivity : AppCompatActivity() {
                 val list = blockName.split(".")
 
                 if (list[0] != "move") {
+                    val dest = view as LinearLayout
+                    build(list[0], dest)
+                }
+                else {
+                    val v = event.localState as View
+                    val owner = v.parent as ViewGroup
+                    owner.removeView(v)
+                    val dest = view as ViewGroup
+                    dest.addView(v)
+                }
+
+
+
+                true
+            }
+
+            DragEvent.ACTION_DRAG_ENDED -> {
+                //println("End")
+                //println(event.getLocalState())
+                /*
+                when (event.result) {
+                    true ->
+                        Toast.makeText(this, "The drop was handled.", Toast.LENGTH_LONG)
+
+                    else ->
+                        Toast.makeText(this, "The drop didn't work.", Toast.LENGTH_LONG)
+                }.show()
+
+                 */
+                true
+            }
+
+            else -> {
+                println("Noooo(")
+                false
+            }
+        }
+    }
+
+    val dragListenerOperator = View.OnDragListener() { view, event ->
+        when (event.action) {
+            DragEvent.ACTION_DRAG_STARTED -> {
+                //println("Up")
+                event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            }
+
+            DragEvent.ACTION_DRAG_ENTERED -> {
+                //println("In")
+                true
+            }
+
+            DragEvent.ACTION_DRAG_LOCATION -> {
+                //println("Loc")
+                true
+            }
+
+            DragEvent.ACTION_DRAG_EXITED -> {
+                //println("Exit")
+                true
+            }
+
+            DragEvent.ACTION_DROP -> {
+                //println("Drop")
+                val item: ClipData.Item = event.clipData.getItemAt(0)
+                val dragData = item.text
+                Toast.makeText(this, "Dragged data is $dragData", Toast.LENGTH_LONG).show()
+                val blockName = dragData.toString()
+                val list = blockName.split(".")
+
+                val dest = view as LinearLayout
+
+
+                if (list[0] != "move") {
                     if (list[0] == "oper") {
-                        println(view)
-                        val dest = view as LinearLayout
-                        build(blockName, dest)
+                        val vCheck = event.localState as View
+                        println(vCheck.transitionName + " " + dest.transitionName)
+                        if (vCheck.transitionName == dest.transitionName) {
+                            if (dest.childCount != 0) {
+                                //dest.removeAllViews()
+                                val v = dest.getChildAt(0) as View
+                                val owner = v.parent as ViewGroup
+                                owner.removeView(v)
+                                println("i cant do it")
+                            }
+                            printToConsole("all is okay")
+                            build(blockName, dest)
+                        }
+                        else {
+                            printToConsole("type mistake")
+                        }
+
                     }
                 }
                 else {
                     if (list[1] == "oper") {
-                        val v = event.localState as View
-                        val owner = v.parent as ViewGroup
-                        owner.removeView(v)
-                        println(view)
-                        val dest = view as LinearLayout
-                        dest.addView(v)
-
+                        if(dest.childCount == 0) {
+                            println("i can do it move")
+                            val v = event.localState as View
+                            val owner = v.parent as ViewGroup
+                            owner.removeView(v)
+                            println(view)
+                            dest.addView(v)
+                        }
                     }
                 }
                 true
@@ -614,9 +736,18 @@ class MainActivity : AppCompatActivity() {
                         minusOper.setOnDragListener(dragListenerOperator)
                     }
                     "Neg" -> {
-                        view = layoutInflater.inflate(R.layout.minus_oper, null) as View
-                        val minusOper = view.findViewById<LinearLayout>(R.id.minusOperFirst)
-                        minusOper.setOnDragListener(dragListenerOperator)
+                        view = layoutInflater.inflate(R.layout.neg_oper, null) as View
+                        val negOper = view.findViewById<LinearLayout>(R.id.negOperFirst)
+                        negOper.setOnDragListener(dragListenerOperator)
+                    }
+                    "strValue" -> {
+                        view = layoutInflater.inflate(R.layout.str_value_oper, null) as View
+                    }
+                    "numValue" -> {
+                        view = layoutInflater.inflate(R.layout.num_value_oper, null) as View
+                    }
+                    "boolValue" -> {
+                        view = layoutInflater.inflate(R.layout.bool_value_oper, null) as View
                     }
                 }
             }

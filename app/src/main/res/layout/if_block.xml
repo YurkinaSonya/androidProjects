@@ -40,7 +40,7 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:transitionName="ifCond"
+                android:transitionName="Bool"
                 android:id="@+id/ifCondOper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
