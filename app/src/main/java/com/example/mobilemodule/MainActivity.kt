@@ -399,6 +399,43 @@ class MainActivity : AppCompatActivity() {
         val blockName = ll.transitionName
         println (blockName)
         when (blockName) {
+
+            "IntValue" -> {
+                return (createBlock(rl))
+            }
+            "BoolValue" -> {
+                return (createBlock(rl))
+            }
+            "StringValue" -> {
+                return (createBlock(rl))
+            }
+            "IntVariable" -> {
+                return (createBlock(rl))
+            }
+            "StringVariable" -> {
+                return (createBlock(rl))
+            }
+            "BoolVariable" -> {
+                return (createBlock(rl))
+            }
+            "Math" -> {
+                return (createBlock(rl))
+            }
+
+
+
+            else -> {
+                return NumberValue("Int", "NumberValue", 6,"0")
+            }
+        }
+
+    }
+
+    fun createBlock (rl : RelativeLayout) : Block {
+        val ll = rl.getChildAt(0) as LinearLayout
+        val blockName = ll.transitionName
+        println (blockName)
+        when (blockName) {
             "IntValue" -> {
                 val valueOfOper = ll.getChildAt(0) as EditText
                 val block = NumberValue("Int", "NumberValue", 6,valueOfOper.text.toString())
@@ -431,7 +468,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             "Math" -> {
-
+                println("this is math")
                 val lFirst = ll.getChildAt(0) as LinearLayout
                 val mathFirst = lFirst.getChildAt(0) as RelativeLayout
                 val spinner = ll.getChildAt(1) as Spinner
@@ -439,31 +476,9 @@ class MainActivity : AppCompatActivity() {
                 val mathSecond = lSecond.getChildAt(0) as RelativeLayout
                 //println(ll)
                 //println(mathFirst)
-                val block = MathOperator("Int", "Math", 6, createBlock(mathFirst), createBlock(mathSecond), spinner.selectedItem.toString())
+                val block = MathOperator("Int", "MathOperator", 6, createBlock(mathFirst), createBlock(mathSecond), spinner.selectedItem.toString())
                 return block
 
-            }
-
-
-
-            else -> {
-                return NumberValue("Int", "NumberValue", 6,"0")
-            }
-        }
-
-    }
-
-    fun createBlock (rl : RelativeLayout) : Block {
-        val ll = rl.getChildAt(0) as LinearLayout
-        val blockName = ll.transitionName
-        println (blockName)
-        when (blockName) {
-            "Math" -> {
-                val mathFirst = ll.getChildAt(0) as RelativeLayout
-                val spinner = ll.getChildAt(1) as Spinner
-                val mathSecond = ll.getChildAt(2) as RelativeLayout
-                val block = MathOperator("Int", "Math", 6, createBlock(mathFirst), createBlock(mathSecond), spinner.selectedItem.toString())
-                return block
             }
             else -> {
                 return NumberValue("Int", "NumberValue", 6,"0")
@@ -1008,6 +1023,9 @@ class MathOperator (type : String, typeOfBlock : String, id: Int, val first: Blo
         var value2 = 0
         var value3 = 0
 
+        println("       " + first.typeOfBlock)
+        println("       " + second.typeOfBlock)
+
         when (first.typeOfBlock) {
             "MathOperator" -> {
                 value2 = first.calculate()
@@ -1268,7 +1286,7 @@ class ToStringOper(type : String, typeOfBlock : String, id: Int, val first: Bloc
     }
 }
 
-class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block) : MainOperator (type, typeOfBlock, id){
+class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block) : Block (type, typeOfBlock, id){
     override fun takeValue(): String {
         var str1 = ""
         var str2 = ""
