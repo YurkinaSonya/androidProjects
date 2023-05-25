@@ -202,6 +202,16 @@ class MainActivity : AppCompatActivity() {
             it.startDragAndDrop(data, dragShadowBuilder, it, 0)
             true
         }
+        val toStrOperator = binding.toStr
+        toStrOperator.setOnLongClickListener() {
+            val checkText = "oper.ToStr"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
         val logicOperator = binding.logicOper
         logicOperator.setOnLongClickListener() {
             val checkText = "oper.Logic"
@@ -337,16 +347,6 @@ class MainActivity : AppCompatActivity() {
         for (i in 1 until llBody.getChildCount()) {
             //println(llBody.getChildAt(i))
             val block = llBody.getChildAt(i) as RelativeLayout
-            //println(block)
-            //println(block.transitionName)
-            //println(block.getChildCount())
-            /*
-            for (j in 0 until block.getChildCount()) {
-                println("     " + block.getChildAt(j))
-                println("     " + block.getChildAt(j).transitionName)
-
-            }
-             */
 
             val blockName = block.transitionName
             when (blockName) {
@@ -399,7 +399,6 @@ class MainActivity : AppCompatActivity() {
         val blockName = ll.transitionName
         println (blockName)
         when (blockName) {
-
             "IntValue" -> {
                 return (createBlock(rl))
             }
@@ -421,8 +420,40 @@ class MainActivity : AppCompatActivity() {
             "Math" -> {
                 return (createBlock(rl))
             }
+            "Minus" -> {
+                return (createBlock(rl))
+            }
+            "ToStr" -> {
+                return (createBlock(rl))
+            }
+            "Concat" -> {
+                return (createBlock(rl))
+            }
 
-
+            "Logic" -> {
+                val lFirst = ll.getChildAt(0) as LinearLayout
+                val logicFirst = lFirst.getChildAt(0) as RelativeLayout
+                val spinner = ll.getChildAt(1) as Spinner
+                val lSecond = ll.getChildAt(2) as LinearLayout
+                val logicSecond = lSecond.getChildAt(0) as RelativeLayout
+                val block = Logic("Boolean", "Logic", 6, createMainOperator(logicFirst), createMainOperator(logicSecond), spinner.selectedItem.toString())
+                return block
+            }
+            "Eq" -> {
+                val lFirst = ll.getChildAt(0) as LinearLayout
+                val eqFirst = lFirst.getChildAt(0) as RelativeLayout
+                val spinner = ll.getChildAt(1) as Spinner
+                val lSecond = ll.getChildAt(2) as LinearLayout
+                val eqSecond = lSecond.getChildAt(0) as RelativeLayout
+                val block = LogicOperator("Boolean", "LogicOperator", 6, createBlock(eqFirst), createBlock(eqSecond), spinner.selectedItem.toString())
+                return block
+            }
+            "Neg" -> {
+                val lIn = ll.getChildAt(1) as LinearLayout
+                val toNeg = lIn.getChildAt(0) as RelativeLayout
+                val block = Negation("Boolean", "Negation", 1, createMainOperator(toNeg))
+                return block
+            }
 
             else -> {
                 return NumberValue("Int", "NumberValue", 6,"0")
@@ -907,6 +938,11 @@ class MainActivity : AppCompatActivity() {
                         firstConcat.setOnDragListener(dragListenerOperator)
                         val secondConcat = view.findViewById<LinearLayout>(R.id.concatOperSecond)
                         secondConcat.setOnDragListener(dragListenerOperator)
+                    }
+                    "ToStr" -> {
+                        view = layoutInflater.inflate(R.layout.to_str_oper, null) as View
+                        val toStrOper = view.findViewById<LinearLayout>(R.id.toStrOper)
+                        toStrOper.setOnDragListener(dragListenerOperator)
                     }
                     "Logic" -> {
                         view = layoutInflater.inflate(R.layout.logic_oper, null) as View
