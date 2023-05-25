@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:id="@+id/boolVarOperInPlt"
-        android:transitionName="BoolVariable"
+        android:transitionName="BooleanVariable"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

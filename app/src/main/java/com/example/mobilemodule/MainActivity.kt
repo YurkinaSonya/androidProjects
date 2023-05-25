@@ -43,7 +43,10 @@ class MyDialogFragment : DialogFragment() {
 
 var hashMapOfVariableValues : HashMap<String, String> = HashMap<String, String>()
 var hashMapOfVariableTypes : HashMap<String, String> = HashMap<String, String>()
-//var hashMapOfVariable : HashMap<String, VariableData> = HashMap<String, VariableData>()
+
+var hashMapOfArrayValues : HashMap<String, HashMap<Int, String>> = HashMap<String, HashMap<Int, String>>()
+var hashMapOfArrayTypes : HashMap<String, String> = HashMap<String, String>()
+
 val varNames = arrayListOf<String>("-")
 var varNameRightNow = ""
 var pltInd = 0
@@ -339,6 +342,7 @@ class MainActivity : AppCompatActivity() {
             println("I start program!!!")
             mainBody.doBody()
             println("I finish program!!!")
+            println(hashMapOfVariableValues)
         }
     }
 
@@ -360,7 +364,7 @@ class MainActivity : AppCompatActivity() {
                     newBody.bodyInsides.add(newBlock)
                 }
                 "assig" -> {
-                    println("it is ass")
+                    //println("it is ass")
                     val ll = block.getChildAt(0) as LinearLayout
                     val spinner = ll.getChildAt(0) as Spinner
                     val llForOper = ll.getChildAt(2) as LinearLayout
@@ -371,17 +375,20 @@ class MainActivity : AppCompatActivity() {
                     newBody.bodyInsides.add(newBlock)
                 }
                 "output" -> {
-                    println("it is output")
-                    val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is output block"))
+                    //println("it is output")
+                    val ll = block.getChildAt(0) as LinearLayout
+                    val outputForOper = ll.getChildAt(1) as LinearLayout
+                    val outputOper = outputForOper.getChildAt(0) as RelativeLayout
+                    val newBlock = Output("output", true, createMainOperator(outputOper))
                     newBody.bodyInsides.add(newBlock)
                 }
                 "if" -> {
-                    println("it is if")
+                    //println("it is if")
                     val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is if block"))
                     newBody.bodyInsides.add(newBlock)
                 }
                 "while" -> {
-                    println("it is while")
+                    //println("it is while")
                     val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is while block"))
                     newBody.bodyInsides.add(newBlock)
                 }
@@ -397,12 +404,12 @@ class MainActivity : AppCompatActivity() {
     fun createMainOperator (rl : RelativeLayout) : MainOperator {
         val ll = rl.getChildAt(0) as LinearLayout
         val blockName = ll.transitionName
-        println (blockName)
+        //println (blockName)
         when (blockName) {
             "IntValue" -> {
                 return (createBlock(rl))
             }
-            "BoolValue" -> {
+            "BooleanValue" -> {
                 return (createBlock(rl))
             }
             "StringValue" -> {
@@ -414,7 +421,7 @@ class MainActivity : AppCompatActivity() {
             "StringVariable" -> {
                 return (createBlock(rl))
             }
-            "BoolVariable" -> {
+            "BooleanVariable" -> {
                 return (createBlock(rl))
             }
             "Math" -> {
@@ -436,6 +443,8 @@ class MainActivity : AppCompatActivity() {
                 val spinner = ll.getChildAt(1) as Spinner
                 val lSecond = ll.getChildAt(2) as LinearLayout
                 val logicSecond = lSecond.getChildAt(0) as RelativeLayout
+                //println(logicFirst)
+                //println(logicSecond)
                 val block = Logic("Boolean", "Logic", 6, createMainOperator(logicFirst), createMainOperator(logicSecond), spinner.selectedItem.toString())
                 return block
             }
@@ -465,15 +474,16 @@ class MainActivity : AppCompatActivity() {
     fun createBlock (rl : RelativeLayout) : Block {
         val ll = rl.getChildAt(0) as LinearLayout
         val blockName = ll.transitionName
-        println (blockName)
+        //println (blockName)
         when (blockName) {
             "IntValue" -> {
                 val valueOfOper = ll.getChildAt(0) as EditText
                 val block = NumberValue("Int", "NumberValue", 6,valueOfOper.text.toString())
                 return block
             }
-            "BoolValue" -> {
+            "BooleanValue" -> {
                 val spinner = ll.getChildAt(0) as Spinner
+                println("!!!!" + spinner.selectedItem.toString())
                 val block = BooleanValue("Boolean", "BooleanValue", 6,spinner.selectedItem.toString())
                 return block
             }
@@ -492,24 +502,40 @@ class MainActivity : AppCompatActivity() {
                 val block = StringVariable("String", "StringVariable", 6, spinner.selectedItem.toString())
                 return block
             }
-            "BoolVariable" -> {
+            "BooleanVariable" -> {
                 val spinner = ll.getChildAt(1) as Spinner
                 val block = BooleanVariable("Boolean", "BooleanVariable", 6, spinner.selectedItem.toString())
                 return block
             }
-
             "Math" -> {
-                println("this is math")
+                //println("this is math")
                 val lFirst = ll.getChildAt(0) as LinearLayout
                 val mathFirst = lFirst.getChildAt(0) as RelativeLayout
                 val spinner = ll.getChildAt(1) as Spinner
                 val lSecond = ll.getChildAt(2) as LinearLayout
                 val mathSecond = lSecond.getChildAt(0) as RelativeLayout
-                //println(ll)
-                //println(mathFirst)
                 val block = MathOperator("Int", "MathOperator", 6, createBlock(mathFirst), createBlock(mathSecond), spinner.selectedItem.toString())
                 return block
-
+            }
+            "Minus" -> {
+                val lMin = ll.getChildAt(1) as LinearLayout
+                val min = lMin.getChildAt(0) as RelativeLayout
+                val block = Negativity("Int", "Negativity", 6, createBlock(min))
+                return block
+            }
+            "ToStr" -> {
+                val lToStr = ll.getChildAt(1) as LinearLayout
+                val toStr = lToStr.getChildAt(0) as RelativeLayout
+                val block = ToString("String", "ToString", 6, createBlock(toStr))
+                return block
+            }
+            "Concat" -> {
+                val lFirst = ll.getChildAt(0) as LinearLayout
+                val concatFirst = lFirst.getChildAt(0) as RelativeLayout
+                val lSecond = ll.getChildAt(2) as LinearLayout
+                val concatSecond = lSecond.getChildAt(0) as RelativeLayout
+                val block = Concat("String", "Concat", 6, createBlock(concatFirst), createBlock(concatSecond))
+                return block
             }
             else -> {
                 return NumberValue("Int", "NumberValue", 6,"0")
@@ -1059,8 +1085,8 @@ class MathOperator (type : String, typeOfBlock : String, id: Int, val first: Blo
         var value2 = 0
         var value3 = 0
 
-        println("       " + first.typeOfBlock)
-        println("       " + second.typeOfBlock)
+        //println("       " + first.typeOfBlock)
+        //println("       " + second.typeOfBlock)
 
         when (first.typeOfBlock) {
             "MathOperator" -> {
@@ -1195,6 +1221,10 @@ class Logic (type : String, typeOfBlock : String, id: Int,  val first: MainOpera
         var value = false
         val value1 = first.define()
         val value2 = second.define()
+
+        //println("    " + value1.toString())
+        //println("    " + value2.toString())
+
         when (typeOfLogic) {
             "and" -> {
                 value = value1 && value2
@@ -1207,6 +1237,9 @@ class Logic (type : String, typeOfBlock : String, id: Int,  val first: MainOpera
             }
         }
         return value
+    }
+    override fun takeValue(): String {
+        return define().toString()
     }
 }
 
@@ -1295,9 +1328,13 @@ class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: B
         }
         return value
     }
+
+    override fun takeValue(): String {
+        return define().toString()
+    }
 }
 
-class ToStringOper(type : String, typeOfBlock : String, id: Int, val first: Block) : Block (type, typeOfBlock, id) {
+class ToString(type : String, typeOfBlock : String, id: Int, val first: Block) : Block (type, typeOfBlock, id) {
     override fun takeValue(): String {
         var str = ""
         when (first.typeOfBlock) {
@@ -1326,6 +1363,9 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
     override fun takeValue(): String {
         var str1 = ""
         var str2 = ""
+
+        //println("       " + first.typeOfBlock)
+        //println("       " + second.typeOfBlock)
         when (first.typeOfBlock) {
             "Concat" -> {
                 str1 = first.takeValue()
@@ -1338,7 +1378,7 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
             "StringVariable" -> {
                 str1 = first.takeValue()
             }
-            "toString" -> {
+            "ToString" -> {
                 str1 = first.takeValue()
             }
             else -> {
@@ -1357,7 +1397,7 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
             "StringVariable" -> {
                 str2 = second.takeValue()
             }
-            "toString" -> {
+            "ToString" -> {
                 str2 = second.takeValue()
             }
             else -> {
@@ -1510,7 +1550,7 @@ class Init (type : String, var name: String, var typeOfVariable: String) : FunBl
 
 class Assignment (type : String, var name: String, var second: MainOperator) : FunBlock(type) {
     override fun checkTypes() {
-        printToConsole(true, "I am going to put ${second.takeValue()} in $name variable")
+        //printToConsole(true, "I am going to put ${second.takeValue()} in $name variable")
         if (second.type == hashMapOfVariableTypes[name]) {
             //printToConsole("Types are matched " + second.takeValue())
             hashMapOfVariableValues[name] = second.takeValue()
@@ -1518,6 +1558,8 @@ class Assignment (type : String, var name: String, var second: MainOperator) : F
         }
         else {
             printToConsole(false , "Types are not matched")
+            //println(second.type)
+            //println(hashMapOfVariableTypes[name])
         }
     }
 }
