@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:transitionName="Bool">
+    android:transitionName="Int">
 
     <LinearLayout
-        android:id="@+id/boolValOperInPlt"
-        android:transitionName="BoolValue"
+        android:id="@+id/intVarOperInPlt"
+        android:transitionName="IntVariable"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,11 +16,21 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/typeVNum"
+            android:textSize="30sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/white"/>
+
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/boolValues"
             android:textColor="@color/white"
             android:background="@drawable/shape_for_spinner"/>
     </LinearLayout>

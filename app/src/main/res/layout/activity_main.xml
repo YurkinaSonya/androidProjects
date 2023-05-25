@@ -718,7 +718,7 @@
 
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/pltTitle"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:background="@color/darkGrey"
@@ -734,7 +734,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buf"
-        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="@+id/pltTitle"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -746,13 +746,17 @@
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-            <View
+            <TextView
                 android:id="@+id/blockPlt"
+                android:text="Work zone (drop your blocks here)"
+                android:textSize="30sp"
+                android:textColor="@color/black"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/greenY">
-            </View>
+            </TextView>
 
         </LinearLayout>
     </ScrollView>
@@ -789,14 +793,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <View
+            <TextView
                 android:id="@+id/blockBuf"
+                android:text="bufer"
+                android:textSize="30sp"
+                android:textColor="@color/white"
                 android:layout_width="300dp"
                 android:layout_height="80dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/blue">
 
-            </View>
+            </TextView>
         </LinearLayout>
     </ScrollView>
 

@@ -6,6 +6,7 @@
 
     <LinearLayout
         android:id="@+id/logicOperInPlt"
+        android:transitionName="Logic"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
