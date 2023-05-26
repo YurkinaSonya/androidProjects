@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Spinner
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobilemodule.databinding.ActivityMainBinding
@@ -41,19 +40,24 @@ class MyDialogFragment : DialogFragment() {
 }
  */
 
-var hashMapOfVariableValues : HashMap<String, String> = HashMap<String, String>()
-var hashMapOfVariableTypes : HashMap<String, String> = HashMap<String, String>()
+var hashMapOfVariableValues: HashMap<String, String> = HashMap<String, String>()
+var hashMapOfVariableTypes: HashMap<String, String> = HashMap<String, String>()
 
-var hashMapOfArrayValues : HashMap<String, HashMap<Int, String>> = HashMap<String, HashMap<Int, String>>()
-var hashMapOfArrayTypes : HashMap<String, String> = HashMap<String, String>()
+var hashMapOfArrayValues: HashMap<String, HashMap<Int, String>> = HashMap<String, HashMap<Int, String>>()
+var hashMapOfArrayTypes: HashMap<String, String> = HashMap<String, String>()
+var hashMapOfArraySize: HashMap<String, Int> = HashMap<String, Int>()
+
+//val arrNames = arrayListOf<String>("-")
+//var arrNameRightNow = ""
+//var pltInd = 0
 
 val varNames = arrayListOf<String>("-")
 var varNameRightNow = ""
 var pltInd = 0
 
 //var spinnerArrayAdapter: ArrayAdapter<String>? = null
-fun HashMap<String, VariableData>.getValue (key : String) : VariableData {
-    return this[key]?:throw IllegalArgumentException()
+fun HashMap<String, VariableData>.getValue(key: String): VariableData {
+    return this[key] ?: throw IllegalArgumentException()
 }
 
 
@@ -307,10 +311,8 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-
         val btn = binding.buttonInter
-        btn.setOnClickListener () {
+        btn.setOnClickListener() {
             mainBody = createBlocksInBody(plt)
             //println(mainBody.bodyInsides)
 
@@ -346,7 +348,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun createBlocksInBody (llBody : LinearLayout) : Body {
+    private fun createBlocksInBody(llBody: LinearLayout): Body {
         val newBody = Body()
         for (i in 1 until llBody.getChildCount()) {
             //println(llBody.getChildAt(i))
@@ -360,9 +362,14 @@ class MainActivity : AppCompatActivity() {
                     val spinner = ll.getChildAt(0) as Spinner
                     val nameOfVariable = ll.getChildAt(1) as EditText
                     //val newBlock =  Output("output", true, StringValue("String", "StringValue", 0, "this is init block"))
-                    val newBlock =  Init("initialization", nameOfVariable.text.toString(), spinner.selectedItem.toString())
+                    val newBlock = Init(
+                        "initialization",
+                        nameOfVariable.text.toString(),
+                        spinner.selectedItem.toString()
+                    )
                     newBody.bodyInsides.add(newBlock)
                 }
+
                 "assig" -> {
                     //println("it is ass")
                     val ll = block.getChildAt(0) as LinearLayout
@@ -371,9 +378,14 @@ class MainActivity : AppCompatActivity() {
                     val llOper = llForOper.getChildAt(0) as RelativeLayout
                     //println("     " + ll.getChildAt(2))
                     //val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is ass block"))
-                    val newBlock = Assignment("assignment", spinner.selectedItem.toString(), createMainOperator(llOper))
+                    val newBlock = Assignment(
+                        "assignment",
+                        spinner.selectedItem.toString(),
+                        createMainOperator(llOper)
+                    )
                     newBody.bodyInsides.add(newBlock)
                 }
+
                 "output" -> {
                     //println("it is output")
                     val ll = block.getChildAt(0) as LinearLayout
@@ -382,18 +394,38 @@ class MainActivity : AppCompatActivity() {
                     val newBlock = Output("output", true, createMainOperator(outputOper))
                     newBody.bodyInsides.add(newBlock)
                 }
+
                 "if" -> {
                     //println("it is if")
-                    val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is if block"))
+                    val newBlock = Output(
+                        "output",
+                        true,
+                        StringValue("String", "StringValue", 0, "this is if block")
+                    )
                     newBody.bodyInsides.add(newBlock)
                 }
+
                 "while" -> {
                     //println("it is while")
-                    val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is while block"))
+                    val newBlock = Output(
+                        "output",
+                        true,
+                        StringValue("String", "StringValue", 0, "this is while block")
+                    )
                     newBody.bodyInsides.add(newBlock)
                 }
+
                 else -> {
-                    val newBlock = Output("output", false, StringValue("String", "StringValue", 0, "Wrong block reading!!! " + blockName))
+                    val newBlock = Output(
+                        "output",
+                        false,
+                        StringValue(
+                            "String",
+                            "StringValue",
+                            0,
+                            "Wrong block reading!!! " + blockName
+                        )
+                    )
                     newBody.bodyInsides.add(newBlock)
                 }
             }
@@ -401,7 +433,7 @@ class MainActivity : AppCompatActivity() {
         return newBody
     }
 
-    fun createMainOperator (rl : RelativeLayout) : MainOperator {
+    fun createMainOperator(rl: RelativeLayout): MainOperator {
         val ll = rl.getChildAt(0) as LinearLayout
         val blockName = ll.transitionName
         //println (blockName)
@@ -409,30 +441,39 @@ class MainActivity : AppCompatActivity() {
             "IntValue" -> {
                 return (createBlock(rl))
             }
+
             "BooleanValue" -> {
                 return (createBlock(rl))
             }
+
             "StringValue" -> {
                 return (createBlock(rl))
             }
+
             "IntVariable" -> {
                 return (createBlock(rl))
             }
+
             "StringVariable" -> {
                 return (createBlock(rl))
             }
+
             "BooleanVariable" -> {
                 return (createBlock(rl))
             }
+
             "Math" -> {
                 return (createBlock(rl))
             }
+
             "Minus" -> {
                 return (createBlock(rl))
             }
+
             "ToStr" -> {
                 return (createBlock(rl))
             }
+
             "Concat" -> {
                 return (createBlock(rl))
             }
@@ -445,18 +486,34 @@ class MainActivity : AppCompatActivity() {
                 val logicSecond = lSecond.getChildAt(0) as RelativeLayout
                 //println(logicFirst)
                 //println(logicSecond)
-                val block = Logic("Boolean", "Logic", 6, createMainOperator(logicFirst), createMainOperator(logicSecond), spinner.selectedItem.toString())
+                val block = Logic(
+                    "Boolean",
+                    "Logic",
+                    6,
+                    createMainOperator(logicFirst),
+                    createMainOperator(logicSecond),
+                    spinner.selectedItem.toString()
+                )
                 return block
             }
+
             "Eq" -> {
                 val lFirst = ll.getChildAt(0) as LinearLayout
                 val eqFirst = lFirst.getChildAt(0) as RelativeLayout
                 val spinner = ll.getChildAt(1) as Spinner
                 val lSecond = ll.getChildAt(2) as LinearLayout
                 val eqSecond = lSecond.getChildAt(0) as RelativeLayout
-                val block = LogicOperator("Boolean", "LogicOperator", 6, createBlock(eqFirst), createBlock(eqSecond), spinner.selectedItem.toString())
+                val block = LogicOperator(
+                    "Boolean",
+                    "LogicOperator",
+                    6,
+                    createBlock(eqFirst),
+                    createBlock(eqSecond),
+                    spinner.selectedItem.toString()
+                )
                 return block
             }
+
             "Neg" -> {
                 val lIn = ll.getChildAt(1) as LinearLayout
                 val toNeg = lIn.getChildAt(0) as RelativeLayout
@@ -465,48 +522,62 @@ class MainActivity : AppCompatActivity() {
             }
 
             else -> {
-                return NumberValue("Int", "NumberValue", 6,"0")
+                return NumberValue("Int", "NumberValue", 6, "0")
             }
         }
 
     }
 
-    fun createBlock (rl : RelativeLayout) : Block {
+    fun createBlock(rl: RelativeLayout): Block {
         val ll = rl.getChildAt(0) as LinearLayout
         val blockName = ll.transitionName
         //println (blockName)
         when (blockName) {
             "IntValue" -> {
                 val valueOfOper = ll.getChildAt(0) as EditText
-                val block = NumberValue("Int", "NumberValue", 6,valueOfOper.text.toString())
+                val block = NumberValue("Int", "NumberValue", 6, valueOfOper.text.toString())
                 return block
             }
+
             "BooleanValue" -> {
                 val spinner = ll.getChildAt(0) as Spinner
                 println("!!!!" + spinner.selectedItem.toString())
-                val block = BooleanValue("Boolean", "BooleanValue", 6,spinner.selectedItem.toString())
+                val block =
+                    BooleanValue("Boolean", "BooleanValue", 6, spinner.selectedItem.toString())
                 return block
             }
+
             "StringValue" -> {
                 val valueOfOper = ll.getChildAt(0) as EditText
                 val block = StringValue("String", "StringValue", 6, valueOfOper.text.toString())
                 return block
             }
+
             "IntVariable" -> {
                 val spinner = ll.getChildAt(1) as Spinner
-                val block = NumberVariable("Int", "NumberVariable", 6, spinner.selectedItem.toString())
+                val block =
+                    NumberVariable("Int", "NumberVariable", 6, spinner.selectedItem.toString())
                 return block
             }
+
             "StringVariable" -> {
                 val spinner = ll.getChildAt(1) as Spinner
-                val block = StringVariable("String", "StringVariable", 6, spinner.selectedItem.toString())
+                val block =
+                    StringVariable("String", "StringVariable", 6, spinner.selectedItem.toString())
                 return block
             }
+
             "BooleanVariable" -> {
                 val spinner = ll.getChildAt(1) as Spinner
-                val block = BooleanVariable("Boolean", "BooleanVariable", 6, spinner.selectedItem.toString())
+                val block = BooleanVariable(
+                    "Boolean",
+                    "BooleanVariable",
+                    6,
+                    spinner.selectedItem.toString()
+                )
                 return block
             }
+
             "Math" -> {
                 //println("this is math")
                 val lFirst = ll.getChildAt(0) as LinearLayout
@@ -514,35 +585,51 @@ class MainActivity : AppCompatActivity() {
                 val spinner = ll.getChildAt(1) as Spinner
                 val lSecond = ll.getChildAt(2) as LinearLayout
                 val mathSecond = lSecond.getChildAt(0) as RelativeLayout
-                val block = MathOperator("Int", "MathOperator", 6, createBlock(mathFirst), createBlock(mathSecond), spinner.selectedItem.toString())
+                val block = MathOperator(
+                    "Int",
+                    "MathOperator",
+                    6,
+                    createBlock(mathFirst),
+                    createBlock(mathSecond),
+                    spinner.selectedItem.toString()
+                )
                 return block
             }
+
             "Minus" -> {
                 val lMin = ll.getChildAt(1) as LinearLayout
                 val min = lMin.getChildAt(0) as RelativeLayout
                 val block = Negativity("Int", "Negativity", 6, createBlock(min))
                 return block
             }
+
             "ToStr" -> {
                 val lToStr = ll.getChildAt(1) as LinearLayout
                 val toStr = lToStr.getChildAt(0) as RelativeLayout
                 val block = ToString("String", "ToString", 6, createBlock(toStr))
                 return block
             }
+
             "Concat" -> {
                 val lFirst = ll.getChildAt(0) as LinearLayout
                 val concatFirst = lFirst.getChildAt(0) as RelativeLayout
                 val lSecond = ll.getChildAt(2) as LinearLayout
                 val concatSecond = lSecond.getChildAt(0) as RelativeLayout
-                val block = Concat("String", "Concat", 6, createBlock(concatFirst), createBlock(concatSecond))
+                val block = Concat(
+                    "String",
+                    "Concat",
+                    6,
+                    createBlock(concatFirst),
+                    createBlock(concatSecond)
+                )
                 return block
             }
+
             else -> {
-                return NumberValue("Int", "NumberValue", 6,"0")
+                return NumberValue("Int", "NumberValue", 6, "0")
             }
         }
     }
-
 
 
     val dragListenerPlt = View.OnDragListener() { view, event ->
@@ -580,8 +667,7 @@ class MainActivity : AppCompatActivity() {
                         val dest = view as LinearLayout
                         build(list[0], dest)
                     }
-                }
-                else {
+                } else {
                     val v = event.localState as View
                     val owner = v.parent as ViewGroup
                     owner.removeView(v)
@@ -652,8 +738,7 @@ class MainActivity : AppCompatActivity() {
                 if (list[0] != "move") {
                     val dest = view as LinearLayout
                     build(list[0], dest)
-                }
-                else {
+                } else {
                     val v = event.localState as View
                     val owner = v.parent as ViewGroup
                     owner.removeView(v)
@@ -736,8 +821,7 @@ class MainActivity : AppCompatActivity() {
                             }
                             //printToConsole("all is okay")
                             build(blockName, dest)
-                        }
-                        else {
+                        } else {
                             if (dest.transitionName == "All") {
                                 if (dest.childCount != 0) {
                                     //dest.removeAllViews()
@@ -752,20 +836,18 @@ class MainActivity : AppCompatActivity() {
                         }
 
                     }
-                }
-                else {
+                } else {
                     if (list[1] == "oper") {
                         val v = event.localState as View
                         if (v.transitionName == dest.transitionName && dest.transitionName != "All") {
-                            if(dest.childCount == 0) {
+                            if (dest.childCount == 0) {
                                 val owner = v.parent as ViewGroup
                                 owner.removeView(v)
                                 dest.addView(v)
                             }
-                        }
-                        else {
+                        } else {
                             if (dest.transitionName == "All") {
-                                if(dest.childCount == 0) {
+                                if (dest.childCount == 0) {
                                     val owner = v.parent as ViewGroup
                                     owner.removeView(v)
                                     dest.addView(v)
@@ -877,7 +959,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun build(name : String, dest : LinearLayout) {
+    private fun build(name: String, dest: LinearLayout) {
         var view = layoutInflater.inflate(R.layout.cout_block, null) as View
         val list = name.split(".")
         when (list[0]) {
@@ -886,16 +968,27 @@ class MainActivity : AppCompatActivity() {
                 val outputOper = view.findViewById<LinearLayout>(R.id.coutBlockOper)
                 outputOper.setOnDragListener(dragListenerOperator)
             }
+
             "Init" -> {
                 view = layoutInflater.inflate(R.layout.initialization_block, null) as View
                 val editText = view.findViewById<EditText>(R.id.inputName)
                 editText.addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
                         varNameRightNow = s.toString()
                         //println("now var name is: " + varNameRightNow + ", but i (maybe) will change it")
                     }
 
-                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
 
                     }
 
@@ -904,8 +997,7 @@ class MainActivity : AppCompatActivity() {
                             if (varNames.indexOf(varNameRightNow) != -1) {
                                 varNames[varNames.indexOf(varNameRightNow)] = s.toString()
                                 //println("i swap one var by another")
-                            }
-                            else {
+                            } else {
                                 varNames += s.toString()
                                 //println("i add new var")
                             }
@@ -915,6 +1007,7 @@ class MainActivity : AppCompatActivity() {
                 })
 
             }
+
             "If" -> {
                 view = layoutInflater.inflate(R.layout.if_block, null) as View
                 val bodyIf = view.findViewById<LinearLayout>(R.id.ifBodyInPlt)
@@ -924,6 +1017,7 @@ class MainActivity : AppCompatActivity() {
                 val condOper = view.findViewById<LinearLayout>(R.id.ifCondOper)
                 condOper.setOnDragListener(dragListenerOperator)
             }
+
             "While" -> {
                 view = layoutInflater.inflate(R.layout.while_block, null) as View
                 val bodyWhile = view.findViewById<LinearLayout>(R.id.whileBodyInPlt)
@@ -931,6 +1025,7 @@ class MainActivity : AppCompatActivity() {
                 val condOper = view.findViewById<LinearLayout>(R.id.whileCondOper)
                 condOper.setOnDragListener(dragListenerOperator)
             }
+
             "Assig" -> {
                 view = layoutInflater.inflate(R.layout.assignment_block, null) as View
                 val spinner = view.findViewById<Spinner>(R.id.nameSpinner)
@@ -942,6 +1037,7 @@ class MainActivity : AppCompatActivity() {
                 val assigOper = view.findViewById<LinearLayout>(R.id.assigOper)
                 assigOper.setOnDragListener(dragListenerOperator)
             }
+
             "oper" -> {
                 when (list[1]) {
                     "Math" -> {
@@ -951,6 +1047,7 @@ class MainActivity : AppCompatActivity() {
                         val secondMath = view.findViewById<LinearLayout>(R.id.mathOperSecond)
                         secondMath.setOnDragListener(dragListenerOperator)
                     }
+
                     "Ireq" -> {
                         view = layoutInflater.inflate(R.layout.eq_oper, null) as View
                         val firstEq = view.findViewById<LinearLayout>(R.id.eqOperFirst)
@@ -958,6 +1055,7 @@ class MainActivity : AppCompatActivity() {
                         val secondEq = view.findViewById<LinearLayout>(R.id.eqOperSecond)
                         secondEq.setOnDragListener(dragListenerOperator)
                     }
+
                     "Concat" -> {
                         view = layoutInflater.inflate(R.layout.concat_oper, null) as View
                         val firstConcat = view.findViewById<LinearLayout>(R.id.concatOperFirst)
@@ -965,11 +1063,13 @@ class MainActivity : AppCompatActivity() {
                         val secondConcat = view.findViewById<LinearLayout>(R.id.concatOperSecond)
                         secondConcat.setOnDragListener(dragListenerOperator)
                     }
+
                     "ToStr" -> {
                         view = layoutInflater.inflate(R.layout.to_str_oper, null) as View
                         val toStrOper = view.findViewById<LinearLayout>(R.id.toStrOper)
                         toStrOper.setOnDragListener(dragListenerOperator)
                     }
+
                     "Logic" -> {
                         view = layoutInflater.inflate(R.layout.logic_oper, null) as View
                         val firstLogic = view.findViewById<LinearLayout>(R.id.logicOperFirst)
@@ -977,25 +1077,31 @@ class MainActivity : AppCompatActivity() {
                         val secondLogic = view.findViewById<LinearLayout>(R.id.logicOperSecond)
                         secondLogic.setOnDragListener(dragListenerOperator)
                     }
+
                     "Minus" -> {
                         view = layoutInflater.inflate(R.layout.minus_oper, null) as View
                         val minusOper = view.findViewById<LinearLayout>(R.id.minusOperFirst)
                         minusOper.setOnDragListener(dragListenerOperator)
                     }
+
                     "Neg" -> {
                         view = layoutInflater.inflate(R.layout.neg_oper, null) as View
                         val negOper = view.findViewById<LinearLayout>(R.id.negOperFirst)
                         negOper.setOnDragListener(dragListenerOperator)
                     }
+
                     "strValue" -> {
                         view = layoutInflater.inflate(R.layout.str_value_oper, null) as View
                     }
+
                     "numValue" -> {
                         view = layoutInflater.inflate(R.layout.num_value_oper, null) as View
                     }
+
                     "boolValue" -> {
                         view = layoutInflater.inflate(R.layout.bool_value_oper, null) as View
                     }
+
                     "strVariable" -> {
                         view = layoutInflater.inflate(R.layout.string_variable_oper, null) as View
                         val spinner = view.findViewById<Spinner>(R.id.spinner)
@@ -1005,6 +1111,7 @@ class MainActivity : AppCompatActivity() {
                             adapter = aa
                         }
                     }
+
                     "numVariable" -> {
                         view = layoutInflater.inflate(R.layout.int_variable_oper, null) as View
                         val spinner = view.findViewById<Spinner>(R.id.spinner)
@@ -1014,6 +1121,7 @@ class MainActivity : AppCompatActivity() {
                             adapter = aa
                         }
                     }
+
                     "boolVariable" -> {
                         view = layoutInflater.inflate(R.layout.bool_variable_oper, null) as View
                         val spinner = view.findViewById<Spinner>(R.id.spinner)
@@ -1042,44 +1150,53 @@ class MainActivity : AppCompatActivity() {
 }
 
 
-
-
-fun printToConsole (type : Boolean, included: String) {
+fun printToConsole(type: Boolean, included: String) {
     if (type) {
         println("Console: " + included)
-    }
-    else {
+    } else {
         println("Console Error: " + included)
     }
 }
 
-data class VariableData (val type: String, val value: String) {}
+data class VariableData(val type: String, val value: String) {}
 
-abstract class MainOperator (val type : String, val typeOfBlock : String, val id: Int) {
-    open fun define(): Boolean {return false}
-    open fun calculate(): Int {return 0}
+abstract class MainOperator(val type: String, val typeOfBlock: String, val id: Int) {
+    open fun define(): Boolean {
+        return false
+    }
+
+    open fun calculate(): Int {
+        return 0
+    }
+
     open fun valueToString(): String {
         when (this.typeOfBlock) {
             "Logic" -> {
                 return (define().toString())
             }
+
             "LogicOperator" -> {
                 return (define().toString())
             }
+
             "MathOperator" -> {
                 return (this.calculate().toString())
             }
+
             else -> {
                 return (this.takeValue())
             }
         }
     }
-    open fun takeValue() : String {return ""}
+
+    open fun takeValue(): String {
+        return ""
+    }
 }
 
-abstract class Block (type : String, typeOfBlock : String, id: Int) : MainOperator (type, typeOfBlock, id) {}
+abstract class Block(type: String, typeOfBlock: String, id: Int) : MainOperator(type, typeOfBlock, id) {}
 
-class MathOperator (type : String, typeOfBlock : String, id: Int, val first: Block, val second: Block, val typeOfOper: String) : Block (type, typeOfBlock, id) {
+class MathOperator(type: String, typeOfBlock: String, id: Int, val first: Block, val second: Block, val typeOfOper: String) : Block(type, typeOfBlock, id) {
     override fun calculate(): Int {
         var value1 = 0
         var value2 = 0
@@ -1106,7 +1223,7 @@ class MathOperator (type : String, typeOfBlock : String, id: Int, val first: Blo
             }
 
             else -> {
-                printToConsole(false,"value2 " + "Math operand Error")
+                printToConsole(false, "value2 " + "Math operand Error")
             }
         }
         //printToConsole(value2.toString())
@@ -1174,7 +1291,7 @@ class MathOperator (type : String, typeOfBlock : String, id: Int, val first: Blo
     }
 }
 
-class Negativity(type : String, typeOfBlock : String, id: Int, val first: Block) : Block (type, typeOfBlock, id){
+class Negativity(type: String, typeOfBlock: String, id: Int, val first: Block) : Block(type, typeOfBlock, id) {
     override fun calculate(): Int {
         var value = 0
         when (first.typeOfBlock) {
@@ -1200,6 +1317,7 @@ class Negativity(type : String, typeOfBlock : String, id: Int, val first: Block)
         }
         return value * -1
     }
+
     override fun define(): Boolean {
         val value = calculate().toString()
         when (value) {
@@ -1209,14 +1327,14 @@ class Negativity(type : String, typeOfBlock : String, id: Int, val first: Block)
     }
 }
 
-class Negation(type : String, typeOfBlock : String, id: Int,  val first: MainOperator) : MainOperator (type, typeOfBlock, id){
+class Negation(type: String, typeOfBlock: String, id: Int, val first: MainOperator) : MainOperator(type, typeOfBlock, id) {
     override fun define(): Boolean {
         val value = first.define()
         return !value
     }
 }
 
-class Logic (type : String, typeOfBlock : String, id: Int,  val first: MainOperator, val second: MainOperator, val typeOfLogic: String ) : MainOperator (type, typeOfBlock, id){
+class Logic(type: String, typeOfBlock: String, id: Int, val first: MainOperator, val second: MainOperator, val typeOfLogic: String) : MainOperator(type, typeOfBlock, id) {
     override fun define(): Boolean {
         var value = false
         val value1 = first.define()
@@ -1229,21 +1347,24 @@ class Logic (type : String, typeOfBlock : String, id: Int,  val first: MainOpera
             "and" -> {
                 value = value1 && value2
             }
+
             "or" -> {
                 value = value1 || value2
             }
+
             else -> {
                 printToConsole(false, "Logistic move Error")
             }
         }
         return value
     }
+
     override fun takeValue(): String {
         return define().toString()
     }
 }
 
-class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block, val typeOfLogic: String ) : MainOperator (type, typeOfBlock, id){
+class LogicOperator(type: String, typeOfBlock: String, id: Int, val first: Block, val second: Block, val typeOfLogic: String) : MainOperator(type, typeOfBlock, id) {
     override fun define(): Boolean {
         var value = false
         var value1 = 0
@@ -1267,7 +1388,7 @@ class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: B
             }
 
             else -> {
-                printToConsole( false, "logic Math operand Error")
+                printToConsole(false, "logic Math operand Error")
             }
         }
         when (second.typeOfBlock) {
@@ -1293,35 +1414,41 @@ class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: B
         }
         when (typeOfLogic) {
             ">" -> {
-                if(value1 > value2){
+                if (value1 > value2) {
                     value = true
                 }
             }
+
             "<" -> {
-                if(value1 < value2){
+                if (value1 < value2) {
                     value = true
                 }
             }
+
             ">=" -> {
-                if(value1 >= value2){
+                if (value1 >= value2) {
                     value = true
                 }
             }
+
             "<=" -> {
-                if(value1 <= value2){
+                if (value1 <= value2) {
                     value = true
                 }
             }
+
             "==" -> {
-                if(value1 == value2){
+                if (value1 == value2) {
                     value = true
                 }
             }
+
             "!=" -> {
                 if (value1 != value2) {
                     value = true
                 }
             }
+
             else -> {
                 printToConsole(false, "Logistic move Error")
             }
@@ -1334,22 +1461,26 @@ class LogicOperator (type : String, typeOfBlock : String, id: Int,  val first: B
     }
 }
 
-class ToString(type : String, typeOfBlock : String, id: Int, val first: Block) : Block (type, typeOfBlock, id) {
+class ToString(type: String, typeOfBlock: String, id: Int, val first: Block) : Block(type, typeOfBlock, id) {
     override fun takeValue(): String {
         var str = ""
         when (first.typeOfBlock) {
             "NumberVariable" -> {
                 str = first.takeValue()
             }
+
             "NumberValue" -> {
                 str = first.takeValue()
             }
+
             "BooleanVariable" -> {
                 str = first.takeValue()
             }
+
             "BooleanValue" -> {
                 str = first.takeValue()
             }
+
             else -> {
                 printToConsole(false, "to string operand Error")
             }
@@ -1359,7 +1490,7 @@ class ToString(type : String, typeOfBlock : String, id: Int, val first: Block) :
     }
 }
 
-class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, val second: Block) : Block (type, typeOfBlock, id){
+class Concat(type: String, typeOfBlock: String, id: Int, val first: Block, val second: Block) : Block(type, typeOfBlock, id) {
     override fun takeValue(): String {
         var str1 = ""
         var str2 = ""
@@ -1378,9 +1509,11 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
             "StringVariable" -> {
                 str1 = first.takeValue()
             }
+
             "ToString" -> {
                 str1 = first.takeValue()
             }
+
             else -> {
                 printToConsole(false, "value1 " + "Concat operand Error")
             }
@@ -1397,15 +1530,18 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
             "StringVariable" -> {
                 str2 = second.takeValue()
             }
+
             "ToString" -> {
                 str2 = second.takeValue()
             }
+
             else -> {
                 printToConsole(false, "value2 " + "Concat operand Error")
             }
         }
         return str1 + str2
     }
+
     override fun define(): Boolean {
         when (takeValue().count()) {
             0 -> return false
@@ -1414,79 +1550,99 @@ class Concat (type : String, typeOfBlock : String, id: Int,  val first: Block, v
     }
 }
 
-abstract class Value (type : String, typeOfBlock : String, id: Int, var value : String) : Block (type, typeOfBlock, id) {}
+abstract class Value(type: String, typeOfBlock: String, id: Int, var value: String) : Block(type, typeOfBlock, id) {}
 
-class BooleanValue (type : String, typeOfBlock : String, id: Int, value : String) : Value (type, typeOfBlock, id, value) {
+class BooleanValue(type: String, typeOfBlock: String, id: Int, value: String) : Value(type, typeOfBlock, id, value) {
     override fun define(): Boolean {
         return value.toBoolean()
     }
+
     override fun takeValue(): String {
         return value
     }
 }
 
-class NumberValue (type : String, typeOfBlock : String, id: Int, value : String) : Value (type, typeOfBlock, id, value) {
+class NumberValue(type: String, typeOfBlock: String, id: Int, value: String) : Value(type, typeOfBlock, id, value) {
     override fun define(): Boolean {
         when (value) {
             "0" -> return false
             else -> return true
         }
     }
+
     override fun takeValue(): String {
         return value
     }
 }
 
-class StringValue (type : String, typeOfBlock : String, id: Int, value : String) : Value (type, typeOfBlock, id, value) {
+class StringValue(type: String, typeOfBlock: String, id: Int, value: String) : Value(type, typeOfBlock, id, value) {
     override fun define(): Boolean {
         when (value.count()) {
             0 -> return false
             else -> return true
         }
     }
+
     override fun takeValue(): String {
         return value
     }
 }
 
-abstract class Variable (type : String, typeOfBlock : String, id: Int, val name: String) : Block (type, typeOfBlock, id) {}
+abstract class Variable(type: String, typeOfBlock: String, id: Int, val name: String) : Block(type, typeOfBlock, id) {}
 
-class BooleanVariable (type : String, typeOfBlock : String, id: Int, name: String) : Variable (type, typeOfBlock, id, name) {
+class BooleanVariable(type: String, typeOfBlock: String, id: Int, name: String) : Variable(type, typeOfBlock, id, name) {
     override fun define(): Boolean {
         return hashMapOfVariableValues[name].toBoolean()
     }
+
     override fun takeValue(): String {
         return hashMapOfVariableValues[name].toString()
     }
 }
 
-class NumberVariable (type : String, typeOfBlock : String, id: Int, name: String) : Variable (type, typeOfBlock, id, name) {
+class NumberVariable(type: String, typeOfBlock: String, id: Int, name: String) : Variable(type, typeOfBlock, id, name) {
     override fun define(): Boolean {
         when (hashMapOfVariableValues[name]) {
             "0" -> return false
             else -> return true
         }
     }
+
     override fun takeValue(): String {
         return hashMapOfVariableValues[name].toString()
     }
 }
 
-class StringVariable (type : String, typeOfBlock : String, id: Int, name: String) : Variable (type, typeOfBlock, id, name) {
+class StringVariable(type: String, typeOfBlock: String, id: Int, name: String) : Variable(type, typeOfBlock, id, name) {
     override fun define(): Boolean {
         when (hashMapOfVariableValues[name].toString().count()) {
             0 -> return false
             else -> return true
         }
     }
+
     override fun takeValue(): String {
         return hashMapOfVariableValues[name].toString()
     }
 }
 
+class Array(type: String, typeOfBlock: String, id: Int, val name: String, val ind: Int) : Block(type, typeOfBlock, id) {
+    override fun define(): Boolean {
+        when (hashMapOfArraySize[name]) {
+            0 -> return false
+            else -> return true
+        }
+    }
+
+    override fun takeValue(): String {
+        var a = hashMapOfArrayValues[name]
+        return a?.get(ind).toString()
+    }
+}
 
 
-abstract class FunBlock (val type : String) {
+
+abstract class FunBlock(val type: String) {
     val bodyOfBlock = Body()
     val secondBodyOfBlock = Body()
     open fun checkCond() {}
@@ -1495,18 +1651,37 @@ abstract class FunBlock (val type : String) {
     open fun checkTypes() {}
 }
 
-class Output (type : String, var messageType : Boolean, var included : MainOperator) : FunBlock(type) {
-    override fun doOutput () {
+class ArraySwap(type: String, val nameFi: String, val indFi: Int, val nameSec: String, val indSec: Int) : FunBlock(type) {
+    override fun checkCond() {
+        if (indFi < hashMapOfArraySize[nameFi].toString().toInt()) {
+            if (indSec < hashMapOfArraySize[nameSec].toString().toInt()) {
+                var a = Array(hashMapOfArrayTypes[nameFi].toString(), "Array", 0, nameFi, indFi).takeValue()
+                var b = Array(hashMapOfArrayTypes[nameSec].toString(), "Array", 0, nameSec, indSec).takeValue()
+                hashMapOfArrayValues[nameFi]?.set(indFi, b)
+                hashMapOfArrayValues[nameSec]?.set(indSec, a)
+            }
+            else {
+                printToConsole(false, "Out Of Range")
+            }
+        }
+        else {
+            printToConsole(false, "Out Of Range")
+        }
+    }
+}
+
+
+class Output(type: String, var messageType: Boolean, var included: MainOperator) : FunBlock(type) {
+    override fun doOutput() {
         printToConsole(messageType, included.valueToString())
     }
 }
 
-class IfBlock (type : String, var cond : MainOperator, var haveElse : Boolean) : FunBlock(type) {
+class IfBlock(type: String, var cond: MainOperator, var haveElse: Boolean) : FunBlock(type) {
     override fun checkCond() {
         if (cond.define()) {
             bodyOfBlock.doBody()
-        }
-        else {
+        } else {
             if (haveElse) {
                 secondBodyOfBlock.doBody()
             }
@@ -1515,7 +1690,7 @@ class IfBlock (type : String, var cond : MainOperator, var haveElse : Boolean) :
 
 }
 
-class WhileBlock (type : String, var cond : MainOperator) : FunBlock(type) {
+class WhileBlock(type: String, var cond: MainOperator) : FunBlock(type) {
     override fun checkCond() {
         while (cond.define()) {
             bodyOfBlock.doBody()
@@ -1523,7 +1698,7 @@ class WhileBlock (type : String, var cond : MainOperator) : FunBlock(type) {
     }
 }
 
-class Init (type : String, var name: String, var typeOfVariable: String) : FunBlock(type) {
+class Init(type: String, var name: String, var typeOfVariable: String) : FunBlock(type) {
     override fun createVariable() {
         printToConsole(true, "I create variable with name $name and type $typeOfVariable")
         //println(hashMapOfVariableValues)
@@ -1532,32 +1707,76 @@ class Init (type : String, var name: String, var typeOfVariable: String) : FunBl
                 hashMapOfVariableValues.put(name, "0")
                 hashMapOfVariableTypes.put(name, "Int")
             }
+
             "String" -> {
-                hashMapOfVariableValues.put(name,"")
+                hashMapOfVariableValues.put(name, "")
                 hashMapOfVariableTypes.put(name, "String")
             }
+
             "Boolean" -> {
                 hashMapOfVariableValues.put(name, "False")
                 hashMapOfVariableTypes.put(name, "Boolean")
             }
+
             else -> {
-                printToConsole(false, "Type Error")
+                printToConsole(false, "Type Of Variable Error")
             }
         }
         //println(hashMapOfVariableValues)
     }
 }
 
-class Assignment (type : String, var name: String, var second: MainOperator) : FunBlock(type) {
+class InitArray(type: String, var name: String, var typeOfVariable: String, var size: Int) : FunBlock(type) {
+    override fun createVariable() {
+        printToConsole(true, "I create variable with name $name, type $typeOfVariable and size $size")
+        //println(hashMapOfVariableValues)
+        when (typeOfVariable) {
+            "Int" -> {
+                val hashMapV: HashMap<Int, String> = HashMap<Int, String>()
+                for (i in size downTo 0 step 1) {
+                    hashMapV.put(i, "0")
+                }
+                hashMapOfArrayValues.put(name, hashMapV)
+                hashMapOfArrayTypes.put(name, typeOfVariable)
+                hashMapOfArraySize.put(name, size)
+            }
+
+            "String" -> {
+                val hashMapV: HashMap<Int, String> = HashMap<Int, String>()
+                for (i in size downTo 0 step 1) {
+                    hashMapV.put(i, "")
+                }
+                hashMapOfArrayValues.put(name, hashMapV)
+                hashMapOfArrayTypes.put(name, typeOfVariable)
+                hashMapOfArraySize.put(name, size)
+            }
+
+            "Boolean" -> {
+                val hashMapV: HashMap<Int, String> = HashMap<Int, String>()
+                for (i in size downTo 0 step 1) {
+                    hashMapV.put(i, "False")
+                }
+                hashMapOfArrayValues.put(name, hashMapV)
+                hashMapOfArrayTypes.put(name, typeOfVariable)
+                hashMapOfArraySize.put(name, size)
+            }
+            else -> {
+                printToConsole(false, "Type Of Array Error")
+            }
+        }
+        //println(hashMapOfArray)
+    }
+}
+
+class Assignment(type: String, var name: String, var variable: MainOperator) : FunBlock(type) {
     override fun checkTypes() {
         //printToConsole(true, "I am going to put ${second.takeValue()} in $name variable")
-        if (second.type == hashMapOfVariableTypes[name]) {
+        if (variable.type == hashMapOfVariableTypes[name]) {
             //printToConsole("Types are matched " + second.takeValue())
-            hashMapOfVariableValues[name] = second.takeValue()
+            hashMapOfVariableValues[name] = variable.takeValue()
             //println(hashMapOfVariableValues)
-        }
-        else {
-            printToConsole(false , "Types are not matched")
+        } else {
+            printToConsole(false, "Types are not matched")
             //println(second.type)
             //println(hashMapOfVariableTypes[name])
         }
