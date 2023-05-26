@@ -47,8 +47,9 @@ class MyDialogFragment : DialogFragment() {
 val hashMapOfVariableValues : HashMap<String, String> = HashMap<String, String>()
 val hashMapOfVariableTypes : HashMap<String, String> = HashMap<String, String>()
 
-val hashMapOfArrayValues : HashMap<String, HashMap<Int, String>> = HashMap<String, HashMap<Int, String>>()
-val hashMapOfArrayTypes : HashMap<String, String> = HashMap<String, String>()
+var hashMapOfArrayValues: HashMap<String, HashMap<Int, String>> = HashMap<String, HashMap<Int, String>>()
+var hashMapOfArrayTypes: HashMap<String, String> = HashMap<String, String>()
+var hashMapOfArraySize: HashMap<String, Int> = HashMap<String, Int>()
 
 val hashMapForOutputMessages : HashMap<Int, String> = HashMap<Int, String>()
 val hashMapForOutputTypes : HashMap<Int, Boolean> = HashMap<Int, Boolean>()
@@ -183,6 +184,16 @@ class MainActivity : AppCompatActivity() {
         val mathOperator = binding.mathOper
         mathOperator.setOnLongClickListener() {
             val checkText = "oper.Math"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val arrayOperator = binding.arrayOper
+        arrayOperator.setOnLongClickListener() {
+            val checkText = "oper.IndArray"
             val item = ClipData.Item(checkText)
             val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
             val data = ClipData(checkText, mimeTypes, item)
@@ -1044,6 +1055,18 @@ class MainActivity : AppCompatActivity() {
                         secondMath.setOnDragListener(dragListenerOperator)
                         secondMath.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                     }
+                    "IndArray" -> {
+                        view = layoutInflater.inflate(R.layout.array_ind_oper, null) as View
+                        val spinner = view.findViewById<Spinner>(R.id.nameSpinner)
+                        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, varNames)
+                        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        with(spinner) {
+                            adapter = aa
+                        }
+                        val indArr = view.findViewById<LinearLayout>(R.id.arrayInd)
+                        indArr.setOnDragListener(dragListenerOperator)
+                        indArr.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
+                    }
                     "Ireq" -> {
                         view = layoutInflater.inflate(R.layout.eq_oper, null) as View
                         val firstEq = view.findViewById<LinearLayout>(R.id.eqOperFirst)
@@ -1614,6 +1637,19 @@ class StringVariable (type : String, typeOfBlock : String, id: Int, name: String
     }
 }
 
+class Array(type: String, typeOfBlock: String, id: Int, val name: String, val ind: Block) : Block(type, typeOfBlock, id) {
+    override fun define(): Boolean {
+        when (hashMapOfArraySize[name]) {
+            0 -> return false
+            else -> return true
+        }
+    }
+
+    override fun takeValue(): String {
+        val a = hashMapOfArrayValues[name]
+        return a?.get(ind).toString()
+    }
+}
 
 
 
@@ -1680,6 +1716,53 @@ class Init (type : String, var name: String, var typeOfVariable: String) : FunBl
     }
 }
 
+class InitArray(type: String, var name: String, var typeOfVariable: String, var sizeBlock: Block) : FunBlock(type) {
+    override fun createVariable() {
+        if (sizeBlock.type == "Int") {
+            val size = sizeBlock.takeValue().toInt()
+            //printToConsole(true, "I create variable with name $name, type $typeOfVariable and size $size")
+            when (typeOfVariable) {
+                "Int" -> {
+                    val hashMapV: HashMap<Int, String> = HashMap<Int, String>()
+                    for (i in size downTo 0 step 1) {
+                        hashMapV.put(i, "0")
+                    }
+                    hashMapOfArrayValues.put(name, hashMapV)
+                    hashMapOfArrayTypes.put(name, typeOfVariable)
+                    hashMapOfArraySize.put(name, size)
+                }
+
+                "String" -> {
+                    val hashMapV: HashMap<Int, String> = HashMap<Int, String>()
+                    for (i in size downTo 0 step 1) {
+                        hashMapV.put(i, "")
+                    }
+                    hashMapOfArrayValues.put(name, hashMapV)
+                    hashMapOfArrayTypes.put(name, typeOfVariable)
+                    hashMapOfArraySize.put(name, size)
+                }
+
+                "Boolean" -> {
+                    val hashMapV: HashMap<Int, String> = HashMap<Int, String>()
+                    for (i in size downTo 0 step 1) {
+                        hashMapV.put(i, "False")
+                    }
+                    hashMapOfArrayValues.put(name, hashMapV)
+                    hashMapOfArrayTypes.put(name, typeOfVariable)
+                    hashMapOfArraySize.put(name, size)
+                }
+                else -> {
+                    printToConsole(false, "Type Of Array Error")
+                }
+            }
+        }
+        else {
+            printToConsole(false, "size must to be Int")
+        }
+        //println(hashMapOfArray)
+    }
+}
+
 class Assignment (type : String, var name: String, var second: MainOperator) : FunBlock(type) {
     override fun checkTypes() {
         //printToConsole(true, "I am going to put ${second.takeValue()} in $name variable")
@@ -1705,6 +1788,57 @@ class Input (type : String, var name: String) : FunBlock(type) {
     }
 }
 
+class ArrayAssignment(type: String, var name: String,  val indBlock: Block, var variable: MainOperator) : FunBlock(type) {
+    override fun checkTypes() {
+        if (indBlock.type == "Int") {
+            val ind = indBlock.takeValue().toInt()
+            if (variable.type == hashMapOfArrayTypes[name]) {
+                hashMapOfArrayValues[name]?.set(ind, variable.takeValue())
+            } else {
+                printToConsole(false, "Types are not matched with $name Array")
+            }
+        }
+        else {
+            printToConsole(false, "ind must to be Int")
+        }
+    }
+}
+
+class ArraySwap(type: String, val name1: String, val blockInd1: Block, val name2: String, val blockInd2: Block) : FunBlock(type) {
+    override fun checkCond() {
+        if (blockInd1.type == "Int") {
+            if (blockInd2.type == "Int") {
+                val ind1 = blockInd1.takeValue().toInt()
+                val ind2 = blockInd2.takeValue().toInt()
+                if (ind1 < hashMapOfArraySize[name1].toString().toInt()) {
+                    if (ind2 < hashMapOfArraySize[name2].toString().toInt()) {
+                        if ( hashMapOfArrayTypes[name1] == hashMapOfArrayTypes[name2]){
+                            var a = Array(hashMapOfArrayTypes[name1].toString(), "Array", 0, name1, blockInd1).takeValue()
+                            var b = Array(hashMapOfArrayTypes[name2].toString(), "Array", 0, name2, blockInd2).takeValue()
+                            hashMapOfArrayValues[name1]?.set(ind1, b)
+                            hashMapOfArrayValues[name2]?.set(ind2, a)
+                        }
+                        else{
+                            printToConsole(false, "$name1 and $name2 Arrays Have Different Types")
+                        }
+                    }
+                    else {
+                        printToConsole(false, "Out Of Range In $name2 Array")
+                    }
+                }
+                else {
+                    printToConsole(false, "Out Of Range In $name1 Array")
+                }
+            }
+            else {
+                printToConsole(false, "second index must be Int")
+            }
+        }
+        else {
+            printToConsole(false, "first index must be Int")
+        }
+    }
+}
 
 class Body() {
     val bodyInsides = mutableListOf<FunBlock>()
@@ -1718,6 +1852,8 @@ class Body() {
                 "assignment" -> i.checkTypes()
                 "while" -> i.checkCond()
                 "input" -> i.checkTypes()
+                "swap" -> i.checkCond()
+                "arrayInitialization" -> i.checkTypes()
             }
         }
     }

@@ -2,43 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:transitionName="Int">
+    android:transitionName="All">
 
     <LinearLayout
-        android:id="@+id/mathOperInPlt"
+        android:id="@+id/arrayIndInPlt"
         android:transitionName="Math"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
-
-        <LinearLayout
-            android:id="@+id/mathOperFirst"
-            android:transitionName="Int"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/marginForBlocks"
-            android:layout_marginBottom="@dimen/marginForBlocks"
-            android:layout_marginLeft="@dimen/marginForBlocks"
-            android:layout_marginRight="@dimen/marginForBlocks"
-            android:background="@drawable/shape_for_main_operator_empty"/>
+        android:layout_marginTop="@dimen/marginForBlocks"
+        android:layout_marginBottom="@dimen/marginForBlocks">
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/nameSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/mathOperations"
             android:textColor="@color/white"
             android:background="@drawable/shape_for_spinner"/>
 
         <LinearLayout
-            android:id="@+id/mathOperSecond"
+            android:id="@+id/arrayInd"
             android:transitionName="Int"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
