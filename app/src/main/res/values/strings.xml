@@ -25,7 +25,6 @@
     <string name="closeFigure">}</string>
 
 
-
     <string-array name="types">
         <item>Int</item>
         <item>String</item>

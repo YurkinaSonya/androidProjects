@@ -721,13 +721,24 @@
         android:id="@+id/pltTitle"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@color/darkGrey"
+        android:background="@drawable/back_repeat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buf"
         app:layout_constraintStart_toEndOf="@+id/viewForBlocks"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" >
     </View>
+    <TextView
+        android:id="@+id/blockPlt"
+        android:text="Int main( )  {"
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        app:layout_constraintStart_toStartOf="@+id/pltTitle"
+        android:background="@drawable/shape_for_fun_block">
+    </TextView>
     <ScrollView
         android:id="@+id/plt"
         android:layout_width="0dp"
@@ -735,29 +746,48 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buf"
         app:layout_constraintStart_toStartOf="@+id/pltTitle"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/blockPlt">
 
         <LinearLayout
-            android:id="@+id/linLayoutPlt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <TextView
-                android:id="@+id/blockPlt"
-                android:text="Work zone (drop your blocks here)"
-                android:textSize="30sp"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/greenY">
-            </TextView>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/shape_for_body">
 
+            <LinearLayout
+                android:id="@+id/linLayoutPlt"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="left"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/shape_for_body_empty">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="0sp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+            <TextView
+                android:text="}"
+                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp">
+            </TextView>
         </LinearLayout>
     </ScrollView>
 
@@ -774,10 +804,20 @@
         android:id="@+id/buttonInter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/buttonConsole"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/buf"
         android:text="Interpretate"
+        android:textColor="@color/white"
+        />
+    <Button
+        android:id="@+id/buttonConsole"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/buf"
+        android:text="Console"
         android:textColor="@color/white"
         />
 

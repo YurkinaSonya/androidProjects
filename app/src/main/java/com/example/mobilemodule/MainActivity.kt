@@ -16,6 +16,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.mobilemodule.databinding.ActivityMainBinding
 
 
@@ -120,6 +121,8 @@ class MainActivity : AppCompatActivity() {
         val plt = binding.linLayoutPlt
         val list = binding.linLayoutList
         val buf = binding.linLayoutBuf
+
+        plt.setBackgroundResource(R.drawable.shape_for_body_empty)
 
         list.setOnDragListener(dragListenerDelete)
         plt.setOnDragListener(dragListenerPlt)
@@ -312,33 +315,6 @@ class MainActivity : AppCompatActivity() {
         val btn = binding.buttonInter
         btn.setOnClickListener () {
             mainBody = createBlocksInBody(plt)
-            //println(mainBody.bodyInsides)
-
-            /*
-            mainBody.bodyInsides.clear()
-            mainBody.bodyInsides.add(Init("initialization", "testVariable", "Int"))
-            val testVar = NumberVariable("Int", "NumberVariable", 2, "testVariable", hashMapOfVariableValues["testVariable"].toString())
-            val numZero = NumberValue("Int", "NumberValue", 6,"0")
-            val numOne = NumberValue("Int", "NumberValue", 0,"1")
-            val numTwo = NumberValue("Int", "NumberValue", 1,"2")
-            val numTen = NumberValue("Int", "NumberValue", 6,"10")
-            mainBody.bodyInsides.add(Assignment("assignment", testVar, numOne))
-            val condTest = LogicOperator("Boolean", "LogicOperator", 8, testVar, numTen, "!=")
-            mainBody.bodyInsides.add(WhileBlock("while", condTest))
-            val mathOperLittle = MathOperator("Int", "MathOperator", 3, testVar, numOne, "+")
-            val mathOperCondition = MathOperator("Int", "MathOperator", 3, testVar, numTwo, "%")
-            val condIf = LogicOperator("Boolean", "LogicOperator", 8, mathOperCondition, numZero, "==")
-            mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(IfBlock("if", condIf, true))
-            val messageIf = StringValue("String", "StringValue", 10, "it is in loop and in true if: ")
-            val messageElse = StringValue("String", "StringValue", 10, "it is in loop and in false if: ")
-            mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].bodyOfBlock.bodyInsides.add(Output("output", Concat("String", "Concat", 11, messageIf, ToStringOper("String", "toString", 1, testVar))))
-            mainBody.bodyInsides[2].bodyOfBlock.bodyInsides[0].secondBodyOfBlock.bodyInsides.add(Output("output", Concat("String", "Concat", 11, messageElse, ToStringOper("String", "toString", 1, testVar))))
-            mainBody.bodyInsides[2].bodyOfBlock.bodyInsides.add(Assignment("assignment", testVar, mathOperLittle))
-
-             */
-
-
-
             println("I start program!!!")
             mainBody.doBody()
             println("I finish program!!!")
@@ -368,10 +344,10 @@ class MainActivity : AppCompatActivity() {
                     val ll = block.getChildAt(0) as LinearLayout
                     val spinner = ll.getChildAt(0) as Spinner
                     val llForOper = ll.getChildAt(2) as LinearLayout
-                    val llOper = llForOper.getChildAt(0) as RelativeLayout
+                    val rlOper = llForOper.getChildAt(0) as RelativeLayout
                     //println("     " + ll.getChildAt(2))
                     //val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is ass block"))
-                    val newBlock = Assignment("assignment", spinner.selectedItem.toString(), createMainOperator(llOper))
+                    val newBlock = Assignment("assignment", spinner.selectedItem.toString(), createMainOperator(rlOper))
                     newBody.bodyInsides.add(newBlock)
                 }
                 "output" -> {
@@ -383,13 +359,48 @@ class MainActivity : AppCompatActivity() {
                     newBody.bodyInsides.add(newBlock)
                 }
                 "if" -> {
-                    //println("it is if")
-                    val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is if block"))
+                    val ll = block.getChildAt(0) as LinearLayout
+                    val llIf = ll.getChildAt(0) as LinearLayout
+
+                    val llForCond = llIf.getChildAt(1) as LinearLayout
+                    val rlCond = llForCond.getChildAt(0) as RelativeLayout
+
+                    val llForBodyIf = ll.getChildAt(1) as LinearLayout
+                    val llBodyIf = llForBodyIf.getChildAt(0) as LinearLayout
+
+
+                    val llForBodyElse = ll.getChildAt(3) as LinearLayout
+                    val llBodyElse = llForBodyElse.getChildAt(0) as LinearLayout
+
+
+                    var hasElse = false
+                    if (llBodyElse.getChildCount() != 1) {
+                        hasElse = true
+                    }
+
+                    val newBlock = IfBlock("if",createMainOperator(rlCond), hasElse)
+                    newBlock.bodyOfBlock = createBlocksInBody(llBodyIf)
+                    if (hasElse) {
+                        newBlock.secondBodyOfBlock = createBlocksInBody(llBodyElse)
+                    }
+
+                    //val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is if block"))
                     newBody.bodyInsides.add(newBlock)
                 }
                 "while" -> {
-                    //println("it is while")
-                    val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is while block"))
+                    val ll = block.getChildAt(0) as LinearLayout
+
+                    val llWhile = ll.getChildAt(0) as LinearLayout
+                    val llForCond = llWhile.getChildAt(1) as LinearLayout
+                    val rlCond = llForCond.getChildAt(0) as RelativeLayout
+
+                    val llForBodyWhile = ll.getChildAt(1) as LinearLayout
+                    val llBodyWhile = llForBodyWhile.getChildAt(0) as LinearLayout
+
+                    val newBlock = WhileBlock("while",createMainOperator(rlCond))
+                    newBlock.bodyOfBlock = createBlocksInBody(llBodyWhile)
+
+                    //val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is if block"))
                     newBody.bodyInsides.add(newBlock)
                 }
                 else -> {
@@ -558,12 +569,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             DragEvent.ACTION_DRAG_LOCATION -> {
+                view.setBackgroundResource(R.drawable.shape_for_body_picked)
                 //println("Loc")
                 true
             }
 
             DragEvent.ACTION_DRAG_EXITED -> {
                 //println("Exit")
+                view.setBackgroundResource(R.drawable.shape_for_body_not_picked)
                 true
             }
 
@@ -588,27 +601,11 @@ class MainActivity : AppCompatActivity() {
                     val dest = view as ViewGroup
                     dest.addView(v)
                 }
-
-
-
-
-
+                view.setBackgroundResource(R.drawable.shape_for_body_not_picked)
                 true
             }
 
             DragEvent.ACTION_DRAG_ENDED -> {
-                //println("End")
-                //println(event.getLocalState())
-                /*
-                when (event.result) {
-                    true ->
-                        Toast.makeText(this, "The drop was handled.", Toast.LENGTH_LONG)
-
-                    else ->
-                        Toast.makeText(this, "The drop didn't work.", Toast.LENGTH_LONG)
-                }.show()
-
-                 */
                 true
             }
 
@@ -690,6 +687,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     val dragListenerOperator = View.OnDragListener() { view, event ->
+        var checkIsAdded = false
         when (event.action) {
             DragEvent.ACTION_DRAG_STARTED -> {
                 //println("Up")
@@ -702,11 +700,19 @@ class MainActivity : AppCompatActivity() {
             }
 
             DragEvent.ACTION_DRAG_LOCATION -> {
-                //println("Loc")
+                println("Loc")
+                view.setBackgroundResource(R.drawable.shape_for_main_operator_picked)
                 true
             }
 
             DragEvent.ACTION_DRAG_EXITED -> {
+                val dest = view as LinearLayout
+                if(dest.childCount == 0) {
+                    dest.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
+                }
+                else {
+                    dest.setBackgroundResource(R.drawable.shape_for_main_operator)
+                }
                 //println("Exit")
                 true
             }
@@ -728,7 +734,6 @@ class MainActivity : AppCompatActivity() {
                         //println(vCheck.transitionName + " " + dest.transitionName)
                         if (vCheck.transitionName == dest.transitionName && dest.transitionName != "All") {
                             if (dest.childCount != 0) {
-                                //dest.removeAllViews()
                                 val v = dest.getChildAt(0) as View
                                 val owner = v.parent as ViewGroup
                                 owner.removeView(v)
@@ -736,6 +741,8 @@ class MainActivity : AppCompatActivity() {
                             }
                             //printToConsole("all is okay")
                             build(blockName, dest)
+
+                            view.setBackgroundResource(R.drawable.shape_for_main_operator)
                         }
                         else {
                             if (dest.transitionName == "All") {
@@ -744,12 +751,12 @@ class MainActivity : AppCompatActivity() {
                                     val v = dest.getChildAt(0) as View
                                     val owner = v.parent as ViewGroup
                                     owner.removeView(v)
-                                    //println("i cant do it")
                                 }
-                                //printToConsole("all is okay")
                                 build(blockName, dest)
+                                view.setBackgroundResource(R.drawable.shape_for_main_operator)
                             }
                         }
+                        checkIsAdded = true
 
                     }
                 }
@@ -761,7 +768,22 @@ class MainActivity : AppCompatActivity() {
                                 val owner = v.parent as ViewGroup
                                 owner.removeView(v)
                                 dest.addView(v)
+                                owner.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
+                                dest.setBackgroundResource(R.drawable.shape_for_main_operator)
                             }
+                            else {
+                                val owner = v.parent as ViewGroup
+                                val destView = dest.getChildAt(0)
+                                owner.removeView(v)
+                                dest.removeView(destView)
+                                owner.addView(destView)
+                                dest.addView(v)
+
+
+                                owner.setBackgroundResource(R.drawable.shape_for_main_operator)
+                                dest.setBackgroundResource(R.drawable.shape_for_main_operator)
+                            }
+                            checkIsAdded = true
                         }
                         else {
                             if (dest.transitionName == "All") {
@@ -769,27 +791,42 @@ class MainActivity : AppCompatActivity() {
                                     val owner = v.parent as ViewGroup
                                     owner.removeView(v)
                                     dest.addView(v)
+                                    owner.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                                 }
+                                else {
+                                    val owner = v.parent as ViewGroup
+                                    val destView = dest.getChildAt(0)
+                                    owner.removeView(v)
+                                    dest.removeView(destView)
+                                    owner.addView(destView)
+                                    dest.addView(v)
+
+
+                                    owner.setBackgroundResource(R.drawable.shape_for_main_operator)
+                                }
+                                checkIsAdded = true
+                                dest.setBackgroundResource(R.drawable.shape_for_main_operator)
                             }
                         }
+                    }
+                    else {
+                        dest.setBackgroundResource(R.drawable.shape_for_main_operator)
                     }
                 }
                 true
             }
 
             DragEvent.ACTION_DRAG_ENDED -> {
-                //println("End")
-                //println(event.getLocalState())
-                /*
-                when (event.result) {
-                    true ->
-                        Toast.makeText(this, "The drop was handled.", Toast.LENGTH_LONG)
-
-                    else ->
-                        Toast.makeText(this, "The drop didn't work.", Toast.LENGTH_LONG)
-                }.show()
-
-                 */
+                if (!checkIsAdded) {
+                    //println("drop loose")
+                    val dest = view as LinearLayout
+                    if (dest.childCount == 0) {
+                        view.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
+                    }
+                    else {
+                        view.setBackgroundResource(R.drawable.shape_for_main_operator)
+                    }
+                }
                 true
             }
 
@@ -832,22 +869,26 @@ class MainActivity : AppCompatActivity() {
                 //println(list)
                 if (list[0] == "move") {
                     val v = event.localState as View
+                    val owner = v.parent as ViewGroup
                     if (list[1] == "Init") {
-                        //println(v.findViewById<EditText>(R.id.inputName).text)
-                        //println(varNames)
                         val varDelete = v.findViewById<EditText>(R.id.inputName).text.toString()
-                        //println(varDelete)
-                        //varNames.minus(v.findViewById<EditText>(R.id.inputName).text.toString())
                         if (varDelete != "") {
                             varNames.removeAt(varNames.indexOf(varDelete))
                         }
-                        //println(varNames)
                     }
-                    val owner = v.parent as ViewGroup
+                    else if (list[1] == "oper") {
+                        owner.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
+                    }
+                    val ownerLL = owner as LinearLayout
+                    //println("           " + ownerLL.childCount.toString())
+                    if (ownerLL.childCount == 2) {
+                        owner.setBackgroundResource(R.drawable.shape_for_body_empty)
+                    }
+                    else {
+                        owner.setBackgroundResource(R.drawable.shape_for_body_not_picked)
+                    }
                     owner.removeView(v)
-                    //addBlockToList(dragData.toString())
                 }
-                //println(list[2])
 
 
                 true
@@ -885,6 +926,8 @@ class MainActivity : AppCompatActivity() {
                 view = layoutInflater.inflate(R.layout.cout_block, null) as View
                 val outputOper = view.findViewById<LinearLayout>(R.id.coutBlockOper)
                 outputOper.setOnDragListener(dragListenerOperator)
+                outputOper.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
+
             }
             "Init" -> {
                 view = layoutInflater.inflate(R.layout.initialization_block, null) as View
@@ -948,32 +991,40 @@ class MainActivity : AppCompatActivity() {
                         view = layoutInflater.inflate(R.layout.math_oper, null) as View
                         val firstMath = view.findViewById<LinearLayout>(R.id.mathOperFirst)
                         firstMath.setOnDragListener(dragListenerOperator)
+                        firstMath.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                         val secondMath = view.findViewById<LinearLayout>(R.id.mathOperSecond)
                         secondMath.setOnDragListener(dragListenerOperator)
+                        secondMath.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                     }
                     "Ireq" -> {
                         view = layoutInflater.inflate(R.layout.eq_oper, null) as View
                         val firstEq = view.findViewById<LinearLayout>(R.id.eqOperFirst)
                         firstEq.setOnDragListener(dragListenerOperator)
+                        firstEq.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                         val secondEq = view.findViewById<LinearLayout>(R.id.eqOperSecond)
                         secondEq.setOnDragListener(dragListenerOperator)
+                        secondEq.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                     }
                     "Concat" -> {
                         view = layoutInflater.inflate(R.layout.concat_oper, null) as View
                         val firstConcat = view.findViewById<LinearLayout>(R.id.concatOperFirst)
                         firstConcat.setOnDragListener(dragListenerOperator)
+                        firstConcat.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                         val secondConcat = view.findViewById<LinearLayout>(R.id.concatOperSecond)
                         secondConcat.setOnDragListener(dragListenerOperator)
+                        secondConcat.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                     }
                     "ToStr" -> {
                         view = layoutInflater.inflate(R.layout.to_str_oper, null) as View
                         val toStrOper = view.findViewById<LinearLayout>(R.id.toStrOper)
                         toStrOper.setOnDragListener(dragListenerOperator)
+                        toStrOper.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                     }
                     "Logic" -> {
                         view = layoutInflater.inflate(R.layout.logic_oper, null) as View
                         val firstLogic = view.findViewById<LinearLayout>(R.id.logicOperFirst)
                         firstLogic.setOnDragListener(dragListenerOperator)
+                        firstLogic.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                         val secondLogic = view.findViewById<LinearLayout>(R.id.logicOperSecond)
                         secondLogic.setOnDragListener(dragListenerOperator)
                     }
@@ -981,11 +1032,13 @@ class MainActivity : AppCompatActivity() {
                         view = layoutInflater.inflate(R.layout.minus_oper, null) as View
                         val minusOper = view.findViewById<LinearLayout>(R.id.minusOperFirst)
                         minusOper.setOnDragListener(dragListenerOperator)
+                        minusOper.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                     }
                     "Neg" -> {
                         view = layoutInflater.inflate(R.layout.neg_oper, null) as View
                         val negOper = view.findViewById<LinearLayout>(R.id.negOperFirst)
                         negOper.setOnDragListener(dragListenerOperator)
+                        negOper.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                     }
                     "strValue" -> {
                         view = layoutInflater.inflate(R.layout.str_value_oper, null) as View
@@ -1487,8 +1540,8 @@ class StringVariable (type : String, typeOfBlock : String, id: Int, name: String
 
 
 abstract class FunBlock (val type : String) {
-    val bodyOfBlock = Body()
-    val secondBodyOfBlock = Body()
+    var bodyOfBlock = Body()
+    var secondBodyOfBlock = Body()
     open fun checkCond() {}
     open fun doOutput() {}
     open fun createVariable() {}
@@ -1537,7 +1590,7 @@ class Init (type : String, var name: String, var typeOfVariable: String) : FunBl
                 hashMapOfVariableTypes.put(name, "String")
             }
             "Boolean" -> {
-                hashMapOfVariableValues.put(name, "False")
+                hashMapOfVariableValues.put(name, "false")
                 hashMapOfVariableTypes.put(name, "Boolean")
             }
             else -> {

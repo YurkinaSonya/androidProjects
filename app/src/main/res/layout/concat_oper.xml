@@ -27,7 +27,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/shape_for_main_operator"/>
+            android:background="@drawable/shape_for_main_operator_empty"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/shape_for_main_operator"/>
+            android:background="@drawable/shape_for_main_operator_empty"/>
     </LinearLayout>
 
 </RelativeLayout>

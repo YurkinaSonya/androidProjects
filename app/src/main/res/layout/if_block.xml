@@ -11,31 +11,31 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="@dimen/marginForBlocks"
         android:gravity="left"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="@dimen/marginForBlocks"
+        android:layout_marginBottom="@dimen/marginForBlocks"
         >
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="@dimen/marginForBlocks"
             android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/marginForBlocks"
+            android:layout_marginBottom="@dimen/marginForBlocks"
+            android:layout_marginLeft="@dimen/marginForBlocks"
+            android:layout_marginRight="@dimen/marginForBlocks"
             android:background="@drawable/shape_for_fun_block">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ifBlock"
                 android:textSize="30sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:layout_marginLeft="@dimen/marginForBlocks"
+                android:layout_marginRight="@dimen/marginForBlocks"
                 android:textColor="@color/white"/>
 
             <LinearLayout
@@ -44,21 +44,21 @@
                 android:id="@+id/ifCondOper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/shape_for_main_operator"/>
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:layout_marginLeft="@dimen/marginForBlocks"
+                android:layout_marginRight="@dimen/marginForBlocks"
+                android:background="@drawable/shape_for_main_operator_empty"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/openFigure"
                 android:textSize="30sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:layout_marginLeft="@dimen/marginForBlocks"
+                android:layout_marginRight="@dimen/marginForBlocks"
                 android:textColor="@color/white"/>
 <!--
             <Button
@@ -67,10 +67,10 @@
                 android:text="@string/plus"
                 android:textSize="30sp"
                 android:textColor="@color/white"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:layout_marginLeft="@dimen/marginForBlocks"
+                android:layout_marginRight="@dimen/marginForBlocks"
                 android:backgroundTint="@color/orange"/> -->
         </LinearLayout>
 
@@ -78,12 +78,12 @@
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="@dimen/marginForBlocks"
             android:gravity="left"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/marginForBlocks"
+            android:layout_marginBottom="@dimen/marginForBlocks"
+            android:layout_marginLeft="@dimen/marginForBlocks"
+            android:layout_marginRight="@dimen/marginForBlocks"
             android:background="@drawable/shape_for_body"
             >
 
@@ -92,12 +92,12 @@
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/marginForBlocks"
                 android:gravity="left"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp">
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:layout_marginLeft="@dimen/marginForBlocks"
+                android:layout_marginRight="@dimen/marginForBlocks">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,10 +111,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/closeFigure"
                 android:textSize="30sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:layout_marginLeft="@dimen/marginForBlocks"
+                android:layout_marginRight="@dimen/marginForBlocks"
                 android:textColor="@color/white"/>
         </LinearLayout>
 
@@ -122,22 +122,22 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="@dimen/marginForBlocks"
             android:gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/marginForBlocks"
+            android:layout_marginBottom="@dimen/marginForBlocks"
+            android:layout_marginLeft="@dimen/marginForBlocks"
+            android:layout_marginRight="@dimen/marginForBlocks"
             android:background="@drawable/shape_for_fun_block">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/elseBlock"
                 android:textSize="30sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:layout_marginLeft="@dimen/marginForBlocks"
+                android:layout_marginRight="@dimen/marginForBlocks"
                 android:textColor="@color/white"/>
 <!--
             <Button
@@ -146,23 +146,24 @@
                 android:text="@string/minus"
                 android:textSize="30sp"
                 android:textColor="@color/white"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:layout_marginLeft="@dimen/marginForBlocks"
+                android:layout_marginRight="@dimen/marginForBlocks"
                 android:backgroundTint="@color/orange"/> -->
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/elseNOTBodyInPlt"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="@dimen/marginForBlocks"
             android:gravity="left"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/marginForBlocks"
+            android:layout_marginBottom="@dimen/marginForBlocks"
+            android:layout_marginLeft="@dimen/marginForBlocks"
+            android:layout_marginRight="@dimen/marginForBlocks"
             android:background="@drawable/shape_for_body"
             >
 
@@ -171,12 +172,12 @@
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/marginForBlocks"
                 android:gravity="left"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp">
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:layout_marginLeft="@dimen/marginForBlocks"
+                android:layout_marginRight="@dimen/marginForBlocks">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -190,10 +191,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/closeFigure"
                 android:textSize="30sp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:layout_marginLeft="@dimen/marginForBlocks"
+                android:layout_marginRight="@dimen/marginForBlocks"
                 android:textColor="@color/white"/>
         </LinearLayout>
     </LinearLayout>
