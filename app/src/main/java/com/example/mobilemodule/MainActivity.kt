@@ -56,6 +56,8 @@ val hashMapForOutputTypes : HashMap<Int, Boolean> = HashMap<Int, Boolean>()
 
 val varNames = arrayListOf<String>("-")
 var varNameRightNow = ""
+val arrNames = arrayListOf<String>("-")
+var arrNameRightNow = ""
 var outputInd = 0
 
 
@@ -65,9 +67,6 @@ class MainActivity : AppCompatActivity() {
     var indCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        //hashMapOfVariable["a"] = VariableData("Int", "0")
-        //var testStr = hashMapOfVariable["a"]?.value?:return
 
 
         super.onCreate(savedInstanceState)
@@ -171,9 +170,29 @@ class MainActivity : AppCompatActivity() {
             it.startDragAndDrop(data, dragShadowBuilder, it, 0)
             true
         }
+        val blockInitArray = binding.initArrayBlock
+        blockInitArray.setOnLongClickListener() {
+            val checkText = "InitArray"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
         val blockAssig = binding.assigBlock
         blockAssig.setOnLongClickListener() {
             val checkText = "Assig"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val blockAssigArray = binding.assigArrayBlock
+        blockAssigArray.setOnLongClickListener() {
+            val checkText = "AssigArray"
             val item = ClipData.Item(checkText)
             val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
             val data = ClipData(checkText, mimeTypes, item)
@@ -191,9 +210,29 @@ class MainActivity : AppCompatActivity() {
             it.startDragAndDrop(data, dragShadowBuilder, it, 0)
             true
         }
-        val arrayOperator = binding.arrayOper
-        arrayOperator.setOnLongClickListener() {
-            val checkText = "oper.IndArray"
+        val arrayIntOperator = binding.arrayIntOper
+        arrayIntOperator.setOnLongClickListener() {
+            val checkText = "oper.IndIntArray"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val arrayBoolOperator = binding.arrayBoolOper
+        arrayBoolOperator.setOnLongClickListener() {
+            val checkText = "oper.IndBoolArray"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val arrayStrOperator = binding.arrayStringOper
+        arrayStrOperator.setOnLongClickListener() {
+            val checkText = "oper.IndStrArray"
             val item = ClipData.Item(checkText)
             val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
             val data = ClipData(checkText, mimeTypes, item)
@@ -329,13 +368,12 @@ class MainActivity : AppCompatActivity() {
         btn.setOnClickListener () {
             hashMapForOutputMessages.clear()
             hashMapForOutputTypes.clear()
+            outputInd = 0
             mainBody = createBlocksInBody(plt)
             mainBody.bodyInsides.add(Input("input", "smth"))
-            println("I start program!!!")
+            //println("I start program!!!")
             mainBody.doBody()
-            println("I finish program!!!")
-            //println(hashMapOfVariableValues)
-            //println(hashMapForOutputMessages)
+            //println("I finish program!!!")
         }
 
         val btnConsole = findViewById<Button>(R.id.buttonConsole)
@@ -356,23 +394,15 @@ class MainActivity : AppCompatActivity() {
                 val message = viewMessage.findViewById<TextView>(R.id.coutMessage)
                 messageInd.text = i.toString()
                 message.text = hashMapForOutputMessages[i]
-
-                //println(i.toString() + ":" + hashMapForOutputMessages[i])
-                //println(messageInd)
-                //println(message)
                 llInSheet.addView(viewMessage)
             }
 
-            println(llInSheet.childCount)
+            //println(llInSheet.childCount)
 
             dialog.setCancelable(false)
 
             dialog.setContentView(viewConsole)
             dialog.show()
-            /*
-            val intent = Intent(this, ConsoleActivity::class.java)
-            startActivity(intent)
-             */
         }
 
 
@@ -386,7 +416,6 @@ class MainActivity : AppCompatActivity() {
         for (i in 1 until llBody.getChildCount()) {
             //println(llBody.getChildAt(i))
             val block = llBody.getChildAt(i) as RelativeLayout
-
             val blockName = block.transitionName
             when (blockName) {
                 "init" -> {
@@ -398,15 +427,37 @@ class MainActivity : AppCompatActivity() {
                     val newBlock =  Init("initialization", nameOfVariable.text.toString(), spinner.selectedItem.toString())
                     newBody.bodyInsides.add(newBlock)
                 }
+                "initArray" -> {
+                    //println("it is init")
+                    val ll = block.getChildAt(0) as LinearLayout
+                    val spinner = ll.getChildAt(0) as Spinner
+                    val nameOfArray = ll.getChildAt(1) as EditText
+                    val llForOper = ll.getChildAt(2) as LinearLayout
+                    val sizeOfArray = llForOper.getChildAt(0) as RelativeLayout
+                    //val newBlock =  Output("output", true, StringValue("String", "StringValue", 0, "this is init block"))
+                    val newBlock =  InitArray("arrayInitialization", nameOfArray.text.toString(), spinner.selectedItem.toString(), createBlock(sizeOfArray))
+                    newBody.bodyInsides.add(newBlock)
+                }
                 "assig" -> {
                     //println("it is ass")
                     val ll = block.getChildAt(0) as LinearLayout
                     val spinner = ll.getChildAt(0) as Spinner
                     val llForOper = ll.getChildAt(2) as LinearLayout
                     val rlOper = llForOper.getChildAt(0) as RelativeLayout
+                    val newBlock = Assignment("assignment", spinner.selectedItem.toString(), createMainOperator(rlOper))
+                    newBody.bodyInsides.add(newBlock)
+                }
+                "assigArray" -> {
+                    //println("it is ass")
+                    val ll = block.getChildAt(0) as LinearLayout
+                    val spinner = ll.getChildAt(0) as Spinner
+                    val llForIndOper = ll.getChildAt(1) as LinearLayout
+                    val rlIndOper = llForIndOper.getChildAt(0) as RelativeLayout
+                    val llForOper = ll.getChildAt(3) as LinearLayout
+                    val rlOper = llForOper.getChildAt(0) as RelativeLayout
                     //println("     " + ll.getChildAt(2))
                     //val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is ass block"))
-                    val newBlock = Assignment("assignment", spinner.selectedItem.toString(), createMainOperator(rlOper))
+                    val newBlock = ArrayAssignment("arrayAssignment", spinner.selectedItem.toString(), createBlock(rlIndOper), createMainOperator(rlOper))
                     newBody.bodyInsides.add(newBlock)
                 }
                 "output" -> {
@@ -494,6 +545,15 @@ class MainActivity : AppCompatActivity() {
             "BooleanVariable" -> {
                 return (createBlock(rl))
             }
+            "IntArray" -> {
+                return (createBlock(rl))
+            }
+            "StringArray" -> {
+                return (createBlock(rl))
+            }
+            "BooleanArray" -> {
+                return (createBlock(rl))
+            }
             "Math" -> {
                 return (createBlock(rl))
             }
@@ -577,6 +637,19 @@ class MainActivity : AppCompatActivity() {
                 val block = BooleanVariable("Boolean", "BooleanVariable", 6, spinner.selectedItem.toString())
                 return block
             }
+            "IntArray" -> {
+                val spinner = ll.getChildAt(1) as Spinner
+                val lOper = ll.getChildAt(2) as LinearLayout
+                val indOper = lOper.getChildAt(0) as RelativeLayout
+                val block = NumberArray("Int", "NumberVariable", 6, spinner.selectedItem.toString(), createBlock(indOper))
+                return block
+            }
+            "StringArray" -> {
+                return (createBlock(rl))
+            }
+            "BooleanArray" -> {
+                return (createBlock(rl))
+            }
             "Math" -> {
                 //println("this is math")
                 val lFirst = ll.getChildAt(0) as LinearLayout
@@ -612,7 +685,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
 
     val dragListenerPlt = View.OnDragListener() { view, event ->
@@ -1015,14 +1087,43 @@ class MainActivity : AppCompatActivity() {
                         //println("text was changed")
                     }
                 })
+            }
+            "InitArray" -> {
+                view = layoutInflater.inflate(R.layout.initialization_array_block, null) as View
+                val editText = view.findViewById<EditText>(R.id.inputName)
+                editText.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                        arrNameRightNow = s.toString()
+                    }
 
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {
+                        if (s.toString() != arrNameRightNow) {
+                            if (arrNames.indexOf(arrNameRightNow) != -1) {
+                                arrNames[arrNames.indexOf(arrNameRightNow)] = s.toString()
+                                //println("i swap one var by another")
+                            }
+                            else {
+                                arrNames += s.toString()
+                            }
+                        }
+                    }
+                })
+                val arrayOper = view.findViewById<LinearLayout>(R.id.arrayBlockOper)
+                arrayOper.setOnDragListener(dragListenerOperator)
+                arrayOper.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
             }
             "If" -> {
                 view = layoutInflater.inflate(R.layout.if_block, null) as View
                 val bodyIf = view.findViewById<LinearLayout>(R.id.ifBodyInPlt)
                 bodyIf.setOnDragListener(dragListenerPlt)
+                bodyIf.setBackgroundResource(R.drawable.shape_for_body_empty)
                 val bodyElse = view.findViewById<LinearLayout>(R.id.elseBodyInPlt)
                 bodyElse.setOnDragListener(dragListenerPlt)
+                bodyElse.setBackgroundResource(R.drawable.shape_for_body_empty)
                 val condOper = view.findViewById<LinearLayout>(R.id.ifCondOper)
                 condOper.setOnDragListener(dragListenerOperator)
             }
@@ -1030,6 +1131,7 @@ class MainActivity : AppCompatActivity() {
                 view = layoutInflater.inflate(R.layout.while_block, null) as View
                 val bodyWhile = view.findViewById<LinearLayout>(R.id.whileBodyInPlt)
                 bodyWhile.setOnDragListener(dragListenerPlt)
+                bodyWhile.setBackgroundResource(R.drawable.shape_for_body_empty)
                 val condOper = view.findViewById<LinearLayout>(R.id.whileCondOper)
                 condOper.setOnDragListener(dragListenerOperator)
             }
@@ -1044,6 +1146,19 @@ class MainActivity : AppCompatActivity() {
                 val assigOper = view.findViewById<LinearLayout>(R.id.assigOper)
                 assigOper.setOnDragListener(dragListenerOperator)
             }
+            "AssigArray" -> {
+                view = layoutInflater.inflate(R.layout.assignment_array_block, null) as View
+                val spinner = view.findViewById<Spinner>(R.id.nameSpinner)
+                val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrNames)
+                aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                with(spinner) {
+                    adapter = aa
+                }
+                val assigIndOper = view.findViewById<LinearLayout>(R.id.assigIndOper)
+                assigIndOper.setOnDragListener(dragListenerOperator)
+                val assigOper = view.findViewById<LinearLayout>(R.id.assigOper)
+                assigOper.setOnDragListener(dragListenerOperator)
+            }
             "oper" -> {
                 when (list[1]) {
                     "Math" -> {
@@ -1055,10 +1170,10 @@ class MainActivity : AppCompatActivity() {
                         secondMath.setOnDragListener(dragListenerOperator)
                         secondMath.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                     }
-                    "IndArray" -> {
-                        view = layoutInflater.inflate(R.layout.array_ind_oper, null) as View
+                    "IndIntArray" -> {
+                        view = layoutInflater.inflate(R.layout.array_ind_int_oper, null) as View
                         val spinner = view.findViewById<Spinner>(R.id.nameSpinner)
-                        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, varNames)
+                        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrNames)
                         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         with(spinner) {
                             adapter = aa
@@ -1067,6 +1182,31 @@ class MainActivity : AppCompatActivity() {
                         indArr.setOnDragListener(dragListenerOperator)
                         indArr.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
                     }
+                    "IndStrArray" -> {
+                        view = layoutInflater.inflate(R.layout.array_ind_string_oper, null) as View
+                        val spinner = view.findViewById<Spinner>(R.id.nameSpinner)
+                        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrNames)
+                        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        with(spinner) {
+                            adapter = aa
+                        }
+                        val indArr = view.findViewById<LinearLayout>(R.id.arrayInd)
+                        indArr.setOnDragListener(dragListenerOperator)
+                        indArr.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
+                    }
+                    "IndBoolArray" -> {
+                        view = layoutInflater.inflate(R.layout.array_ind_bool_oper, null) as View
+                        val spinner = view.findViewById<Spinner>(R.id.nameSpinner)
+                        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrNames)
+                        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        with(spinner) {
+                            adapter = aa
+                        }
+                        val indArr = view.findViewById<LinearLayout>(R.id.arrayInd)
+                        indArr.setOnDragListener(dragListenerOperator)
+                        indArr.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
+                    }
+
                     "Ireq" -> {
                         view = layoutInflater.inflate(R.layout.eq_oper, null) as View
                         val firstEq = view.findViewById<LinearLayout>(R.id.eqOperFirst)
@@ -1193,13 +1333,13 @@ class MainActivity : AppCompatActivity() {
 fun printToConsole (type : Boolean, included: String) {
     var message = ""
     if (type) {
-        println("Console: " + included)
+        //println("Console: " + included)
         message = included
         //val intent = Intent(MainActivity.this, ConsoleActivity::class.java)
 
     }
     else {
-        println("Console Error: " + included)
+        //println("Console Error: " + included)
         message = "Error: " + included
     }
     hashMapForOutputMessages[outputInd] = message
@@ -1637,17 +1777,68 @@ class StringVariable (type : String, typeOfBlock : String, id: Int, name: String
     }
 }
 
-class Array(type: String, typeOfBlock: String, id: Int, val name: String, val ind: Block) : Block(type, typeOfBlock, id) {
+class NumberArray(type: String, typeOfBlock: String, id: Int, val name: String, val ind: Block) : Block(type, typeOfBlock, id) {
     override fun define(): Boolean {
-        when (hashMapOfArraySize[name]) {
+        val a = hashMapOfArrayValues[name]
+        val valueForDefine = a?.get(ind.takeValue().toInt()).toString().toInt()
+        when (valueForDefine) {
             0 -> return false
             else -> return true
         }
     }
 
     override fun takeValue(): String {
+        val indToTake = ind.takeValue().toInt()
+        if (indToTake >= hashMapOfArraySize[name].toString().toInt()) {
+            printToConsole(false, "ind out of range")
+            return "-1"
+        }
+        else {
+            val a = hashMapOfArrayValues[name]
+            return a?.get(indToTake).toString()
+        }
+    }
+}
+
+class BooleanArray(type: String, typeOfBlock: String, id: Int, val name: String, val ind: Block) : Block(type, typeOfBlock, id) {
+    override fun define(): Boolean {
         val a = hashMapOfArrayValues[name]
-        return a?.get(ind).toString()
+        return a?.get(ind.takeValue().toInt()).toBoolean()
+    }
+
+    override fun takeValue(): String {
+        val indToTake = ind.takeValue().toInt()
+        if (indToTake >= hashMapOfArraySize[name].toString().toInt()) {
+            printToConsole(false, "ind out of range")
+            return "false"
+        }
+        else {
+            val a = hashMapOfArrayValues[name]
+            return a?.get(indToTake).toString()
+        }
+    }
+}
+
+class StringArray(type: String, typeOfBlock: String, id: Int, val name: String, val ind: Block) : Block(type, typeOfBlock, id) {
+    override fun define(): Boolean {
+        val a = hashMapOfArrayValues[name]
+        val valueForDefine = a?.get(ind.takeValue().toInt()).toString()
+        when (valueForDefine) {
+            "" -> return false
+            else -> return true
+        }
+    }
+
+    override fun takeValue(): String {
+        val indToTake = ind.takeValue().toInt()
+        if (indToTake >= hashMapOfArraySize[name].toString().toInt()) {
+            printToConsole(false, "ind out of range")
+            return ""
+        }
+        else {
+            val a = hashMapOfArrayValues[name]
+            return a?.get(indToTake).toString()
+        }
     }
 }
 
@@ -1693,7 +1884,7 @@ class WhileBlock (type : String, var cond : MainOperator) : FunBlock(type) {
 
 class Init (type : String, var name: String, var typeOfVariable: String) : FunBlock(type) {
     override fun createVariable() {
-        printToConsole(true, "I create variable with name $name and type $typeOfVariable")
+        //printToConsole(true, "I create variable with name $name and type $typeOfVariable")
         //println(hashMapOfVariableValues)
         when (typeOfVariable) {
             "Int" -> {
@@ -1755,6 +1946,7 @@ class InitArray(type: String, var name: String, var typeOfVariable: String, var 
                     printToConsole(false, "Type Of Array Error")
                 }
             }
+            //printToConsole(false, "i create array $name")
         }
         else {
             printToConsole(false, "size must to be Int")
@@ -1806,36 +1998,48 @@ class ArrayAssignment(type: String, var name: String,  val indBlock: Block, var 
 
 class ArraySwap(type: String, val name1: String, val blockInd1: Block, val name2: String, val blockInd2: Block) : FunBlock(type) {
     override fun checkCond() {
-        if (blockInd1.type == "Int") {
-            if (blockInd2.type == "Int") {
-                val ind1 = blockInd1.takeValue().toInt()
-                val ind2 = blockInd2.takeValue().toInt()
-                if (ind1 < hashMapOfArraySize[name1].toString().toInt()) {
-                    if (ind2 < hashMapOfArraySize[name2].toString().toInt()) {
-                        if ( hashMapOfArrayTypes[name1] == hashMapOfArrayTypes[name2]){
-                            var a = Array(hashMapOfArrayTypes[name1].toString(), "Array", 0, name1, blockInd1).takeValue()
-                            var b = Array(hashMapOfArrayTypes[name2].toString(), "Array", 0, name2, blockInd2).takeValue()
-                            hashMapOfArrayValues[name1]?.set(ind1, b)
-                            hashMapOfArrayValues[name2]?.set(ind2, a)
+        val ind1 = blockInd1.takeValue().toInt()
+        val ind2 = blockInd2.takeValue().toInt()
+        if (ind1 < hashMapOfArraySize[name1].toString().toInt()) {
+            if (ind2 < hashMapOfArraySize[name2].toString().toInt()) {
+                if ( hashMapOfArrayTypes[name1] == hashMapOfArrayTypes[name2]){
+                    var a = StringArray(hashMapOfArrayTypes[name1].toString(), "Array", 0, name1, blockInd1).takeValue()
+                    when (hashMapOfArrayTypes[name1]) {
+                        "Int" -> {
+                            a = NumberArray(hashMapOfArrayTypes[name1].toString(), "Array", 0, name1, blockInd1).takeValue()
                         }
-                        else{
-                            printToConsole(false, "$name1 and $name2 Arrays Have Different Types")
+                        "String" -> {
+                            a = StringArray(hashMapOfArrayTypes[name1].toString(), "Array", 0, name1, blockInd1).takeValue()
+                        }
+                        "Boolean" -> {
+                            a = BooleanArray(hashMapOfArrayTypes[name1].toString(), "Array", 0, name1, blockInd1).takeValue()
                         }
                     }
-                    else {
-                        printToConsole(false, "Out Of Range In $name2 Array")
+                    var b = StringArray(hashMapOfArrayTypes[name1].toString(), "Array", 0, name2, blockInd2).takeValue()
+                    when (hashMapOfArrayTypes[name1]) {
+                        "Int" -> {
+                            b = NumberArray(hashMapOfArrayTypes[name1].toString(), "Array", 0, name2, blockInd2).takeValue()
+                        }
+                        "String" -> {
+                            b = StringArray(hashMapOfArrayTypes[name1].toString(), "Array", 0, name2, blockInd2).takeValue()
+                        }
+                        "Boolean" -> {
+                            b = BooleanArray(hashMapOfArrayTypes[name1].toString(), "Array", 0, name2, blockInd2).takeValue()
+                        }
                     }
+                    hashMapOfArrayValues[name1]?.set(ind1, b)
+                    hashMapOfArrayValues[name2]?.set(ind2, a)
                 }
-                else {
-                    printToConsole(false, "Out Of Range In $name1 Array")
+                else{
+                    printToConsole(false, "$name1 and $name2 Arrays Have Different Types")
                 }
             }
             else {
-                printToConsole(false, "second index must be Int")
+                printToConsole(false, "Out Of Range In $name2 Array")
             }
         }
         else {
-            printToConsole(false, "first index must be Int")
+            printToConsole(false, "Out Of Range In $name1 Array")
         }
     }
 }
@@ -1850,10 +2054,11 @@ class Body() {
                 "output" -> i.doOutput()
                 "initialization" -> i.createVariable()
                 "assignment" -> i.checkTypes()
+                "arrayAssignment" -> i.checkTypes()
                 "while" -> i.checkCond()
                 "input" -> i.checkTypes()
                 "swap" -> i.checkCond()
-                "arrayInitialization" -> i.checkTypes()
+                "arrayInitialization" -> i.createVariable()
             }
         }
     }

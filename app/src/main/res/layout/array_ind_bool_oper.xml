@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:transitionName="Bool">
+
+    <LinearLayout
+        android:id="@+id/arrayIndInPlt"
+        android:transitionName="BooleanArray"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/marginForBlocks"
+        android:layout_marginBottom="@dimen/marginForBlocks">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/typeVBool"
+            android:textSize="30sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/white"/>
+
+        <Spinner
+            android:id="@+id/nameSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_for_spinner"/>
+
+        <LinearLayout
+            android:id="@+id/arrayInd"
+            android:transitionName="Int"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/marginForBlocks"
+            android:layout_marginBottom="@dimen/marginForBlocks"
+            android:layout_marginLeft="@dimen/marginForBlocks"
+            android:layout_marginRight="@dimen/marginForBlocks"
+            android:background="@drawable/shape_for_main_operator_empty"/>
+    </LinearLayout>
+
+</RelativeLayout>

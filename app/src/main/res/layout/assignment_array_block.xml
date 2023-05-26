@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:transitionName="assigArray">
+
+    <LinearLayout
+        android:id="@+id/initBlockInPlt"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/marginForBlocks"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/marginForBlocks"
+        android:layout_marginBottom="@dimen/marginForBlocks"
+        android:background="@drawable/shape_for_fun_block">
+
+        <Spinner
+            android:id="@+id/nameSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_for_spinner"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:transitionName="Int"
+            android:id="@+id/assigIndOper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginForBlocks"
+            android:layout_marginBottom="@dimen/marginForBlocks"
+            android:layout_marginLeft="@dimen/marginForBlocks"
+            android:layout_marginRight="@dimen/marginForBlocks"
+            android:background="@drawable/shape_for_main_operator_empty"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/eq"
+            android:textSize="30sp"
+            android:textColor="@color/white"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:transitionName="All"
+            android:id="@+id/assigOper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginForBlocks"
+            android:layout_marginBottom="@dimen/marginForBlocks"
+            android:layout_marginLeft="@dimen/marginForBlocks"
+            android:layout_marginRight="@dimen/marginForBlocks"
+            android:background="@drawable/shape_for_main_operator_empty"/>
+    </LinearLayout>
+
+</RelativeLayout>
