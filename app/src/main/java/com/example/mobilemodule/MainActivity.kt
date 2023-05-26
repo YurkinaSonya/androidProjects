@@ -9,15 +9,17 @@ import android.view.DragEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.example.mobilemodule.databinding.ActivityMainBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
 //i change it and you can see it
@@ -42,25 +44,25 @@ class MyDialogFragment : DialogFragment() {
 }
  */
 
-var hashMapOfVariableValues : HashMap<String, String> = HashMap<String, String>()
-var hashMapOfVariableTypes : HashMap<String, String> = HashMap<String, String>()
+val hashMapOfVariableValues : HashMap<String, String> = HashMap<String, String>()
+val hashMapOfVariableTypes : HashMap<String, String> = HashMap<String, String>()
 
-var hashMapOfArrayValues : HashMap<String, HashMap<Int, String>> = HashMap<String, HashMap<Int, String>>()
-var hashMapOfArrayTypes : HashMap<String, String> = HashMap<String, String>()
+val hashMapOfArrayValues : HashMap<String, HashMap<Int, String>> = HashMap<String, HashMap<Int, String>>()
+val hashMapOfArrayTypes : HashMap<String, String> = HashMap<String, String>()
+
+val hashMapForOutputMessages : HashMap<Int, String> = HashMap<Int, String>()
+val hashMapForOutputTypes : HashMap<Int, Boolean> = HashMap<Int, Boolean>()
 
 val varNames = arrayListOf<String>("-")
 var varNameRightNow = ""
-var pltInd = 0
+var outputInd = 0
 
-//var spinnerArrayAdapter: ArrayAdapter<String>? = null
-fun HashMap<String, VariableData>.getValue (key : String) : VariableData {
-    return this[key]?:throw IllegalArgumentException()
-}
 
 
 class MainActivity : AppCompatActivity() {
     var mainBody = Body()
     var indCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         //hashMapOfVariable["a"] = VariableData("Int", "0")
@@ -72,26 +74,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+
         var listIsOpen = false
         val viewBlocks = binding.viewForBlocks
         val listBlocks = binding.listOfBlocks
+        val listTitle = binding.listTitle
+
         viewBlocks.setOnClickListener() {
-            /*
-            val myDialogFragment = MyDialogFragment()
-            val manager = supportFragmentManager
-            //myDialogFragment.show(manager, "wtf")
-            val transaction: FragmentTransaction = manager.beginTransaction()
-            myDialogFragment.show(transaction, "dialog")
-             */
             val params = viewBlocks.layoutParams
             val paramsList = listBlocks.layoutParams
+            val paramsTitle = listTitle.layoutParams
+
             if (!listIsOpen) {
                 paramsList.width = ViewGroup.LayoutParams.WRAP_CONTENT
                 params.width = 500
+                paramsTitle.width = 0
                 println("yep")
             } else {
-                params.width = 300
+                params.width = 100
                 paramsList.width = 0
+                paramsTitle.width = ViewGroup.LayoutParams.MATCH_PARENT
                 println("nope")
             }
             viewBlocks.setLayoutParams(params);
@@ -314,13 +316,59 @@ class MainActivity : AppCompatActivity() {
 
         val btn = binding.buttonInter
         btn.setOnClickListener () {
+            hashMapForOutputMessages.clear()
+            hashMapForOutputTypes.clear()
             mainBody = createBlocksInBody(plt)
+            mainBody.bodyInsides.add(Input("input", "smth"))
             println("I start program!!!")
             mainBody.doBody()
             println("I finish program!!!")
-            println(hashMapOfVariableValues)
+            //println(hashMapOfVariableValues)
+            //println(hashMapForOutputMessages)
         }
+
+        val btnConsole = findViewById<Button>(R.id.buttonConsole)
+
+        btnConsole.setOnClickListener () {
+            val dialog = BottomSheetDialog(this)
+            val viewConsole = layoutInflater.inflate(R.layout.sheet_console, null)
+            val backButtonInSheet = viewConsole.findViewById<Button>(R.id.buttonBack)
+            val llInSheet = viewConsole.findViewById<LinearLayout>(R.id.listForConsole)
+
+            backButtonInSheet.setOnClickListener() {
+                dialog.dismiss()
+            }
+
+            for (i in 0 until outputInd) {
+                val viewMessage = layoutInflater.inflate(R.layout.cout_message, null)
+                val messageInd = viewMessage.findViewById<TextView>(R.id.coutMessageInd)
+                val message = viewMessage.findViewById<TextView>(R.id.coutMessage)
+                messageInd.text = i.toString()
+                message.text = hashMapForOutputMessages[i]
+
+                //println(i.toString() + ":" + hashMapForOutputMessages[i])
+                //println(messageInd)
+                //println(message)
+                llInSheet.addView(viewMessage)
+            }
+
+            println(llInSheet.childCount)
+
+            dialog.setCancelable(false)
+
+            dialog.setContentView(viewConsole)
+            dialog.show()
+            /*
+            val intent = Intent(this, ConsoleActivity::class.java)
+            startActivity(intent)
+             */
+        }
+
+
     }
+
+
+
 
     private fun createBlocksInBody (llBody : LinearLayout) : Body {
         val newBody = Body()
@@ -1092,21 +1140,50 @@ class MainActivity : AppCompatActivity() {
         dest.addView(view)
     }
 
+    /*
+    companion object {
+        fun showForInput() : String {
+            val builder = AlertDialog.Builder()
+            builder.setTitle("Выбор есть всегда").setMessage("Выбери пищу")
+            return "this could be in input"
+
+        }
+    }
+
+     */
+
+
+    /*
+    fun sentBlockToConsole(messageType: Boolean, message: Message, isEnter : Boolean) {
+        val intent = Intent(this, ConsoleActivity::class.java)
+        intent.putExtra("data", message)
+    }
+     */
+
 }
+
+
 
 
 
 
 fun printToConsole (type : Boolean, included: String) {
+    var message = ""
     if (type) {
         println("Console: " + included)
+        message = included
+        //val intent = Intent(MainActivity.this, ConsoleActivity::class.java)
+
     }
     else {
         println("Console Error: " + included)
+        message = "Error: " + included
     }
+    hashMapForOutputMessages[outputInd] = message
+    hashMapForOutputTypes[outputInd] = type
+    outputInd++
 }
 
-data class VariableData (val type: String, val value: String) {}
 
 abstract class MainOperator (val type : String, val typeOfBlock : String, val id: Int) {
     open fun define(): Boolean {return false}
@@ -1539,6 +1616,8 @@ class StringVariable (type : String, typeOfBlock : String, id: Int, name: String
 
 
 
+
+
 abstract class FunBlock (val type : String) {
     var bodyOfBlock = Body()
     var secondBodyOfBlock = Body()
@@ -1617,6 +1696,16 @@ class Assignment (type : String, var name: String, var second: MainOperator) : F
     }
 }
 
+class Input (type : String, var name: String) : FunBlock(type) {
+
+
+    override fun checkTypes() {
+        //val ans = MainActivity.showForInput()
+        //printToConsole(true, ans)
+    }
+}
+
+
 class Body() {
     val bodyInsides = mutableListOf<FunBlock>()
 
@@ -1628,6 +1717,7 @@ class Body() {
                 "initialization" -> i.createVariable()
                 "assignment" -> i.checkTypes()
                 "while" -> i.checkCond()
+                "input" -> i.checkTypes()
             }
         }
     }

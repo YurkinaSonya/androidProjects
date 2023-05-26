@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/viewForBlocks"
         android:orientation="horizontal"
-        android:layout_width="150dp"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:layout_weight=".5"
         android:background="@color/lightGrey"
@@ -18,7 +18,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/listTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:textSize="70dp"
+            android:text="BLOCKS"/>
+
     </LinearLayout>
+
     <ScrollView
         android:id="@+id/listOfBlocks"
         android:layout_width="0dp"
@@ -715,6 +726,7 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 
 
     <View
