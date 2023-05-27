@@ -20,7 +20,7 @@
             android:id="@+id/coutMessageInd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="@dimen/textSmall"
             android:textColor="@color/white"
             android:layout_marginLeft="@dimen/marginForBlocks"
             android:layout_marginRight="@dimen/marginForBlocks"/>
@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="@dimen/textSmall"
             android:text=":"
             android:textColor="@color/white"
             android:layout_marginLeft="@dimen/marginForBlocks"
@@ -38,7 +38,7 @@
             android:id="@+id/coutMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="@dimen/textSmall"
             android:textColor="@color/white"
             android:layout_marginLeft="@dimen/marginForBlocks"
             android:layout_marginRight="@dimen/marginForBlocks"/>

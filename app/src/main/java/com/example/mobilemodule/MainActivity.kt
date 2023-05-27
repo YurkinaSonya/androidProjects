@@ -20,27 +20,6 @@ import com.example.mobilemodule.databinding.ActivityMainBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
-//i change it and you can see it
-//and i change it again
-//and noooow
-//test
-
-//i write sth on virtual machine
-/*
-class MyDialogFragment : DialogFragment() {
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let {
-            val builder = AlertDialog.Builder(it)
-            builder.setTitle("You did it!")
-                .setMessage("wow!")
-                .setPositiveButton("ОК") {
-                        dialog, id ->  dialog.cancel()
-                }
-            builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
-    }
-}
- */
 
 val hashMapOfVariableValues: HashMap<String, String> = HashMap<String, String>()
 val hashMapOfVariableTypes: HashMap<String, String> = HashMap<String, String>()
