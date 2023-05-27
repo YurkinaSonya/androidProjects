@@ -5,12 +5,13 @@
     android:orientation="vertical"
     android:background="@drawable/back_repeat_console">
 
-    <Button
+    <android.widget.Button
         android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back to code"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:background="@drawable/shape_for_button"/>
 
     <ScrollView
         android:id="@+id/svForConsole"

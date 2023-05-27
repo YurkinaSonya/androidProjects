@@ -12,6 +12,8 @@
     <string name="ifBlock">if</string>
     <string name="elseBlock">else</string>
     <string name="whileBlock">while</string>
+    <string name="arr">arr</string>
+    <string name="arrayAssig">arr ind</string>
     <string name="eq">=</string>
     <string name="name">name</string>
     <string name="type">type</string>
@@ -21,8 +23,28 @@
     <string name="typeVNum">int</string>
     <string name="typeVStr">str</string>
     <string name="typeVBool">bool</string>
+    <string name="typeVNumArray">int [</string>
+    <string name="typeVStrArray">str [</string>
+    <string name="typeVBoolArray">bool [</string>
     <string name="openFigure">{</string>
     <string name="closeFigure">}</string>
+    <string name="closeSquare">]</string>
+
+    <string name="blocksTitle">BLOCKS</string>
+    <string name="funBlocksTitle">fun blocks</string>
+    <string name="operTitle">operators</string>
+    <string name="stringTitle">string operations</string>
+    <string name="mathTitle">math operation</string>
+    <string name="logicTitle">logic</string>
+    <string name="negTitle">negation</string>
+    <string name="valueTitle">constants</string>
+    <string name="varTitle">variables</string>
+    <string name="arrTitle">arrays</string>
+
+    <string name="main">Int main( )  {</string>
+    <string name="intButton">Interpret</string>
+    <string name="cBotton">Console</string>
+    <string name="buf">Bufer</string>
 
 
     <string-array name="types">

@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name = "marginForBlocks">5dp</dimen>
+    <dimen name = "marginInPlt">30dp</dimen>
+    <dimen name = "blockInListSize">50dp</dimen>
+    <dimen name = "bigSize">80dp</dimen>
+    <dimen name = "bufSize">300dp</dimen>
+    <dimen name = "closedBufSize">150dp</dimen>
+    <dimen name = "padding">10dp</dimen>
+    <dimen name = "lineSize">4dp</dimen>
+    <dimen name = "zero">0dp</dimen>
+    <dimen name = "textSmall">20sp</dimen>
+    <dimen name = "textBase">30sp</dimen>
+    <dimen name = "textBig">70sp</dimen>
+
 </resources>
