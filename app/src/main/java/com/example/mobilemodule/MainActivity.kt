@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
             if (!listIsOpen) {
                 paramsList.width = ViewGroup.LayoutParams.WRAP_CONTENT
-                params.width = 500
+                params.width = 800
                 paramsTitle.width = 0
                 println("yep")
             } else {
@@ -169,6 +169,16 @@ class MainActivity : AppCompatActivity() {
         val blockAssigArray = binding.assigArrayBlock
         blockAssigArray.setOnLongClickListener() {
             val checkText = "AssigArray"
+            val item = ClipData.Item(checkText)
+            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+            val data = ClipData(checkText, mimeTypes, item)
+            val dragShadowBuilder = View.DragShadowBuilder(it)
+            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+            true
+        }
+        val blockSwap = binding.swapBlock
+        blockSwap.setOnLongClickListener() {
+            val checkText = "Swap"
             val item = ClipData.Item(checkText)
             val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
             val data = ClipData(checkText, mimeTypes, item)
@@ -453,6 +463,29 @@ class MainActivity : AppCompatActivity() {
                     )
                     newBody.bodyInsides.add(newBlock)
                 }
+
+                "swap" -> {
+                    //println("it is ass")
+                    val ll = block.getChildAt(0) as LinearLayout
+                    val spinnerFirst = ll.getChildAt(0) as Spinner
+                    val llForFirstOper = ll.getChildAt(1) as LinearLayout
+                    val rlFirstOper = llForFirstOper.getChildAt(0) as RelativeLayout
+                    val spinnerSecond = ll.getChildAt(3) as Spinner
+                    val llForSecondOper = ll.getChildAt(4) as LinearLayout
+                    val rlSecondOper = llForSecondOper.getChildAt(0) as RelativeLayout
+                    //println("     " + ll.getChildAt(2))
+                    //val newBlock = Output("output", true, StringValue("String", "StringValue", 0, "this is ass block"))
+                    val newBlock = ArraySwap(
+                        "swap",
+                        spinnerFirst.selectedItem.toString(),
+                        createBlock(rlFirstOper),
+                        spinnerSecond.selectedItem.toString(),
+                        createBlock(rlSecondOper)
+                    )
+                    newBody.bodyInsides.add(newBlock)
+                }
+
+
 
                 "output" -> {
                     //println("it is output")
@@ -1244,6 +1277,26 @@ class MainActivity : AppCompatActivity() {
                 assigIndOper.setOnDragListener(dragListenerOperator)
                 val assigOper = view.findViewById<LinearLayout>(R.id.assigOper)
                 assigOper.setOnDragListener(dragListenerOperator)
+            }
+            "Swap" -> {
+                view = layoutInflater.inflate(R.layout.swap_block, null) as View
+                val swapOperFirst = view.findViewById<LinearLayout>(R.id.swapOperFirst)
+                swapOperFirst.setOnDragListener(dragListenerOperator)
+                swapOperFirst.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
+                val swapOperSecond = view.findViewById<LinearLayout>(R.id.swapOperSecond)
+                swapOperSecond.setOnDragListener(dragListenerOperator)
+                swapOperSecond.setBackgroundResource(R.drawable.shape_for_main_operator_empty)
+                val spinnerFirst = view.findViewById<Spinner>(R.id.nameSpinnerFirst)
+                val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, arrNames)
+                aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                with(spinnerFirst) {
+                    adapter = aa
+                }
+                val spinnerSecond = view.findViewById<Spinner>(R.id.nameSpinnerSecond)
+                with(spinnerSecond) {
+                    adapter = aa
+                }
+
             }
 
             "oper" -> {
@@ -2177,6 +2230,7 @@ class ArraySwap(
     override fun checkCond() {
         val ind1 = blockInd1.takeValue().toInt()
         val ind2 = blockInd2.takeValue().toInt()
+        println("")
         if (ind1 < hashMapOfArraySize[name1].toString().toInt()) {
             if (ind2 < hashMapOfArraySize[name2].toString().toInt()) {
                 if (hashMapOfArrayTypes[name1] == hashMapOfArrayTypes[name2]) {

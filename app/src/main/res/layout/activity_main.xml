@@ -235,6 +235,66 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/swapBlock"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/marginForBlocks"
+                android:layout_marginBottom="@dimen/marginForBlocks"
+                android:background="@drawable/shape_for_fun_block">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/swap"
+                    android:textSize="@dimen/textBase"
+                    android:layout_marginTop="@dimen/marginForBlocks"
+                    android:layout_marginBottom="@dimen/marginForBlocks"
+                    android:layout_marginLeft="@dimen/marginForBlocks"
+                    android:layout_marginRight="@dimen/marginForBlocks"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="@dimen/blockInListSize"
+                    android:layout_height="@dimen/blockInListSize"
+                    android:layout_marginTop="@dimen/marginForBlocks"
+                    android:layout_marginBottom="@dimen/marginForBlocks"
+                    android:layout_marginLeft="@dimen/marginForBlocks"
+                    android:layout_marginRight="@dimen/marginForBlocks"
+                    android:background="@drawable/shape_for_main_operator"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/andSwap"
+                    android:textSize="@dimen/textBase"
+                    android:layout_marginTop="@dimen/marginForBlocks"
+                    android:layout_marginBottom="@dimen/marginForBlocks"
+                    android:layout_marginLeft="@dimen/marginForBlocks"
+                    android:layout_marginRight="@dimen/marginForBlocks"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="@dimen/blockInListSize"
+                    android:layout_height="@dimen/blockInListSize"
+                    android:layout_marginTop="@dimen/marginForBlocks"
+                    android:layout_marginBottom="@dimen/marginForBlocks"
+                    android:layout_marginLeft="@dimen/marginForBlocks"
+                    android:layout_marginRight="@dimen/marginForBlocks"
+                    android:background="@drawable/shape_for_main_operator"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/closeSquare"
+                    android:textSize="@dimen/textBase"
+                    android:layout_marginTop="@dimen/marginForBlocks"
+                    android:layout_marginBottom="@dimen/marginForBlocks"
+                    android:layout_marginLeft="@dimen/marginForBlocks"
+                    android:layout_marginRight="@dimen/marginForBlocks"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/ifBlock"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"

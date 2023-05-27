@@ -13,6 +13,8 @@
     <string name="elseBlock">else</string>
     <string name="whileBlock">while</string>
     <string name="arr">arr</string>
+    <string name="swap">swap [</string>
+    <string name="andSwap">] and [</string>
     <string name="arrayAssig">arr ind</string>
     <string name="eq">=</string>
     <string name="name">name</string>
@@ -28,6 +30,7 @@
     <string name="typeVBoolArray">bool [</string>
     <string name="openFigure">{</string>
     <string name="closeFigure">}</string>
+    <string name="openSquare">[</string>
     <string name="closeSquare">]</string>
 
     <string name="blocksTitle">BLOCKS</string>
