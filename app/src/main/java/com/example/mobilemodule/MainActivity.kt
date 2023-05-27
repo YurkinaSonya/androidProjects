@@ -27,7 +27,7 @@ val hashMapOfVariableTypes: HashMap<String, String> = HashMap<String, String>()
 var hashMapOfArrayValues: HashMap<String, HashMap<Int, String>> =
     HashMap<String, HashMap<Int, String>>()
 var hashMapOfArrayTypes: HashMap<String, String> = HashMap<String, String>()
-var hashMapOfArraySize: HashMap<String, Int> = HashMap<String, Int>()
+var hashMapOfArraySize: HashMap<String, String> = HashMap<String, String>()
 
 val hashMapForOutputMessages: HashMap<Int, String> = HashMap<Int, String>()
 val hashMapForOutputTypes: HashMap<Int, Boolean> = HashMap<Int, Boolean>()
@@ -354,10 +354,10 @@ class MainActivity : AppCompatActivity() {
             hashMapForOutputTypes.clear()
             outputInd = 0
             mainBody = createBlocksInBody(plt)
-            mainBody.bodyInsides.add(Input("input", "smth"))
-            //println("I start program!!!")
+            //mainBody.bodyInsides.add(Input("input", "smth"))
+            println("I start program!!!")
             mainBody.doBody()
-            //println("I finish program!!!")
+            println("I finish program!!!")
         }
 
         val btnConsole = findViewById<Button>(R.id.buttonConsole)
@@ -464,6 +464,8 @@ class MainActivity : AppCompatActivity() {
                     newBody.bodyInsides.add(newBlock)
                 }
 
+                /*
+
                 "swap" -> {
                     //println("it is ass")
                     val ll = block.getChildAt(0) as LinearLayout
@@ -485,10 +487,12 @@ class MainActivity : AppCompatActivity() {
                     newBody.bodyInsides.add(newBlock)
                 }
 
+                 */
+
 
 
                 "output" -> {
-                    //println("it is output")
+                    println("it is output")
                     val ll = block.getChildAt(0) as LinearLayout
                     val outputForOper = ll.getChildAt(1) as LinearLayout
                     val outputOper = outputForOper.getChildAt(0) as RelativeLayout
@@ -2130,9 +2134,10 @@ class Init(type: String, var name: String, var typeOfVariable: String) : FunBloc
 class InitArray(type: String, var name: String, var typeOfVariable: String, var sizeBlock: Block) :
     FunBlock(type) {
     override fun createVariable() {
+        printToConsole(false, "start init")
         if (sizeBlock.type == "Int") {
             val size = sizeBlock.takeValue().toInt()
-            //printToConsole(true, "I create variable with name $name, type $typeOfVariable and size $size")
+            printToConsole(true, "I create variable with name $name, type $typeOfVariable and size $size")
             when (typeOfVariable) {
                 "Int" -> {
                     val hashMapV: HashMap<Int, String> = HashMap<Int, String>()
@@ -2141,7 +2146,7 @@ class InitArray(type: String, var name: String, var typeOfVariable: String, var 
                     }
                     hashMapOfArrayValues.put(name, hashMapV)
                     hashMapOfArrayTypes.put(name, typeOfVariable)
-                    hashMapOfArraySize.put(name, size)
+                    hashMapOfArraySize.put(name, size.toString())
                 }
 
                 "String" -> {
@@ -2151,7 +2156,7 @@ class InitArray(type: String, var name: String, var typeOfVariable: String, var 
                     }
                     hashMapOfArrayValues.put(name, hashMapV)
                     hashMapOfArrayTypes.put(name, typeOfVariable)
-                    hashMapOfArraySize.put(name, size)
+                    hashMapOfArraySize.put(name, size.toString())
                 }
 
                 "Boolean" -> {
@@ -2161,13 +2166,14 @@ class InitArray(type: String, var name: String, var typeOfVariable: String, var 
                     }
                     hashMapOfArrayValues.put(name, hashMapV)
                     hashMapOfArrayTypes.put(name, typeOfVariable)
-                    hashMapOfArraySize.put(name, size)
+                    hashMapOfArraySize.put(name, size.toString())
                 }
 
                 else -> {
                     printToConsole(false, "Type Of Array Error")
                 }
             }
+            printToConsole(true, hashMapOfArraySize[name].toString())
             //printToConsole(false, "i create array $name")
         } else {
             printToConsole(false, "size must to be Int")
@@ -2230,7 +2236,10 @@ class ArraySwap(
     override fun checkCond() {
         val ind1 = blockInd1.takeValue().toInt()
         val ind2 = blockInd2.takeValue().toInt()
-        println("")
+        println(name1)
+        println(name2)
+        println(hashMapOfArraySize[name1])
+        println(hashMapOfArraySize[name2])
         if (ind1 < hashMapOfArraySize[name1].toString().toInt()) {
             if (ind2 < hashMapOfArraySize[name2].toString().toInt()) {
                 if (hashMapOfArrayTypes[name1] == hashMapOfArrayTypes[name2]) {
